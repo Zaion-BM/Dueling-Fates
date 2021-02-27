@@ -1,2 +1,2 @@
-# Dualing-Fates
+# Dueling-Fates
 BME-VIK-MIT Homework project

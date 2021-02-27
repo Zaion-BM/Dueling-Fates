@@ -1,0 +1,3 @@
+module ize {
+	//valami ok
+}

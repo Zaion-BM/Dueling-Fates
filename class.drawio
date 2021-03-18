@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2021-03-16T11:01:37.599Z" agent="5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36" etag="7SEk8U7_oMimN0IZwi55" version="14.4.8" type="github">
+<mxfile host="app.diagrams.net" modified="2021-03-18T08:51:37.391Z" agent="5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36" etag="Yox8joMGGN3_22YbTC1Y" version="14.4.9" type="github">
   <diagram id="ZcS7Jbe5ZXRPlum8FtQR" name="Page-1">
-    <mxGraphModel dx="1514" dy="974" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3300" pageHeight="4681" math="0" shadow="0">
+    <mxGraphModel dx="1141" dy="887" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3300" pageHeight="4681" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -718,10 +718,10 @@
         <mxCell id="hfeJ_Q_JxxsOR_57pJVS-127" value="ESC_Menu: PauseMenu" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rounded=0;shadow=0;html=0;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="hfeJ_Q_JxxsOR_57pJVS-117" vertex="1">
           <mxGeometry y="260" width="200" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="ZQ9yO4Wlyy7Li8_y0SfG-1" value="" style="line;html=1;strokeWidth=1;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;" vertex="1" parent="hfeJ_Q_JxxsOR_57pJVS-117">
+        <mxCell id="ZQ9yO4Wlyy7Li8_y0SfG-1" value="" style="line;html=1;strokeWidth=1;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;" parent="hfeJ_Q_JxxsOR_57pJVS-117" vertex="1">
           <mxGeometry y="286" width="200" height="8" as="geometry" />
         </mxCell>
-        <mxCell id="ZQ9yO4Wlyy7Li8_y0SfG-3" value="players / weapons / projectiles / &#xa;consumables WILL SPAWN &#xa; " style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rounded=0;shadow=0;html=0;fontStyle=1" vertex="1" parent="hfeJ_Q_JxxsOR_57pJVS-117">
+        <mxCell id="ZQ9yO4Wlyy7Li8_y0SfG-3" value="players / weapons / projectiles / &#xa;consumables WILL SPAWN &#xa; " style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rounded=0;shadow=0;html=0;fontStyle=1" parent="hfeJ_Q_JxxsOR_57pJVS-117" vertex="1">
           <mxGeometry y="294" width="200" height="46" as="geometry" />
         </mxCell>
         <mxCell id="hfeJ_Q_JxxsOR_57pJVS-128" value="" style="line;html=1;strokeWidth=1;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;" parent="hfeJ_Q_JxxsOR_57pJVS-117" vertex="1">
@@ -762,7 +762,7 @@
             <mxRectangle x="1020" y="368" width="190" height="34" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="hfeJ_Q_JxxsOR_57pJVS-137" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0;entryDx=0;entryDy=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" parent="1" target="hfeJ_Q_JxxsOR_57pJVS-96" edge="1" source="hfeJ_Q_JxxsOR_57pJVS-139">
+        <mxCell id="hfeJ_Q_JxxsOR_57pJVS-137" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0;entryDx=0;entryDy=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="hfeJ_Q_JxxsOR_57pJVS-139" target="hfeJ_Q_JxxsOR_57pJVS-96" edge="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="1650" y="290" as="sourcePoint" />
             <Array as="points">
@@ -786,11 +786,14 @@
         <mxCell id="hfeJ_Q_JxxsOR_57pJVS-141" value="Előre definiált mapok lesznek, &#xa;amiket majd betöltünk. Még &#xa;nézem, hogyan lehet megoldani.&#xa;Pl. .txt fájlból beolvasni stb." style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="1" vertex="1">
           <mxGeometry x="2083" y="250" width="197" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="ZQ9yO4Wlyy7Li8_y0SfG-7" value="Ha a mapon található szigetek is &#xa;objektumként vannak értelmezve&#xa;akkor a collision szerintem egyszerűbb lesz.&#xa;És a GameObject-en belül kellene a collidereket&#xa;is definiálni." style="text;strokeColor=#b85450;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fillColor=#f8cecc;" vertex="1" parent="1">
+        <mxCell id="ZQ9yO4Wlyy7Li8_y0SfG-7" value="Ha a mapon található szigetek is &#xa;objektumként vannak értelmezve&#xa;akkor a collision szerintem egyszerűbb lesz.&#xa;És a GameObject-en belül kellene a collidereket&#xa;is definiálni." style="text;strokeColor=#b85450;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fillColor=#f8cecc;" parent="1" vertex="1">
           <mxGeometry x="1878" y="140" width="272" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="ZQ9yO4Wlyy7Li8_y0SfG-8" value="NETWORK?&#xa;A Start esetén létrehozunk egy sessiont.&#xa;Join esetén csatlakozunk egy meglévő sessionhöz.&#xa;És a sessionnek kéne létrehoznia a Game objektumot &#xa;a hozzárendelésekkel player1, player2 stb.?&#xa;&#xa;Vagy&#xa;Main függvényben létrehozunk egy Application típust. &#xa;Megy a menüben navigálás.&#xa;&#xa;Start esetén jön létre egy Game objektum és a session &#xa;ezzel párhuzamosan indul el --  tudunk csatlakozni.&#xa;&#xa;Vagy előre létrehozunk mindent? &#xa;Az nem segít, hogy Unityben ezzel nem kellett foglalkozni :D" style="text;strokeColor=#b85450;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fillColor=#f8cecc;fontStyle=0" vertex="1" parent="1">
+        <mxCell id="ZQ9yO4Wlyy7Li8_y0SfG-8" value="NETWORK?&#xa;A Start esetén létrehozunk egy sessiont.&#xa;Join esetén csatlakozunk egy meglévő sessionhöz.&#xa;És a sessionnek kéne létrehoznia a Game objektumot &#xa;a hozzárendelésekkel player1, player2 stb.?&#xa;&#xa;Vagy&#xa;Main függvényben létrehozunk egy Application típust. &#xa;Megy a menüben navigálás.&#xa;&#xa;Start esetén jön létre egy Game objektum és a session &#xa;ezzel párhuzamosan indul el --  tudunk csatlakozni.&#xa;&#xa;Vagy előre létrehozunk mindent? &#xa;Az nem segít, hogy Unityben ezzel nem kellett foglalkozni :D" style="text;strokeColor=#b85450;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fillColor=#f8cecc;fontStyle=0" parent="1" vertex="1">
           <mxGeometry x="1425" y="90" width="340" height="220" as="geometry" />
+        </mxCell>
+        <mxCell id="eKYDIuUfFJUN-ayBLGPX-1" value="Interface öröklés helyett? Ekkor csak a metódusok lesznek&#xa;definiálva. A Name és Appearance a többi osztály változója lesz. " style="text;strokeColor=#b85450;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fillColor=#f8cecc;fontStyle=0" vertex="1" parent="1">
+          <mxGeometry x="1235" y="760" width="355" height="40" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2021-03-18T08:51:37.391Z" agent="5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36" etag="Yox8joMGGN3_22YbTC1Y" version="14.4.9" type="github">
+<mxfile host="app.diagrams.net" modified="2021-03-31T06:48:16.839Z" agent="5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36" etag="KiVcHDTlxdiJEzYRnizd" version="14.5.3" type="github">
   <diagram id="ZcS7Jbe5ZXRPlum8FtQR" name="Page-1">
-    <mxGraphModel dx="1141" dy="887" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3300" pageHeight="4681" math="0" shadow="0">
+    <mxGraphModel dx="1707" dy="1045" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3300" pageHeight="4681" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -792,8 +792,11 @@
         <mxCell id="ZQ9yO4Wlyy7Li8_y0SfG-8" value="NETWORK?&#xa;A Start esetén létrehozunk egy sessiont.&#xa;Join esetén csatlakozunk egy meglévő sessionhöz.&#xa;És a sessionnek kéne létrehoznia a Game objektumot &#xa;a hozzárendelésekkel player1, player2 stb.?&#xa;&#xa;Vagy&#xa;Main függvényben létrehozunk egy Application típust. &#xa;Megy a menüben navigálás.&#xa;&#xa;Start esetén jön létre egy Game objektum és a session &#xa;ezzel párhuzamosan indul el --  tudunk csatlakozni.&#xa;&#xa;Vagy előre létrehozunk mindent? &#xa;Az nem segít, hogy Unityben ezzel nem kellett foglalkozni :D" style="text;strokeColor=#b85450;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fillColor=#f8cecc;fontStyle=0" parent="1" vertex="1">
           <mxGeometry x="1425" y="90" width="340" height="220" as="geometry" />
         </mxCell>
-        <mxCell id="eKYDIuUfFJUN-ayBLGPX-1" value="Interface öröklés helyett? Ekkor csak a metódusok lesznek&#xa;definiálva. A Name és Appearance a többi osztály változója lesz. " style="text;strokeColor=#b85450;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fillColor=#f8cecc;fontStyle=0" vertex="1" parent="1">
+        <mxCell id="eKYDIuUfFJUN-ayBLGPX-1" value="Interface öröklés helyett? Ekkor csak a metódusok lesznek&#xa;definiálva. A Name és Appearance a többi osztály változója lesz. " style="text;strokeColor=#b85450;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fillColor=#f8cecc;fontStyle=0" parent="1" vertex="1">
           <mxGeometry x="1235" y="760" width="355" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="eH0dauLGgEMGzZVM1RQr-1" value="State Machine Diagram..." style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=left;" vertex="1" parent="1">
+          <mxGeometry x="2690" y="34" width="340" height="66" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

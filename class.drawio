@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2021-03-31T06:48:16.839Z" agent="5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36" etag="KiVcHDTlxdiJEzYRnizd" version="14.5.3" type="github">
+<mxfile host="app.diagrams.net" modified="2021-04-01T15:59:00.611Z" agent="5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36" etag="_bI8XGB1uR49JZRQmYZq" version="14.5.4" type="github">
   <diagram id="ZcS7Jbe5ZXRPlum8FtQR" name="Page-1">
-    <mxGraphModel dx="1707" dy="1045" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3300" pageHeight="4681" math="0" shadow="0">
+    <mxGraphModel dx="1114" dy="681" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3300" pageHeight="4681" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -472,7 +472,7 @@
           <mxGeometry x="2080" y="362" width="170" height="64" as="geometry" />
         </mxCell>
         <mxCell id="hfeJ_Q_JxxsOR_57pJVS-58" value="Player" style="swimlane;fontStyle=3;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=1;" parent="1" vertex="1">
-          <mxGeometry x="1590" y="1260" width="190" height="190" as="geometry">
+          <mxGeometry x="1590" y="1260" width="190" height="216" as="geometry">
             <mxRectangle x="230" y="140" width="160" height="26" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
@@ -497,11 +497,14 @@
         <mxCell id="hfeJ_Q_JxxsOR_57pJVS-65" value="pickUp(): void" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="hfeJ_Q_JxxsOR_57pJVS-58" vertex="1">
           <mxGeometry y="164" width="190" height="26" as="geometry" />
         </mxCell>
+        <mxCell id="GrcYKbx_W6jAJLHjZKZ7-2" value="healthUpdate(): void" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="hfeJ_Q_JxxsOR_57pJVS-58">
+          <mxGeometry y="190" width="190" height="26" as="geometry" />
+        </mxCell>
         <mxCell id="hfeJ_Q_JxxsOR_57pJVS-66" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.062;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="hfeJ_Q_JxxsOR_57pJVS-67" target="hfeJ_Q_JxxsOR_57pJVS-96" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="hfeJ_Q_JxxsOR_57pJVS-67" value="Weapon" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
-          <mxGeometry x="1590" y="930" width="180" height="200" as="geometry">
+          <mxGeometry x="1590" y="920" width="180" height="200" as="geometry">
             <mxRectangle x="130" y="380" width="160" height="26" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
@@ -664,7 +667,7 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="hfeJ_Q_JxxsOR_57pJVS-111" value="Projectile" style="swimlane;fontStyle=3;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" vertex="1">
-          <mxGeometry x="1245" y="1160" width="180" height="90" as="geometry">
+          <mxGeometry x="1245" y="1190" width="180" height="90" as="geometry">
             <mxRectangle x="230" y="140" width="160" height="26" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
@@ -683,7 +686,7 @@
         <mxCell id="hfeJ_Q_JxxsOR_57pJVS-116" value="&lt;font style=&quot;font-size: 16px&quot;&gt;Külön menük legyenek amik között váltunk (több memória, szerintem kevesebb kód és jobb megoldás)&lt;br&gt;vagy egy menü window lesz és folyamatosan eltüntetjük/megjelenítjük az elemeket?&lt;/font&gt;" style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;" parent="1" vertex="1">
           <mxGeometry x="1078" y="30" width="800" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="hfeJ_Q_JxxsOR_57pJVS-117" value="Game" style="swimlane;fontStyle=3;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=1;" parent="1" vertex="1">
+        <mxCell id="hfeJ_Q_JxxsOR_57pJVS-117" value="GameState" style="swimlane;fontStyle=3;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=1;" parent="1" vertex="1">
           <mxGeometry x="1640" y="362" width="200" height="378" as="geometry">
             <mxRectangle x="230" y="140" width="160" height="26" as="alternateBounds" />
           </mxGeometry>
@@ -731,7 +734,7 @@
           <mxGeometry y="350" width="200" height="26" as="geometry" />
         </mxCell>
         <mxCell id="hfeJ_Q_JxxsOR_57pJVS-130" value="PauseMenu" style="swimlane;fontStyle=3;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=1;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" vertex="1">
-          <mxGeometry x="1880" y="680" width="190" height="120" as="geometry">
+          <mxGeometry x="1880" y="680" width="190" height="138" as="geometry">
             <mxRectangle x="230" y="140" width="160" height="26" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
@@ -746,6 +749,9 @@
         </mxCell>
         <mxCell id="hfeJ_Q_JxxsOR_57pJVS-134" value="quitToMenu(): void" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rounded=0;shadow=0;html=0;" parent="hfeJ_Q_JxxsOR_57pJVS-130" vertex="1">
           <mxGeometry y="86" width="190" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="GrcYKbx_W6jAJLHjZKZ7-3" value="return(): void" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rounded=0;shadow=0;html=0;" vertex="1" parent="hfeJ_Q_JxxsOR_57pJVS-130">
+          <mxGeometry y="112" width="190" height="26" as="geometry" />
         </mxCell>
         <mxCell id="hfeJ_Q_JxxsOR_57pJVS-135" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="hfeJ_Q_JxxsOR_57pJVS-59" edge="1">
           <mxGeometry relative="1" as="geometry">
@@ -767,13 +773,13 @@
             <mxPoint x="1650" y="290" as="sourcePoint" />
             <Array as="points">
               <mxPoint x="1878" y="320" />
-              <mxPoint x="1600" y="320" />
-              <mxPoint x="1600" y="810" />
+              <mxPoint x="1620" y="320" />
+              <mxPoint x="1620" y="810" />
             </Array>
           </mxGeometry>
         </mxCell>
         <mxCell id="hfeJ_Q_JxxsOR_57pJVS-138" value="Map" style="swimlane;fontStyle=3;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=1;fillColor=#008a00;strokeColor=#005700;fontColor=#ffffff;" parent="1" vertex="1">
-          <mxGeometry x="1878" y="250" width="202" height="80" as="geometry">
+          <mxGeometry x="1880" y="258" width="202" height="80" as="geometry">
             <mxRectangle x="230" y="140" width="160" height="26" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
@@ -790,13 +796,19 @@
           <mxGeometry x="1878" y="140" width="272" height="80" as="geometry" />
         </mxCell>
         <mxCell id="ZQ9yO4Wlyy7Li8_y0SfG-8" value="NETWORK?&#xa;A Start esetén létrehozunk egy sessiont.&#xa;Join esetén csatlakozunk egy meglévő sessionhöz.&#xa;És a sessionnek kéne létrehoznia a Game objektumot &#xa;a hozzárendelésekkel player1, player2 stb.?&#xa;&#xa;Vagy&#xa;Main függvényben létrehozunk egy Application típust. &#xa;Megy a menüben navigálás.&#xa;&#xa;Start esetén jön létre egy Game objektum és a session &#xa;ezzel párhuzamosan indul el --  tudunk csatlakozni.&#xa;&#xa;Vagy előre létrehozunk mindent? &#xa;Az nem segít, hogy Unityben ezzel nem kellett foglalkozni :D" style="text;strokeColor=#b85450;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fillColor=#f8cecc;fontStyle=0" parent="1" vertex="1">
-          <mxGeometry x="1425" y="90" width="340" height="220" as="geometry" />
+          <mxGeometry x="1370" y="90" width="340" height="220" as="geometry" />
         </mxCell>
         <mxCell id="eKYDIuUfFJUN-ayBLGPX-1" value="Interface öröklés helyett? Ekkor csak a metódusok lesznek&#xa;definiálva. A Name és Appearance a többi osztály változója lesz. " style="text;strokeColor=#b85450;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fillColor=#f8cecc;fontStyle=0" parent="1" vertex="1">
-          <mxGeometry x="1235" y="760" width="355" height="40" as="geometry" />
+          <mxGeometry x="1245" y="760" width="365" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="eH0dauLGgEMGzZVM1RQr-1" value="State Machine Diagram..." style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=left;" vertex="1" parent="1">
+        <mxCell id="eH0dauLGgEMGzZVM1RQr-1" value="State Machine Diagram..." style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=left;" parent="1" vertex="1">
           <mxGeometry x="2690" y="34" width="340" height="66" as="geometry" />
+        </mxCell>
+        <mxCell id="GrcYKbx_W6jAJLHjZKZ7-5" value="&lt;h1&gt;Heading&lt;/h1&gt;&lt;p&gt;menu tömb: gombokra,&amp;nbsp;&lt;/p&gt;&lt;p&gt;menu idő megálljon?&amp;nbsp;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="2170" y="556" width="320" height="184" as="geometry" />
+        </mxCell>
+        <mxCell id="GrcYKbx_W6jAJLHjZKZ7-6" value="Game object típusú egyedeket kezeli, pozíció, stb. Minden egyes típusnál (weapon, projectile) más más függvényt definiálunk.&amp;nbsp;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="960" y="920" width="210" height="150" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

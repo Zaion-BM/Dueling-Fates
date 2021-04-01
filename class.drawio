@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2021-04-01T15:59:00.611Z" agent="5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36" etag="_bI8XGB1uR49JZRQmYZq" version="14.5.4" type="github">
+<mxfile host="app.diagrams.net" modified="2021-04-01T16:10:54.545Z" agent="5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36" etag="eLzQ_eLnvUMQxiVzvh3j" version="14.5.4" type="github">
   <diagram id="ZcS7Jbe5ZXRPlum8FtQR" name="Page-1">
-    <mxGraphModel dx="1114" dy="681" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3300" pageHeight="4681" math="0" shadow="0">
+    <mxGraphModel dx="941" dy="662" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3300" pageHeight="4681" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -660,9 +660,6 @@
         <mxCell id="hfeJ_Q_JxxsOR_57pJVS-108" value="Konkrét Egyedek" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="1820" y="987" width="140" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="hfeJ_Q_JxxsOR_57pJVS-109" value="A konkrét egyedtípusok száma &lt;br&gt;kezdetben 1! lesz, &lt;br&gt;aztán ha nagyon megy akkor &lt;br&gt;bővítjük tovább!" style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=left;" parent="1" vertex="1">
-          <mxGeometry x="1830" y="819" width="340" height="152" as="geometry" />
-        </mxCell>
         <mxCell id="hfeJ_Q_JxxsOR_57pJVS-110" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" source="hfeJ_Q_JxxsOR_57pJVS-111" target="hfeJ_Q_JxxsOR_57pJVS-96" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
@@ -796,16 +793,13 @@
           <mxGeometry x="1878" y="140" width="272" height="80" as="geometry" />
         </mxCell>
         <mxCell id="ZQ9yO4Wlyy7Li8_y0SfG-8" value="NETWORK?&#xa;A Start esetén létrehozunk egy sessiont.&#xa;Join esetén csatlakozunk egy meglévő sessionhöz.&#xa;És a sessionnek kéne létrehoznia a Game objektumot &#xa;a hozzárendelésekkel player1, player2 stb.?&#xa;&#xa;Vagy&#xa;Main függvényben létrehozunk egy Application típust. &#xa;Megy a menüben navigálás.&#xa;&#xa;Start esetén jön létre egy Game objektum és a session &#xa;ezzel párhuzamosan indul el --  tudunk csatlakozni.&#xa;&#xa;Vagy előre létrehozunk mindent? &#xa;Az nem segít, hogy Unityben ezzel nem kellett foglalkozni :D" style="text;strokeColor=#b85450;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fillColor=#f8cecc;fontStyle=0" parent="1" vertex="1">
-          <mxGeometry x="1370" y="90" width="340" height="220" as="geometry" />
+          <mxGeometry x="1360" y="90" width="340" height="220" as="geometry" />
         </mxCell>
         <mxCell id="eKYDIuUfFJUN-ayBLGPX-1" value="Interface öröklés helyett? Ekkor csak a metódusok lesznek&#xa;definiálva. A Name és Appearance a többi osztály változója lesz. " style="text;strokeColor=#b85450;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fillColor=#f8cecc;fontStyle=0" parent="1" vertex="1">
           <mxGeometry x="1245" y="760" width="365" height="40" as="geometry" />
         </mxCell>
         <mxCell id="eH0dauLGgEMGzZVM1RQr-1" value="State Machine Diagram..." style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=left;" parent="1" vertex="1">
           <mxGeometry x="2690" y="34" width="340" height="66" as="geometry" />
-        </mxCell>
-        <mxCell id="GrcYKbx_W6jAJLHjZKZ7-5" value="&lt;h1&gt;Heading&lt;/h1&gt;&lt;p&gt;menu tömb: gombokra,&amp;nbsp;&lt;/p&gt;&lt;p&gt;menu idő megálljon?&amp;nbsp;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;" vertex="1" parent="1">
-          <mxGeometry x="2170" y="556" width="320" height="184" as="geometry" />
         </mxCell>
         <mxCell id="GrcYKbx_W6jAJLHjZKZ7-6" value="Game object típusú egyedeket kezeli, pozíció, stb. Minden egyes típusnál (weapon, projectile) más más függvényt definiálunk.&amp;nbsp;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
           <mxGeometry x="960" y="920" width="210" height="150" as="geometry" />

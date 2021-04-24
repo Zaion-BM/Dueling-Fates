@@ -1,4 +1,10 @@
 package com.DuelingFates.Main;
 
-public class MainProcess {
+import javax.swing.*;
+
+public class MainProcess extends JPanel {
+
+    MainProcess(){
+
+    }
 }

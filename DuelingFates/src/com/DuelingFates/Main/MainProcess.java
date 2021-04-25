@@ -41,7 +41,6 @@ public class MainProcess extends JPanel implements Runnable{
         final long oneFrameDuration = 1000/FPS;                             //(1/60)*1000, csak a long miatt úgy 0 lesz
 
         while (gameIsRunning){                                              //"végtelen" ciklus
-            //meghívjük a függvényeket
             updateGame();
             updateScreen();
             renderScreen();
@@ -55,19 +54,22 @@ public class MainProcess extends JPanel implements Runnable{
             catch (InterruptedException e){
                 e.printStackTrace();
             }
-
         }
     }
 
     void updateGame(){
-        stateManager.update();                                                      //állapotgép adoot állapotának frissítése
+
+        stateManager.update();                                                      //állapotgép adott állapotának frissítése - logika
     }
 
-    void updateScreen(){                                                            //állapotgép adott képének kirajzolása
+    void updateScreen(){                                                            //állapotgép adott képének frissítése - megjelenítés
         stateManager.draw(graphics);
-    }
+    }                            //állapot kirajzolása
 
-    void renderScreen(){                                                            //kép kirenderelése a képernyőre
-
+    //kép kirenderelése a képernyőre
+    void renderScreen(){
+        Graphics gScreen = getGraphics();                                           //JPanel miatt lehetséges
+        gScreen.drawImage(gameWindow,0,0,1920,1080,null);   //gameWindow-ra renderelünk, a bal felső saroktól
+        gScreen.dispose();                                                          //törlés, hogy újból ki tudjuk rajzolni
     }
 }

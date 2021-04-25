@@ -2,7 +2,7 @@ package com.DuelingFates.GameState;
 
 import java.awt.*;
 
-public abstract class GameState {
+public abstract class GameState{
 
     protected StateManager stateManager;               //protected, hogy a leszáramzottakban hozzáférjünk
 

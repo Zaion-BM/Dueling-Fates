@@ -7,9 +7,7 @@ public class StateManager {
     public enum States{MAINMENUSTATE, JOINSTATE, SETTINGSTATE,
                        SCORESTATE, GAMEPLAYSTATE}                               //állapotok definiálása, sorrend nem változik -> ordinal() OK
     public States currentState;                                                 //az aktuális állapot
-    private GameState[] gameStates;                                             //GameState állapotokat tároló tömb
-
-   // new gameStates = new GameState[];
+    private final GameState[] gameStates;                                       //GameState állapotokat tároló tömb
 
     public StateManager(){
 
@@ -52,14 +50,15 @@ public class StateManager {
         loadState(currentState);                                                //új állapot betöltése
     }
 
-    public void draw(Graphics2D graphics){                                       //az aktuális állapot kirajzolása
+    public void draw(Graphics2D graphics){                                      //az aktuális állapot kirajzolása
 
         gameStates[currentState.ordinal()].draw(graphics);
 
     }
 
-    public void update(){                                                        //az aktuális állapot frissítése
+    public void update(){                                                        //az aktuális állapot frissítése | if(currentState != null) lehet kell?
 
         gameStates[currentState.ordinal()].update();
+
     }
 }

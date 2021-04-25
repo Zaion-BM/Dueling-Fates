@@ -5,7 +5,9 @@ import java.awt.*;
 public class GamePlayState extends GameState {
 
     public GamePlayState(StateManager stateManager){
-        super(stateManager);
+
+    super(stateManager);
+
     }
 
     @Override

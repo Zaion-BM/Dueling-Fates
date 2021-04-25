@@ -20,7 +20,7 @@ public class Main {
         duelingFates.pack();                                            //tartalomhoz igazodik a Frame mérete
         duelingFates.setResizable(true);                                //nem lehet átméretezni
         duelingFates.setVisible(true);                                  //default esetben hidden lenne
-        duelingFates.setLocationRelativeTo(null);                       //null: az ablak a képernyőn közepén
+        duelingFates.setLocationRelativeTo(null);                       //null: az ablak a képernyőn közepén lesz
 
         // Frame Icon beállítása
         try {

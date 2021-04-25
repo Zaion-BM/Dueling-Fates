@@ -1,10 +1,14 @@
 package com.DuelingFates.Main;
 
+import com.DuelingFates.GameState.StateManager;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class MainProcess extends JPanel implements Runnable{
+
+    private StateManager stateManager;                                       //állapotgép melyen keresztül az állapotokat elérjük
 
     public final int gameWidth = 1920;
     public final int gameHeight = 1080;
@@ -15,7 +19,7 @@ public class MainProcess extends JPanel implements Runnable{
     Graphics2D graphics;
 
     @SuppressWarnings("CommentedOutCode")
-    MainProcess(){
+    public MainProcess(){
         setPreferredSize(new Dimension(gameWidth, gameHeight));             //méret megadása, csak Dimension típust értelmez
         //Mivel mindkettő true alapértelmezetten, ezért nincs szükség rá
         //setFocusable(true);
@@ -30,12 +34,13 @@ public class MainProcess extends JPanel implements Runnable{
 
     public void run(){                                                      //Runnable miatt automatikusan meghívódik
         gameWindow = new BufferedImage(gameWidth,gameHeight,BufferedImage.TYPE_INT_RGB);    //a kép melyre rajzolunk
-        graphics = gameWindow.createGraphics();                                             //grafika amit kirajzolunk
-        gameIsRunning = true;                                                               //játék már fut
+        graphics = gameWindow.createGraphics();                             //grafika amit kirajzolunk
+        gameIsRunning = true;                                               //játék már fut
+        stateManager = new StateManager();                                  //állapotgép példányosítása
 
         final long oneFrameDuration = 1000/FPS;                             //(1/60)*1000, csak a long miatt úgy 0 lesz
 
-        while (gameIsRunning){                                              //végtelen ciklus, időszámítás, sleep
+        while (gameIsRunning){                                              //"végtelen" ciklus
             //meghívjük a függvényeket
             updateGame();
             updateScreen();
@@ -43,9 +48,9 @@ public class MainProcess extends JPanel implements Runnable{
 
             try{
                 synchronized (this) {
-                    this.wait(oneFrameDuration);                //Thread.sleep(oneFrameDuration); az éppen futó threadet megszakítja, milisec ideig
+                    this.wait(oneFrameDuration);                            //Thread.sleep(oneFrameDuration); az éppen futó threadet megszakítja, millisec ideig
                     //System.out.println("I'm waiting");
-                }                                               //így a warning elkerülhető
+                }                                                           //de warningot ad, így ezzel a megoldással elkerülhető
             }
             catch (InterruptedException e){
                 e.printStackTrace();
@@ -55,13 +60,14 @@ public class MainProcess extends JPanel implements Runnable{
     }
 
     void updateGame(){
-
+        stateManager.update();                                                      //állapotgép adoot állapotának frissítése
     }
 
-    void updateScreen(){
-
+    void updateScreen(){                                                            //állapotgép adott képének kirajzolása
+        stateManager.draw(graphics);
     }
-    void renderScreen(){
+
+    void renderScreen(){                                                            //kép kirenderelése a képernyőre
 
     }
 }

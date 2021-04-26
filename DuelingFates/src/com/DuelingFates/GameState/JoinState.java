@@ -15,6 +15,8 @@ public class JoinState extends GameState{
     public JoinState(StateManager stateManager){
         super(stateManager);
         StateManager.stateChanged = true;
+
+
     }
 
     @Override

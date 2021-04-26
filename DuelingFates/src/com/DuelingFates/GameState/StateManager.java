@@ -54,21 +54,21 @@ public class StateManager {
     }
 
     public void draw(Graphics2D graphics){                                      //az aktuális állapot kirajzolása: csak GAMEPLAY
-        //if(currentState != null) {
+        if(currentState != null) {
+            System.out.println("draw called");
             //*********************Ha ezt kikommenteled, crash, de csak ha pl, MainMenuState-ből hívod meg az állapotváltást.
             //StateManager konstruktorban kezdetben GAMEPLAY, akkor jó
-            gameStates[currentState.ordinal()].draw(graphics);
-            System.out.println("draw");
+            //gameStates[currentState.ordinal()].draw(graphics);
 
-        //}
+        }
     }
 
     public void update(){                                                        //az aktuális állapot frissítése ha épp van aktív állapot: csak GAMEPLAY
-        //if(currentState != null) {
-        //*********************Ha ezt kikommenteled, crash
-        System.out.println("update " + currentState.ordinal());
-        gameStates[currentState.ordinal()].update();
-        //}
+        if(currentState != null) {
+            System.out.println("update " + currentState.ordinal() + " called");
+            //*********************Ha ezt kikommenteled, crash
+            //gameStates[currentState.ordinal()].update();
+        }
     }
 
     public void updateSwingUI(JFrame duelingFates){                             //Az aktuális swing ablak frissítése

@@ -33,12 +33,12 @@ public class GamePlayState extends GameState {
     @Override
     public void draw(Graphics2D graphics) {
         graphics.drawImage(background,0,0, MainProcess.gameWidth, MainProcess.gameHeight,null);
-        System.out.println("RAJZOLNA, DE ERRORT DOB!!!!!!!!!!!");
+        System.out.println("gameRAJZOL");
     }
 
     @Override
     public void update() {
-        System.out.println("Elvileg törölni kellene, DE ERRORT DOB!!!!!!!!!!!");
+        System.out.println("gameUPDATEL");
     }
 
     @Override

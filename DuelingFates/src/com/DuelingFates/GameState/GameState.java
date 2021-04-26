@@ -1,8 +1,10 @@
 package com.DuelingFates.GameState;
 
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
-public abstract class GameState{
+public abstract class GameState implements ActionListener {
 
     protected StateManager stateManager;               //protected, hogy a leszáramzottakban hozzáférjünk
 
@@ -14,6 +16,7 @@ public abstract class GameState{
     public abstract void initialization();
     public abstract void draw(Graphics2D graphics);
     public abstract void update();
+    public abstract void updateSwingUI(JFrame duelingFates);
 
 
 }

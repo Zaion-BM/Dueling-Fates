@@ -1,6 +1,8 @@
 package com.DuelingFates.GameState;
 
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 
 public class SettingsState extends GameState{
 
@@ -23,4 +25,13 @@ public class SettingsState extends GameState{
 
     }
 
+    @Override
+    public void updateSwingUI(JFrame duelingFates) {
+
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+    }
 }

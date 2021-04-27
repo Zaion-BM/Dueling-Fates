@@ -1,51 +1,37 @@
 package com.DuelingFates.GameState;
 
 import com.DuelingFates.Main.MainProcess;
-
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 
-public class MainMenuState extends GameState implements ActionListener {
+public class MainMenuState extends GameState implements ActionListener, MouseListener {
 
-    public JPanel jPanel = new JPanel();
-    public JButton buttonJoin = new JButton("Join");
-    public JPanel contentPane = new JPanel();
+    //Gombok
+    private final JButton buttonJoin = new JButton("Join");
+    private final JButton buttonHost = new JButton("Host");
+    private final JButton buttonSettings = new JButton("Settings");
+    private final JButton buttonQuit = new JButton("Quit");
 
-    private BufferedImage background;
-    private BufferedImage logoImage;
+    //Háttér
+    private final ImageIcon background = new ImageIcon("DuelingFates/Sources/background_MainAndSettings.png");
+    private final JLabel backgroundLabel = new JLabel(background);
 
-    /*
-    private final String join = "Join";
-    private final String host = "Host";
-    private final String settings = "Settings";
-    private final String quit = "Quit";
-    */
-    //private Font BalooThambi;
-    //private final String fontLocation = "DuelingFates/Sources/Font/BalooThambi-Regular.ttf";
+    //Logo
+    private final ImageIcon logoImage = new ImageIcon("DuelingFates/Sources/logo_DuelingFates.png");
+    private final JLabel logoImageLabel = new JLabel(new ImageIcon(logoImage.getImage().getScaledInstance(
+                                          (int)(logoImage.getIconWidth()/3.5),(int)(logoImage.getIconHeight()/3.5), Image.SCALE_SMOOTH)));
 
+    //színek statikusan definiálva, hogy elérjük őket a többi állapotból
+    public static final Color darkRed = new Color(160,28,36);
+    public static final Color darkYellow = new Color(255,193,8);
+    public static final Color darkGreen = new Color(0,128,0);
 
     public MainMenuState(StateManager stateManager){
+
         super(stateManager);                                    //őskonstruktor meghívása
         StateManager.stateChanged = true;
-        //stateManager.setState(StateManager.States.GAMEPLAYSTATE);
-        //System.out.println(stateManager.currentState);
-        /*try{
-            background = ImageIO.read(new File("DuelingFates/Sources/background_MainAndSettings.png"));
-            logoImage = ImageIO.read(new File("DuelingFates/Sources/logo_DuelingFates.png"));
 
-            BalooThambi = Font.createFont(Font.TRUETYPE_FONT, new File(fontLocation)).deriveFont(55f);                   //font létrehozása
-            GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();                 //fontok leírására használt GraphicsEnvironment
-            graphicsEnvironment.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File(fontLocation)));
-        }
-        catch (IOException | FontFormatException e){                                                                    // or: |
-            e.printStackTrace();
-        }*/
     }
 
     @Override
@@ -53,28 +39,8 @@ public class MainMenuState extends GameState implements ActionListener {
 
     }
 
-    /*
-    public void drawStringToCenter(Graphics2D graphics, String string, int heightPosition){
-        FontMetrics fm = graphics.getFontMetrics();                                            //adott font renderelési tulajdonságait tartalmazza
-        graphics.drawString(string,(MainProcess.gameWidth - fm.stringWidth(string)) / 2, heightPosition);        //lekérdezzük a szöveg szélességét, a font ismeretében és középre igazítjuk
-    }*/
-
     @Override
     public void draw(Graphics2D graphics) {
-
-        //duelingFates.add(menuPanel);
-
-        //images
-        //graphics.drawImage(background,0,0, gameWidth, gameHeight,null);
-        //graphics.drawImage(logoImage, 40, 870, logoImage.getWidth()/3, logoImage.getHeight()/3, null);
-
-        //buttons
-        /*graphics.setFont(BalooThambi);
-        drawStringToCenter(graphics,join,680-3*80);
-        drawStringToCenter(graphics,host,680-2*80);
-        drawStringToCenter(graphics,settings,680-80);
-        drawStringToCenter(graphics,quit,680);
-        */
 
     }
 
@@ -84,34 +50,195 @@ public class MainMenuState extends GameState implements ActionListener {
     }
 
     @Override
-    public void updateSwingUI(JFrame duelingFates) {
+    public void updateSwingUI(JFrame duelingFates,JLayeredPane layeredPane) {
 
-        jPanel.setPreferredSize(new Dimension(40, 40));
-        duelingFates.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        contentPane.add(jPanel, BorderLayout.CENTER);
-        contentPane.add(buttonJoin, BorderLayout.PAGE_END);
-        duelingFates.setContentPane(contentPane);
+        layeredPane.removeAll();
+        duelingFates.repaint();
+
+        backgroundLabel.setBounds(0,0,background.getIconWidth(), background.getIconHeight());
+        logoImageLabel.setBounds((int)(MainProcess.gameWidth*-0.055),(int)(MainProcess.gameHeight*0.74),logoImage.getIconWidth()/2, logoImage.getIconHeight()/2);
+
+        setButtonStyle(buttonJoin);
+        setButtonStyle(buttonHost);
+        setButtonStyle(buttonSettings);
+        setButtonStyle(buttonQuit);
+
+        layeredPane.setBounds(0,0, MainProcess.gameWidth, MainProcess.gameHeight);
+        layeredPane.add(backgroundLabel, JLayeredPane.DEFAULT_LAYER);
+        layeredPane.add(logoImageLabel, JLayeredPane.POPUP_LAYER);
+        layeredPane.add(buttonJoin,JLayeredPane.POPUP_LAYER);
+        layeredPane.add(buttonHost,JLayeredPane.POPUP_LAYER);
+        layeredPane.add(buttonSettings,JLayeredPane.POPUP_LAYER);
+        layeredPane.add(buttonQuit,JLayeredPane.POPUP_LAYER);
+
+        //majd fullscreen esetben
+        //duelingFates.setUndecorated(true);                                     //nincs keret
+        //duelingFates.setExtendedState(JFrame.MAXIMIZED_BOTH);                  //max Vertical & Horizontal
+        duelingFates.setCursor(MainProcess.gameCursor);
+        duelingFates.add(layeredPane);
         duelingFates.setPreferredSize(new Dimension(MainProcess.gameWidth, MainProcess.gameHeight));
-        buttonJoin.setBackground(Color.green);
-        jPanel.setBackground(Color.BLUE);
-        jPanel.setOpaque(true);
-
-        duelingFates.setResizable(true);
+        duelingFates.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        duelingFates.setResizable(false);
         duelingFates.pack();
-        duelingFates.setLocationRelativeTo(null);
         duelingFates.setVisible(true);
 
+        buttonJoin.setBounds((MainProcess.gameWidth/2)-100, (int)(MainProcess.gameHeight*0.32), 200,50);
         buttonJoin.addActionListener(this);
+        buttonJoin.addMouseListener(this);
+
+        buttonHost.setBounds((MainProcess.gameWidth/2)-100, (int)(MainProcess.gameHeight*0.39), 200,50);
+        buttonHost.addActionListener(this);
+        buttonHost.addMouseListener(this);
+
+        buttonSettings.setBounds((MainProcess.gameWidth/2)-150, (int)(MainProcess.gameHeight*0.46), 300,50);
+        buttonSettings.addActionListener(this);
+        buttonSettings.addMouseListener(this);
+
+        buttonQuit.setBounds((MainProcess.gameWidth/2)-100, (int)(MainProcess.gameHeight*0.53), 200,50);
+        buttonQuit.addActionListener(this);
+        buttonQuit.addMouseListener(this);
+
         StateManager.stateChanged = false;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        jPanel.setBackground(Color.cyan);
-        stateManager.setState(StateManager.States.GAMEPLAYSTATE);
-        System.out.println("Megnyomtam " + stateManager.currentState);
+        if(e.getSource() == buttonJoin) {
 
+            stateManager.setState(StateManager.States.JOINSTATE);
+            System.out.println("Megnyomtam " + stateManager.currentState);
+
+        }
+
+        if(e.getSource() == buttonHost){
+
+            stateManager.setState(StateManager.States.HOSTSTATE);
+
+        }
+
+        if(e.getSource() == buttonSettings){
+
+            stateManager.setState(StateManager.States.SETTINGSTATE);
+
+        }
+
+        if(e.getSource() == buttonQuit){
+
+            System.out.println("System.exit(1) has been called");
+            System.exit(1);
+
+        }
 
     }
+
+    //a többi állapotból elérhető, mely a buttonok formázását leegyszerűsíti
+    public static void setButtonStyle(JButton button){
+
+        button.setHorizontalAlignment(SwingConstants.CENTER);
+        button.setVerticalAlignment(SwingConstants.CENTER);
+        button.setBackground(null);
+        button.setBorderPainted(false);
+        button.setFocusPainted(false);
+        button.setContentAreaFilled(false);
+        button.setFont(MainProcess.BalooThambiFont);
+        button.setForeground(Color.WHITE);
+
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+        if(e.getSource() == buttonJoin){
+
+            buttonJoin.setForeground(darkYellow);
+
+        }
+
+        if(e.getSource() == buttonHost){
+
+            buttonHost.setForeground(darkYellow);
+
+        }
+
+        if(e.getSource() == buttonSettings){
+
+            buttonSettings.setForeground(darkYellow);
+
+        }
+
+        if(e.getSource() == buttonQuit) {
+
+            buttonQuit.setForeground(darkYellow);
+
+        }
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+        if(e.getSource() == buttonJoin){
+
+            buttonJoin.setForeground(darkRed);
+
+        }
+
+        if(e.getSource() == buttonHost){
+
+            buttonHost.setForeground(darkRed);
+
+        }
+
+        if(e.getSource() == buttonSettings){
+
+            buttonSettings.setForeground(darkRed);
+
+        }
+
+        if(e.getSource() == buttonQuit) {
+
+            buttonQuit.setForeground(darkRed);
+
+        }
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+        if(e.getSource() == buttonJoin){
+
+            buttonJoin.setForeground(Color.WHITE);
+
+        }
+
+        if(e.getSource() == buttonHost){
+
+            buttonHost.setForeground(Color.WHITE);
+
+        }
+
+        if(e.getSource() == buttonSettings){
+
+            buttonSettings.setForeground(Color.WHITE);
+
+        }
+
+        if(e.getSource() == buttonQuit){
+
+            buttonQuit.setForeground(Color.WHITE);
+
+        }
+
+    }
+
 }

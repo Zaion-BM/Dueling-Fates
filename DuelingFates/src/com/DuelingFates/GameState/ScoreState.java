@@ -2,12 +2,12 @@ package com.DuelingFates.GameState;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 
 public class ScoreState extends GameState{
 
     public ScoreState(StateManager stateManager){
         super(stateManager);
+
     }
 
     @Override
@@ -26,12 +26,8 @@ public class ScoreState extends GameState{
     }
 
     @Override
-    public void updateSwingUI(JFrame duelingFates) {
+    public void updateSwingUI(JFrame duelingFates,JLayeredPane layeredPane) {
 
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
-    }
 }

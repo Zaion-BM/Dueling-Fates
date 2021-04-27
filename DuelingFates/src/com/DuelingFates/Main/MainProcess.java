@@ -2,114 +2,139 @@ package com.DuelingFates.Main;
 
 import com.DuelingFates.GameState.StateManager;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
 
-public class MainProcess extends JFrame implements Runnable{
+/*
+TODO list: VALAMIÉRT MOST JÓ, dont ask why
+    1. A stateChanged változót set()-teren keresztül lehessen csak módosítani.
+    2. A MAIN PROCESS() KONSTRUKTORBAN KELL ELENŐRIZNI, hogy a fájlok beolvashatók-e
+    Mert az állapotgép konstruktorában nem tudunk fájlt beolvasni crash nélkül
+    Hogy pontosan miért, azt még nem sikerült kiderítenem --- FIXED!, de hogy miért???
+    3. Ha a duelingFates static lenne, akkor az egyes állapotokban csak a JLayerPanet kellene
+    mindig frissíteni, és továbbadni. Memória és egyszerűség, majd a végén érdemes frissíteni
+*/
 
-    JFrame duelingFates;
+public class MainProcess extends JPanel implements Runnable{
+
+    JFrame duelingFates;                                                            //Frame amiben fut az alkalmazás
+    JLayeredPane layeredPane;                                                       //dimenzióval rendelkező ContentPane változat, amin elhelyezzük a Swing elemeket
     ImageIcon GameLogo;
 
-    private StateManager stateManager;                                       //állapotgép melyen keresztül az állapotokat elérjük
+    //állapotgép melyen keresztül az állapotokat elérjük, volatile mert a while gameloop egy része volt hogy nem futott le (? miért?, mert nem változott?)
+    volatile private StateManager stateManager;
 
     public static final int gameWidth = 1920;
     public static final int gameHeight = 1080;
-    public final int FPS = 60;                                               // 1/60 = 16.67 millisec
+    public final int FPS = 60;                                                      // 1/60 = 16.67 millisec
     public boolean gameIsRunning = false;
 
-    public static BufferedImage gameWindow;
-    public static Graphics2D graphics;
-    /*ImageIcon imageIcon;
-    /JLabel jLabel;*/
+    public static BufferedImage gameWindow;                                         //amire rajzolunk a Frame-en belül GAMEPLAYSTATE-ben
+    public static Graphics2D graphics;                                              //amit kirajzolunk a gameWindow-ra
+    public Image cursorImage;
+    public static Cursor gameCursor;                                                //egyedi cursor
+    public static Font BalooThambiFont;                                             //egyedi font
 
-
-    @SuppressWarnings("CommentedOutCode")
     public MainProcess(){
 
-        duelingFates = new JFrame("DuelingFates");                           //új Frame
+        duelingFates = new JFrame("DuelingFates");
+        layeredPane = new JLayeredPane();
+        String fontLocation = "DuelingFates/Sources/Font/BalooThambi-Regular.ttf";
 
-        // Frame Icon beállítása
+        //Frame beállítása, Image beolvasása és static változók létrehozása
         try {
-            GameLogo = new ImageIcon("DuelingFates/Sources/logoicon_DuelingFatesDF.png");     //Frame logo betöltése
-            duelingFates.setIconImage(GameLogo.getImage());                      //Icon beállítása - csak Image lehet az argumentum, ezért kell getImage()
+            cursorImage = ImageIO.read(new File("DuelingFates/Sources/gui_Spike.png"));
+            GameLogo = new ImageIcon("DuelingFates/Sources/logoicon_DuelingFatesDF.png");                       //Frame logo betöltése
+            duelingFates.setIconImage(GameLogo.getImage());                                                             //Icon beállítása - csak Image lehet az argumentum, ezért kell getImage()
+
+            BalooThambiFont = Font.createFont(Font.TRUETYPE_FONT, new File(fontLocation)).deriveFont(55f);              //font létrehozása a Source mappában lévő .ttf-ből
+            GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();                //fontok leírására használt GraphicsEnvironment
+            graphicsEnvironment.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File(fontLocation)));
         }
         catch (Exception e){
             e.printStackTrace();
         }
 
-        //majd fullscreen esetben
-        //duelingFates.setUndecorated(true);                                     //nincs keret
-        //duelingFates.setExtendedState(JFrame.MAXIMIZED_BOTH);                  //max Vertical & Horizontal
+        gameCursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImage,new Point(0,0), "gameCursor");
 
-        duelingFates.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);    //kilépünk a Frame zárásával
-        duelingFates.pack();                                                     //tartalomhoz igazodik a Frame mérete
-        duelingFates.setResizable(true);                                         //nem lehet átméretezni
-        duelingFates.setVisible(true);                                           //default esetben hidden lenne
-        duelingFates.setLayout(null);
-        duelingFates.setSize(new Dimension(gameWidth, gameHeight));              //méret megadása, csak Dimension típust értelmez
-        duelingFates.setLocationRelativeTo(null);                                //null: az ablak a képernyőn közepén lesz
-        //Mivel mindkettő true alapértelmezetten, ezért nincs szükség rá
-        /*setFocusable(true);
-        requestFocus(); */                                                      //alkalmazás fókuszt kap
+        duelingFates.setSize(new Dimension(gameWidth, gameHeight));                 //méret megadása, csak Dimension típust értelmez
+        duelingFates.setLocationRelativeTo(null);                                   //null: az ablak a képernyőn közepén lesz, focust alapértelmezetten kap
+
         startThread();
     }
 
-    public synchronized void startThread(){                                      //synchronized: multi-threaded esetben, egyszerre 1 szál fér az objektumhoz
+    public synchronized void startThread(){                                         //synchronized: multi-threaded esetben, egyszerre 1 szál fér hozzá az objektumhoz
+
         Thread threadMain = new Thread(this);
         threadMain.start();
+
     }
 
+    //Runnable miatt automatikusan meghívódik
+    public void run(){
 
-    public void run(){                                                      //Runnable miatt automatikusan meghívódik
         gameWindow = new BufferedImage(gameWidth,gameHeight,BufferedImage.TYPE_INT_RGB);    //a kép melyre rajzolunk
-        /*imageIcon = new ImageIcon(gameWindow); jLabel = new JLabel(imageIcon);*/
-        graphics = gameWindow.createGraphics();                             //grafika amit kirajzolunk
-        gameIsRunning = true;                                               //játék már fut
-        stateManager = new StateManager(graphics);                                  //állapotgép példányosítása
+        graphics = gameWindow.createGraphics();                                             //grafika amit kirajzolunk
+        gameIsRunning = true;
+        stateManager = new StateManager();                                                  //állapotgép példányosítása
 
-        final long oneFrameDuration = 1000/FPS;                             //(1/60)*1000, csak a long miatt úgy 0 lesz
+        final long oneFrameDuration = 1000/FPS;                                             // = (1/60)*1000
 
-        while (gameIsRunning){     //"végtelen" ciklus
-            System.out.println(stateManager.currentState == StateManager.States.GAMEPLAYSTATE);
-            if(stateManager.currentState == StateManager.States.GAMEPLAYSTATE){
+        while (gameIsRunning){                                                              //"gameloop"
+
+            //System.out.println(stateManager.currentState == StateManager.States.GAMEPLAYSTATE);
+
+            if(StateManager.stateChanged){                                                  //ha állapotot váltunk frissítjük a Swing Frame-et
+                stateManager.updateSwingUI(duelingFates, layeredPane);                      //a Frame és a JLayeredPane továbbadásával tudjuk őket frissíteni
+                System.out.println("Swing GUI has been updated!");
+            }
+
+            if(stateManager.currentState == StateManager.States.GAMEPLAYSTATE){             //csak a GamePlayState-ben van grafikus kirajzolás (60 FPS-sel)
+
                 updateGame();
                 updateScreen(graphics);
                 renderScreen();
+
                     try{
                         synchronized (this) {
-                            this.wait(oneFrameDuration);                            //Thread.sleep(oneFrameDuration); az éppen futó threadet megszakítja, millisec ideig
+                            this.wait(oneFrameDuration);                           //Thread.sleep(oneFrameDuration); az éppen futó threadet megszakítja, millisec ideig
                             System.out.println("I'm waiting");
-                        }                                                           //de warningot ad, így ezzel a megoldással elkerülhető
+                        }                                                          //de warningot ad, így ezzel a megoldással elkerülhető
                     }
                     catch (InterruptedException e){
                         e.printStackTrace();
                         }
             }
 
-            if(StateManager.stateChanged){
-                stateManager.updateSwingUI(duelingFates);
-                System.out.println("TRUEEEEE");
-            }
         }
+
     }
 
+    //állapotgép adott állapotának frissítése - gameplay logika
     void updateGame(){
-        stateManager.update();                                               //állapotgép adott állapotának frissítése - logika
+
+        stateManager.update();
+
     }
 
-    void updateScreen(Graphics2D graphics){                                                     //állapotgép adott képének frissítése - megjelenítés
+    //állapotgép grafikai részének frissítése - gameplay design
+    void updateScreen(Graphics2D graphics){
+
         stateManager.draw(graphics);
+
     }
 
     //kép kirenderelése a képernyőre
     void renderScreen(){
-            Graphics gScreen = duelingFates.getGraphics();                              //JPanel miatt lehetséges
-            gScreen.drawImage(gameWindow, 0, 0, 1920, 1080, null);   //gameWindow-ra renderelünk, a bal felső saroktól
-            gScreen.dispose();                                                              //törlés, hogy újból ki tudjuk rajzolni
+
+            Graphics gScreen = duelingFates.getGraphics();                                      //JPanel miatt tudjuk lekérdezni
+            gScreen.drawImage(gameWindow, 0, 0, 1920, 1080, null);      //gameWindow-ra renderelünk, a bal felső saroktól
+            gScreen.dispose();                                                                  //kép törlése a Frame-ről, hogy újból ki tudjuk rajzolni
 
     }
-
 
 }

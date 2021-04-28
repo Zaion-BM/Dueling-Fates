@@ -20,7 +20,20 @@ public class StateManager {
         //System.out.println(States.values().length + "   " + currentState.ordinal());
     }
 
-    //állapotok alapján új példányok létrehozása
+    public static void setStateChangedTrue(){
+
+        stateChanged = true;
+
+    }
+
+    public static void setStateChangedFalse() {
+
+        stateChanged = false;
+
+    }
+
+
+        //állapotok alapján új példányok létrehozása
     public void loadState(States enumStates){
 
         switch (enumStates){
@@ -59,7 +72,7 @@ public class StateManager {
     public void draw(Graphics2D graphics){                                      //az aktuális állapot kirajzolása, ha van aktív állapot: csak GAMEPLAY
 
         if(currentState != null) {
-            System.out.println("StateManager DRAW has been called!");
+            //System.out.println("StateManager DRAW has been called!");
             if (gameStates[currentState.ordinal()] != null) {
                 gameStates[currentState.ordinal()].draw(graphics);
             }
@@ -70,7 +83,7 @@ public class StateManager {
     public void update() {                                                       //az aktuális állapot frissítése, ha épp van aktív állapot: csak GAMEPLAY
 
         if (currentState != null) {
-            System.out.println("StateManager UPDATE has been called!");
+            //System.out.println("StateManager UPDATE has been called!");
 
             if (gameStates[currentState.ordinal()] != null) {
                 gameStates[currentState.ordinal()].update();

@@ -43,7 +43,7 @@ public class HostState extends GameState implements ActionListener, MouseListene
     public HostState(StateManager stateManager){
 
         super(stateManager);
-        StateManager.stateChanged = true;
+        StateManager.setStateChangedTrue();
 
     }
 
@@ -66,7 +66,6 @@ public class HostState extends GameState implements ActionListener, MouseListene
     public void updateSwingUI(JFrame duelingFates,JLayeredPane layeredPane) {
 
         layeredPane.removeAll();
-        duelingFates.repaint();
 
         backgroundLabel.setBounds(0,0,background.getIconWidth(), background.getIconHeight());
 
@@ -77,13 +76,13 @@ public class HostState extends GameState implements ActionListener, MouseListene
         mapSelectionLabel.setHorizontalAlignment(SwingConstants.CENTER);
         mapSelectionLabel.setText("Select map");
         mapSelectionLabel.setForeground(Color.WHITE);
-        mapSelectionLabel.setBounds(MainProcess.gameWidth/2-150,(int)(MainProcess.gameHeight*0.20),300,50);
+        mapSelectionLabel.setBounds(MainProcess.getGameWidth()/2-150,(int)(MainProcess.getGameHeight()*0.20),300,50);
 
         mapCloudyForest.setIcon(cloudyForestImg);
         mapCloudyForest.setName("CloudyForest");
         mapCloudyForest.setHorizontalAlignment(SwingConstants.CENTER);
         mapCloudyForest.addActionListener(this);
-        mapCloudyForest.setBounds((int)(MainProcess.gameWidth*0.5-2*cloudyForestImg.getIconWidth()),(int)(MainProcess.gameHeight*0.30),cloudyForestImg.getIconWidth(),cloudyForestImg.getIconHeight());
+        mapCloudyForest.setBounds((int)(MainProcess.getGameWidth()*0.5-2*cloudyForestImg.getIconWidth()),(int)(MainProcess.getGameHeight()*0.30),cloudyForestImg.getIconWidth(),cloudyForestImg.getIconHeight());
         mapCloudyForest.setOpaque(false);
         mapCloudyForest.setBorder(BorderFactory.createLineBorder(Color.WHITE,4));
         mapCloudyForest.setBorderPainted(true);
@@ -94,7 +93,7 @@ public class HostState extends GameState implements ActionListener, MouseListene
         mapCrimson.setName("Crimson");
         mapCrimson.setHorizontalAlignment(SwingConstants.CENTER);
         mapCrimson.addActionListener(this);
-        mapCrimson.setBounds((int)(MainProcess.gameWidth*0.5-crimsonImg.getIconWidth()/2),(int)(MainProcess.gameHeight*0.30),crimsonImg.getIconWidth(),crimsonImg.getIconHeight());
+        mapCrimson.setBounds((int)(MainProcess.getGameWidth()*0.5-crimsonImg.getIconWidth()/2),(int)(MainProcess.getGameHeight()*0.30),crimsonImg.getIconWidth(),crimsonImg.getIconHeight());
         mapCrimson.setOpaque(false);
         mapCrimson.setBorder(BorderFactory.createLineBorder(Color.WHITE,4));
         mapCrimson.setBorderPainted(true);
@@ -105,7 +104,7 @@ public class HostState extends GameState implements ActionListener, MouseListene
         mapSnowyMountain.setName("SnowyMountain");
         mapSnowyMountain.setHorizontalAlignment(SwingConstants.CENTER);
         mapSnowyMountain.addActionListener(this);
-        mapSnowyMountain.setBounds((int)(MainProcess.gameWidth*0.5+snowyMountainImg.getIconWidth()),(int)(MainProcess.gameHeight*0.30),snowyMountainImg.getIconWidth(),snowyMountainImg.getIconHeight());
+        mapSnowyMountain.setBounds((int)(MainProcess.getGameWidth()*0.5+snowyMountainImg.getIconWidth()),(int)(MainProcess.getGameHeight()*0.30),snowyMountainImg.getIconWidth(),snowyMountainImg.getIconHeight());
         mapSnowyMountain.setOpaque(false);
         mapSnowyMountain.setBorder(BorderFactory.createLineBorder(Color.WHITE,4));
         mapSnowyMountain.setBorderPainted(true);
@@ -113,7 +112,7 @@ public class HostState extends GameState implements ActionListener, MouseListene
         mapSelection.add(mapSnowyMountain);
 
         matchDuration.setOrientation(SwingConstants.HORIZONTAL);
-        matchDuration.setBounds(MainProcess.gameWidth/2+50,(int)(MainProcess.gameHeight*0.55),500,60);
+        matchDuration.setBounds(MainProcess.getGameWidth()/2+50,(int)(MainProcess.getGameHeight()*0.55),500,60);
         matchDuration.setPaintTrack(true);
         matchDuration.setForeground(Color.WHITE);
         matchDuration.setMajorTickSpacing(1);
@@ -127,9 +126,9 @@ public class HostState extends GameState implements ActionListener, MouseListene
         matchDurationLabel.setFont(MainProcess.BalooThambiFont);
         matchDurationLabel.setText("Match duration:");
         matchDurationLabel.setForeground(Color.WHITE);
-        matchDurationLabel.setBounds(MainProcess.gameWidth/4,(int)(MainProcess.gameHeight*0.55),500,50);
+        matchDurationLabel.setBounds(MainProcess.getGameWidth()/4,(int)(MainProcess.getGameHeight()*0.55),500,50);
 
-        layeredPane.setBounds(0,0, MainProcess.gameWidth, MainProcess.gameHeight);
+        layeredPane.setBounds(0,0, MainProcess.getGameWidth(), MainProcess.getGameHeight());
         layeredPane.add(backgroundLabel, JLayeredPane.DEFAULT_LAYER);
         layeredPane.add(mapCloudyForest,JLayeredPane.POPUP_LAYER);
         layeredPane.add(mapCrimson,JLayeredPane.POPUP_LAYER);
@@ -142,22 +141,24 @@ public class HostState extends GameState implements ActionListener, MouseListene
 
         duelingFates.setCursor(MainProcess.gameCursor);
         duelingFates.add(layeredPane);
-        duelingFates.setPreferredSize(new Dimension(MainProcess.gameWidth, MainProcess.gameHeight));
+        duelingFates.setPreferredSize(new Dimension(MainProcess.getGameWidth(), MainProcess.getGameHeight()));
         duelingFates.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         duelingFates.setResizable(false);
         duelingFates.pack();
         duelingFates.setVisible(true);
 
-        buttonBack.setBounds((int)(MainProcess.gameWidth*0.05), (int)(MainProcess.gameHeight*0.86), 200,50);
+        buttonBack.setBounds((int)(MainProcess.getGameWidth()*0.05), (int)(MainProcess.getGameHeight()*0.86), 200,50);
         buttonBack.addActionListener(this);
         buttonBack.addMouseListener(this);
 
-        buttonStart.setBounds((int)(MainProcess.gameWidth*0.95)-200, (int)(MainProcess.gameHeight*0.86), 200,50);
+        buttonStart.setBounds((int)(MainProcess.getGameWidth()*0.95)-200, (int)(MainProcess.getGameHeight()*0.86), 200,50);
         buttonStart.setForeground(MainMenuState.darkGreen);
         buttonStart.addActionListener(this);
         buttonStart.addMouseListener(this);
 
-        StateManager.stateChanged = false;
+        duelingFates.repaint();
+
+        StateManager.setStateChangedFalse();
 
     }
 
@@ -219,7 +220,8 @@ public class HostState extends GameState implements ActionListener, MouseListene
             }
             System.out.println(matchDuration.getValue());
             System.out.println(selectedMap);
-            stateManager.setState(StateManager.States.GAMEPLAYSTATE);
+            /****stateManager.setState(StateManager.States.GAMEPLAYSTATE);****/
+            stateManager.setState(StateManager.States.SCORESTATE);
         }
 
         if(e.getSource() == buttonBack) {

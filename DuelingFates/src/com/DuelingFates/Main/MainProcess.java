@@ -7,15 +7,16 @@ import javax.swing.*;
 import java.awt.*;
 
 import java.awt.image.BufferedImage;
+import java.awt.image.MemoryImageSource;
 import java.io.File;
 
 /*
 TODO list: VALAMIÉRT MOST JÓ, dont ask why
-    1. A stateChanged változót set()-teren keresztül lehessen csak módosítani.
-    2. A MAIN PROCESS() KONSTRUKTORBAN KELL ELENŐRIZNI, hogy a fájlok beolvashatók-e
+    1. A MAIN PROCESS() KONSTRUKTORBAN KELL ELENŐRIZNI, hogy a fájlok beolvashatók-e
     Mert az állapotgép konstruktorában nem tudunk fájlt beolvasni crash nélkül
-    Hogy pontosan miért, azt még nem sikerült kiderítenem --- FIXED!, de hogy miért???
-    3. Ha a duelingFates static lenne, akkor az egyes állapotokban csak a JLayerPanet kellene
+    Hogy pontosan miért, azt még nem sikerült kiderítenem --- FIXED!, de hogy miért??? : volatile,
+    meg a swing kirajzolás a whileloopban előbb van??
+    2. Ha a duelingFates static lenne, akkor az egyes állapotokban csak a JLayerPanet kellene
     mindig frissíteni, és továbbadni. Memória és egyszerűség, majd a végén érdemes frissíteni
 */
 
@@ -28,15 +29,17 @@ public class MainProcess extends JPanel implements Runnable{
     //állapotgép melyen keresztül az állapotokat elérjük, volatile mert a while gameloop egy része volt hogy nem futott le (? miért?, mert nem változott?)
     volatile private StateManager stateManager;
 
-    public static final int gameWidth = 1920;
-    public static final int gameHeight = 1080;
+    private static final int gameWidth = 1920;
+    private static final int gameHeight = 1080;
     public final int FPS = 60;                                                      // 1/60 = 16.67 millisec
     public boolean gameIsRunning = false;
 
     public static BufferedImage gameWindow;                                         //amire rajzolunk a Frame-en belül GAMEPLAYSTATE-ben
     public static Graphics2D graphics;                                              //amit kirajzolunk a gameWindow-ra
     public Image cursorImage;
+
     public static Cursor gameCursor;                                                //egyedi cursor
+    public static Cursor hiddenCursor;                                              //GamePlay esetén elrejtjük
     public static Font BalooThambiFont;                                             //egyedi font
 
     public MainProcess(){
@@ -59,12 +62,29 @@ public class MainProcess extends JPanel implements Runnable{
             e.printStackTrace();
         }
 
-        gameCursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImage,new Point(0,0), "gameCursor");
+        gameCursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImage, new Point(0,0), "gameCursor");
+        //láthatatlan egér
+        int[] empty = new int[16 * 16];
+        Image invisibleImage = Toolkit.getDefaultToolkit().createImage(new MemoryImageSource(16, 16, empty, 0, 16));
+        hiddenCursor = Toolkit.getDefaultToolkit().createCustomCursor(invisibleImage, new Point(0,0), "hiddenCursor");
 
-        duelingFates.setSize(new Dimension(gameWidth, gameHeight));                 //méret megadása, csak Dimension típust értelmez
+        duelingFates.setSize(new Dimension(getGameWidth(), getGameHeight()));                 //méret megadása, csak Dimension típust értelmez
         duelingFates.setLocationRelativeTo(null);                                   //null: az ablak a képernyőn közepén lesz, focust alapértelmezetten kap
 
         startThread();
+    }
+
+    public static int getGameWidth(){
+
+        return gameWidth;
+
+    }
+
+
+    public static int getGameHeight(){
+
+        return gameHeight;
+
     }
 
     public synchronized void startThread(){                                         //synchronized: multi-threaded esetben, egyszerre 1 szál fér hozzá az objektumhoz
@@ -77,10 +97,11 @@ public class MainProcess extends JPanel implements Runnable{
     //Runnable miatt automatikusan meghívódik
     public void run(){
 
-        gameWindow = new BufferedImage(gameWidth,gameHeight,BufferedImage.TYPE_INT_RGB);    //a kép melyre rajzolunk
+        gameWindow = new BufferedImage(getGameWidth(),getGameHeight(),BufferedImage.TYPE_INT_RGB);    //a kép melyre rajzolunk
         graphics = gameWindow.createGraphics();                                             //grafika amit kirajzolunk
         gameIsRunning = true;
         stateManager = new StateManager();                                                  //állapotgép példányosítása
+
 
         final long oneFrameDuration = 1000/FPS;                                             // = (1/60)*1000
 
@@ -90,7 +111,7 @@ public class MainProcess extends JPanel implements Runnable{
 
             if(StateManager.stateChanged){                                                  //ha állapotot váltunk frissítjük a Swing Frame-et
                 stateManager.updateSwingUI(duelingFates, layeredPane);                      //a Frame és a JLayeredPane továbbadásával tudjuk őket frissíteni
-                System.out.println("Swing GUI has been updated!");
+                //System.out.println("Swing GUI has been updated!");
             }
 
             if(stateManager.currentState == StateManager.States.GAMEPLAYSTATE){             //csak a GamePlayState-ben van grafikus kirajzolás (60 FPS-sel)
@@ -102,7 +123,7 @@ public class MainProcess extends JPanel implements Runnable{
                     try{
                         synchronized (this) {
                             this.wait(oneFrameDuration);                           //Thread.sleep(oneFrameDuration); az éppen futó threadet megszakítja, millisec ideig
-                            System.out.println("I'm waiting");
+                            //System.out.println("I'm waiting");
                         }                                                          //de warningot ad, így ezzel a megoldással elkerülhető
                     }
                     catch (InterruptedException e){
@@ -132,7 +153,7 @@ public class MainProcess extends JPanel implements Runnable{
     void renderScreen(){
 
             Graphics gScreen = duelingFates.getGraphics();                                      //JPanel miatt tudjuk lekérdezni
-            gScreen.drawImage(gameWindow, 0, 0, 1920, 1080, null);      //gameWindow-ra renderelünk, a bal felső saroktól
+            gScreen.drawImage(gameWindow, 0, 0, getGameWidth(), getGameHeight(), null);      //gameWindow-ra renderelünk, a bal felső saroktól
             gScreen.dispose();                                                                  //kép törlése a Frame-ről, hogy újból ki tudjuk rajzolni
 
     }

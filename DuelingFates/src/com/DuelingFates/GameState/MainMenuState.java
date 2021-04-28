@@ -30,7 +30,7 @@ public class MainMenuState extends GameState implements ActionListener, MouseLis
     public MainMenuState(StateManager stateManager){
 
         super(stateManager);                                    //őskonstruktor meghívása
-        StateManager.stateChanged = true;
+        StateManager.setStateChangedTrue();
 
     }
 
@@ -53,17 +53,16 @@ public class MainMenuState extends GameState implements ActionListener, MouseLis
     public void updateSwingUI(JFrame duelingFates,JLayeredPane layeredPane) {
 
         layeredPane.removeAll();
-        duelingFates.repaint();
 
         backgroundLabel.setBounds(0,0,background.getIconWidth(), background.getIconHeight());
-        logoImageLabel.setBounds((int)(MainProcess.gameWidth*-0.055),(int)(MainProcess.gameHeight*0.74),logoImage.getIconWidth()/2, logoImage.getIconHeight()/2);
+        logoImageLabel.setBounds((int)(MainProcess.getGameWidth()*-0.055),(int)(MainProcess.getGameHeight()*0.74),logoImage.getIconWidth()/2, logoImage.getIconHeight()/2);
 
         setButtonStyle(buttonJoin);
         setButtonStyle(buttonHost);
         setButtonStyle(buttonSettings);
         setButtonStyle(buttonQuit);
 
-        layeredPane.setBounds(0,0, MainProcess.gameWidth, MainProcess.gameHeight);
+        layeredPane.setBounds(0,0, MainProcess.getGameWidth(), MainProcess.getGameHeight());
         layeredPane.add(backgroundLabel, JLayeredPane.DEFAULT_LAYER);
         layeredPane.add(logoImageLabel, JLayeredPane.POPUP_LAYER);
         layeredPane.add(buttonJoin,JLayeredPane.POPUP_LAYER);
@@ -76,29 +75,31 @@ public class MainMenuState extends GameState implements ActionListener, MouseLis
         //duelingFates.setExtendedState(JFrame.MAXIMIZED_BOTH);                  //max Vertical & Horizontal
         duelingFates.setCursor(MainProcess.gameCursor);
         duelingFates.add(layeredPane);
-        duelingFates.setPreferredSize(new Dimension(MainProcess.gameWidth, MainProcess.gameHeight));
+        duelingFates.setPreferredSize(new Dimension(MainProcess.getGameWidth(), MainProcess.getGameHeight()));
         duelingFates.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         duelingFates.setResizable(false);
         duelingFates.pack();
         duelingFates.setVisible(true);
 
-        buttonJoin.setBounds((MainProcess.gameWidth/2)-100, (int)(MainProcess.gameHeight*0.32), 200,50);
+        buttonJoin.setBounds((MainProcess.getGameWidth()/2)-100, (int)(MainProcess.getGameHeight()*0.32), 200,50);
         buttonJoin.addActionListener(this);
         buttonJoin.addMouseListener(this);
 
-        buttonHost.setBounds((MainProcess.gameWidth/2)-100, (int)(MainProcess.gameHeight*0.39), 200,50);
+        buttonHost.setBounds((MainProcess.getGameWidth()/2)-100, (int)(MainProcess.getGameHeight()*0.39), 200,50);
         buttonHost.addActionListener(this);
         buttonHost.addMouseListener(this);
 
-        buttonSettings.setBounds((MainProcess.gameWidth/2)-150, (int)(MainProcess.gameHeight*0.46), 300,50);
+        buttonSettings.setBounds((MainProcess.getGameWidth()/2)-150, (int)(MainProcess.getGameHeight()*0.46), 300,50);
         buttonSettings.addActionListener(this);
         buttonSettings.addMouseListener(this);
 
-        buttonQuit.setBounds((MainProcess.gameWidth/2)-100, (int)(MainProcess.gameHeight*0.53), 200,50);
+        buttonQuit.setBounds((MainProcess.getGameWidth()/2)-100, (int)(MainProcess.getGameHeight()*0.53), 200,50);
         buttonQuit.addActionListener(this);
         buttonQuit.addMouseListener(this);
 
-        StateManager.stateChanged = false;
+        duelingFates.repaint();
+
+        StateManager.setStateChangedFalse();
     }
 
     @Override
@@ -106,8 +107,8 @@ public class MainMenuState extends GameState implements ActionListener, MouseLis
 
         if(e.getSource() == buttonJoin) {
 
-            stateManager.setState(StateManager.States.JOINSTATE);
-            System.out.println("Megnyomtam " + stateManager.currentState);
+            /*****stateManager.setState(StateManager.States.JOINSTATE);****/
+            stateManager.setState(StateManager.States.GAMEPLAYSTATE);
 
         }
 

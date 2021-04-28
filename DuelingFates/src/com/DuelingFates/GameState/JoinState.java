@@ -27,7 +27,7 @@ public class JoinState extends GameState implements ActionListener, MouseListene
     public JoinState(StateManager stateManager){
 
         super(stateManager);
-        StateManager.stateChanged = true;
+        StateManager.setStateChangedTrue();
 
     }
 
@@ -50,7 +50,6 @@ public class JoinState extends GameState implements ActionListener, MouseListene
     public void updateSwingUI(JFrame duelingFates,JLayeredPane layeredPane) {
 
         layeredPane.removeAll();
-        duelingFates.repaint();
 
         backgroundLabel.setBounds(0,0,background.getIconWidth(), background.getIconHeight());
 
@@ -64,14 +63,14 @@ public class JoinState extends GameState implements ActionListener, MouseListene
         inputServerAddress.setBorder(BorderFactory.createLineBorder(Color.BLACK,2));
         inputServerAddress.setText("192.168.0.121X");
         inputServerAddress.setHorizontalAlignment(SwingConstants.CENTER);
-        inputServerAddress.setBounds(MainProcess.gameWidth/2+75,(int)(MainProcess.gameHeight*0.30),400,80);
+        inputServerAddress.setBounds(MainProcess.getGameWidth()/2+75,(int)(MainProcess.getGameHeight()*0.30),400,80);
 
         inputServerAddressLabel.setFont(MainProcess.BalooThambiFont);
         inputServerAddressLabel.setText("IP Address:");
         inputServerAddressLabel.setForeground(Color.WHITE);
-        inputServerAddressLabel.setBounds(MainProcess.gameWidth/2-325,(int)(MainProcess.gameHeight*0.32),300,50);
+        inputServerAddressLabel.setBounds(MainProcess.getGameWidth()/2-325,(int)(MainProcess.getGameHeight()*0.32),300,50);
 
-        layeredPane.setBounds(0,0, MainProcess.gameWidth, MainProcess.gameHeight);
+        layeredPane.setBounds(0,0, MainProcess.getGameWidth(), MainProcess.getGameHeight());
         layeredPane.add(backgroundLabel, JLayeredPane.DEFAULT_LAYER);
         layeredPane.add(inputServerAddressLabel, JLayeredPane.POPUP_LAYER);
         layeredPane.add(inputServerAddress, JLayeredPane.POPUP_LAYER);
@@ -80,22 +79,24 @@ public class JoinState extends GameState implements ActionListener, MouseListene
 
         duelingFates.setCursor(MainProcess.gameCursor);
         duelingFates.add(layeredPane);
-        duelingFates.setPreferredSize(new Dimension(MainProcess.gameWidth, MainProcess.gameHeight));
+        duelingFates.setPreferredSize(new Dimension(MainProcess.getGameWidth(), MainProcess.getGameHeight()));
         duelingFates.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         duelingFates.setResizable(false);
         duelingFates.pack();
         duelingFates.setVisible(true);
 
-        buttonBack.setBounds((int)(MainProcess.gameWidth*0.05), (int)(MainProcess.gameHeight*0.86), 200,50);
+        buttonBack.setBounds((int)(MainProcess.getGameWidth()*0.05), (int)(MainProcess.getGameHeight()*0.86), 200,50);
         buttonBack.addActionListener(this);
         buttonBack.addMouseListener(this);
 
-        buttonJoin.setBounds((int)(MainProcess.gameWidth*0.95)-200, (int)(MainProcess.gameHeight*0.86), 200,50);
+        buttonJoin.setBounds((int)(MainProcess.getGameWidth()*0.95)-200, (int)(MainProcess.getGameHeight()*0.86), 200,50);
         buttonJoin.setForeground(MainMenuState.darkGreen);
         buttonJoin.addActionListener(this);
         buttonJoin.addMouseListener(this);
 
-        StateManager.stateChanged = false;
+        duelingFates.repaint();
+
+        StateManager.setStateChangedFalse();
 
     }
 

@@ -43,7 +43,7 @@ public class SettingsState extends GameState implements ActionListener, MouseLis
     public SettingsState(StateManager stateManager){
 
         super(stateManager);
-        StateManager.stateChanged = true;
+        StateManager.setStateChangedTrue();
 
     }
 
@@ -66,7 +66,6 @@ public class SettingsState extends GameState implements ActionListener, MouseLis
     public void updateSwingUI(JFrame duelingFates, JLayeredPane layeredPane) {
 
         layeredPane.removeAll();
-        duelingFates.repaint();
 
         backgroundLabel.setBounds(0,0,background.getIconWidth(), background.getIconHeight());
 
@@ -80,23 +79,23 @@ public class SettingsState extends GameState implements ActionListener, MouseLis
         playerName.setBorder(BorderFactory.createLineBorder(Color.BLACK,2));
         playerName.setText("Knight Rider");
         playerName.setHorizontalAlignment(SwingConstants.CENTER);
-        playerName.setBounds(MainProcess.gameWidth/2+75,(int)(MainProcess.gameHeight*0.30),400,80);
+        playerName.setBounds(MainProcess.getGameWidth()/2+75,(int)(MainProcess.getGameHeight()*0.30),400,80);
 
         playerNameLabel.setFont(MainProcess.BalooThambiFont);
         playerNameLabel.setText("Player name:");
         playerNameLabel.setForeground(Color.WHITE);
-        playerNameLabel.setBounds(MainProcess.gameWidth/2-370,(int)(MainProcess.gameHeight*0.32),350,50);
+        playerNameLabel.setBounds(MainProcess.getGameWidth()/2-370,(int)(MainProcess.getGameHeight()*0.32),350,50);
 
         characterSelectionLabel.setFont(MainProcess.BalooThambiFont);
         characterSelectionLabel.setText("Select character");
         characterSelectionLabel.setForeground(Color.WHITE);
-        characterSelectionLabel.setBounds(MainProcess.gameWidth/2-205,(int)(MainProcess.gameHeight*0.42),410,50);
+        characterSelectionLabel.setBounds(MainProcess.getGameWidth()/2-205,(int)(MainProcess.getGameHeight()*0.42),410,50);
 
         pirateJRadioButton.setIcon(pirateImg);
         pirateJRadioButton.setName("PirateDeckhand");
         pirateJRadioButton.addActionListener(this);
         characterSelection.add(pirateJRadioButton);
-        pirateJRadioButton.setBounds((int)(MainProcess.gameWidth*0.52),(int)(MainProcess.gameHeight*0.5),pirateImg.getIconWidth(),pirateImg.getIconHeight());
+        pirateJRadioButton.setBounds((int)(MainProcess.getGameWidth()*0.52),(int)(MainProcess.getGameHeight()*0.5),pirateImg.getIconWidth(),pirateImg.getIconHeight());
         pirateJRadioButton.setOpaque(false);
         pirateJRadioButton.setSelectedIcon(pirateSelectedImg);
 
@@ -104,11 +103,11 @@ public class SettingsState extends GameState implements ActionListener, MouseLis
         knightJRadioButton.setName("PossessedArmor");
         knightJRadioButton.addActionListener(this);
         characterSelection.add(knightJRadioButton);
-        knightJRadioButton.setBounds((int)(MainProcess.gameWidth*0.43),(int)(MainProcess.gameHeight*0.5),knightImg.getIconWidth(),knightImg.getIconHeight());
+        knightJRadioButton.setBounds((int)(MainProcess.getGameWidth()*0.43),(int)(MainProcess.getGameHeight()*0.5),knightImg.getIconWidth(),knightImg.getIconHeight());
         knightJRadioButton.setOpaque(false);
         knightJRadioButton.setSelectedIcon(knightSelectedImg);
 
-        layeredPane.setBounds(0,0, MainProcess.gameWidth, MainProcess.gameHeight);
+        layeredPane.setBounds(0,0, MainProcess.getGameWidth(), MainProcess.getGameHeight());
         layeredPane.add(backgroundLabel, JLayeredPane.DEFAULT_LAYER);
         layeredPane.add(characterSelectionLabel,JLayeredPane.POPUP_LAYER);
         layeredPane.add(knightJRadioButton,JLayeredPane.POPUP_LAYER);
@@ -120,21 +119,22 @@ public class SettingsState extends GameState implements ActionListener, MouseLis
 
         duelingFates.setCursor(MainProcess.gameCursor);
         duelingFates.add(layeredPane);
-        duelingFates.setPreferredSize(new Dimension(MainProcess.gameWidth, MainProcess.gameHeight));
+        duelingFates.setPreferredSize(new Dimension(MainProcess.getGameWidth(), MainProcess.getGameHeight()));
         duelingFates.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         duelingFates.setResizable(false);
         duelingFates.pack();
         duelingFates.setVisible(true);
 
-        buttonBack.setBounds((int)(MainProcess.gameWidth*0.05), (int)(MainProcess.gameHeight*0.86), 200,50);
+        buttonBack.setBounds((int)(MainProcess.getGameWidth()*0.05), (int)(MainProcess.getGameHeight()*0.86), 200,50);
         buttonBack.addActionListener(this);
         buttonBack.addMouseListener(this);
 
-        buttonSave.setBounds((int)(MainProcess.gameWidth*0.95)-200, (int)(MainProcess.gameHeight*0.86), 200,50);
+        buttonSave.setBounds((int)(MainProcess.getGameWidth()*0.95)-200, (int)(MainProcess.getGameHeight()*0.86), 200,50);
         buttonSave.addActionListener(this);
         buttonSave.addMouseListener(this);
 
-        StateManager.stateChanged = false;
+        duelingFates.repaint();
+        StateManager.setStateChangedFalse();
     }
 
     @Override

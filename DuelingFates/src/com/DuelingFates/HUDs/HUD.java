@@ -12,7 +12,7 @@ import java.io.File;
 public class HUD {
 
     //TODO list: evlileg ha csak a player saját adatait definiáljuk
-    //és majd a erver ezeket megjleneíti, akkor nincs szükség az enemy UI-ra
+    //és majd a Server ezeket megjeleníti, akkor nincs szükség az enemy UI-ra
     //ha nem, akkor csak két főre kell limitálnunk, és implementálni
 
     //player adatok

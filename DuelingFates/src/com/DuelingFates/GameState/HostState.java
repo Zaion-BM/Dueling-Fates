@@ -152,7 +152,7 @@ public class HostState extends GameState implements ActionListener, MouseListene
         buttonBack.addMouseListener(this);
 
         buttonStart.setBounds((int)(MainProcess.getGameWidth()*0.95)-200, (int)(MainProcess.getGameHeight()*0.86), 200,50);
-        buttonStart.setForeground(MainMenuState.darkGreen);
+        buttonStart.setForeground(Color.green);
         buttonStart.addActionListener(this);
         buttonStart.addMouseListener(this);
 
@@ -263,7 +263,7 @@ public class HostState extends GameState implements ActionListener, MouseListene
 
         if(e.getSource() == buttonStart){
 
-            buttonStart.setForeground(Color.green);
+            buttonStart.setForeground(MainMenuState.darkGreen);
 
         }
 
@@ -280,7 +280,7 @@ public class HostState extends GameState implements ActionListener, MouseListene
 
         if(e.getSource() == buttonStart){
 
-            buttonStart.setForeground(MainMenuState.darkGreen);
+            buttonStart.setForeground(Color.green);
 
         }
 

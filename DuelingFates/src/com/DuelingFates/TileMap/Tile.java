@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 
 public class Tile {
 
-    private BufferedImage tileImage;
+    private final BufferedImage tileImage;
 
     public Tile(BufferedImage tileImage){
 

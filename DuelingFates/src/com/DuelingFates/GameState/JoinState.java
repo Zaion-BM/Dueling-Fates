@@ -90,7 +90,7 @@ public class JoinState extends GameState implements ActionListener, MouseListene
         buttonBack.addMouseListener(this);
 
         buttonJoin.setBounds((int)(MainProcess.getGameWidth()*0.95)-200, (int)(MainProcess.getGameHeight()*0.86), 200,50);
-        buttonJoin.setForeground(MainMenuState.darkGreen);
+        buttonJoin.setForeground(Color.green);
         buttonJoin.addActionListener(this);
         buttonJoin.addMouseListener(this);
 
@@ -149,7 +149,7 @@ public class JoinState extends GameState implements ActionListener, MouseListene
 
         if(e.getSource() == buttonJoin){
 
-            buttonJoin.setForeground(Color.green);
+            buttonJoin.setForeground(MainMenuState.darkGreen);
 
         }
 
@@ -165,7 +165,7 @@ public class JoinState extends GameState implements ActionListener, MouseListene
 
         if(e.getSource() == buttonJoin){
 
-            buttonJoin.setForeground(MainMenuState.darkGreen);
+            buttonJoin.setForeground(Color.green);
 
         }
 

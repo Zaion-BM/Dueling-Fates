@@ -5,12 +5,11 @@ import java.awt.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.io.InputStream;
 
 public class TileMap {
 
     //map paramatérek
-    private int[][] mapLayout;            //map 2D-s tömb, X és Y irány
+    private int[][] mapLayout;                          //map 2D-s tömb, X és Y irány
     private int mapRows;                                //oszlopok és sorok száma
     private int mapColumns;
     private int mapStartX = 0;                          //innen kezddődik a map kirajzolása

@@ -41,6 +41,7 @@ public class MainProcess extends JPanel implements Runnable{
     public static Cursor gameCursor;                                                //egyedi cursor
     public static Cursor hiddenCursor;                                              //GamePlay esetén elrejtjük
     public static Font BalooThambiFont;                                             //egyedi font
+    public static Font BalooThambiFontSmall;                                             //egyedi font a playerName miatt
 
     public MainProcess(){
 
@@ -54,8 +55,12 @@ public class MainProcess extends JPanel implements Runnable{
             GameLogo = new ImageIcon("DuelingFates/Sources/logoicon_DuelingFatesDF.png");                       //Frame logo betöltése
             duelingFates.setIconImage(GameLogo.getImage());                                                             //Icon beállítása - csak Image lehet az argumentum, ezért kell getImage()
 
-            BalooThambiFont = Font.createFont(Font.TRUETYPE_FONT, new File(fontLocation)).deriveFont(55f);              //font létrehozása a Source mappában lévő .ttf-ből
             GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();                //fontok leírására használt GraphicsEnvironment
+
+            BalooThambiFont = Font.createFont(Font.TRUETYPE_FONT, new File(fontLocation)).deriveFont(55f);              //font létrehozása a Source mappában lévő .ttf-ből
+            graphicsEnvironment.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File(fontLocation)));
+
+            BalooThambiFontSmall = Font.createFont(Font.TRUETYPE_FONT, new File(fontLocation)).deriveFont(35f);
             graphicsEnvironment.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File(fontLocation)));
         }
         catch (Exception e){
@@ -97,11 +102,11 @@ public class MainProcess extends JPanel implements Runnable{
     //Runnable miatt automatikusan meghívódik
     public void run(){
 
+        /**   elvileg itt lesz a networking run() meghívás   **/
         gameWindow = new BufferedImage(getGameWidth(),getGameHeight(),BufferedImage.TYPE_INT_RGB);    //a kép melyre rajzolunk
         graphics = gameWindow.createGraphics();                                             //grafika amit kirajzolunk
         gameIsRunning = true;
         stateManager = new StateManager();                                                  //állapotgép példányosítása
-
 
         final long oneFrameDuration = 1000/FPS;                                             // = (1/60)*1000
 
@@ -152,9 +157,9 @@ public class MainProcess extends JPanel implements Runnable{
     //kép kirenderelése a képernyőre
     void renderScreen(){
 
-            Graphics gScreen = duelingFates.getGraphics();                                      //JPanel miatt tudjuk lekérdezni
+            Graphics gScreen = duelingFates.getGraphics();                                               //JPanel miatt tudjuk lekérdezni
             gScreen.drawImage(gameWindow, 0, 0, getGameWidth(), getGameHeight(), null);      //gameWindow-ra renderelünk, a bal felső saroktól
-            gScreen.dispose();                                                                  //kép törlése a Frame-ről, hogy újból ki tudjuk rajzolni
+            gScreen.dispose();                                                                           //kép törlése a Frame-ről, hogy újból ki tudjuk rajzolni
 
     }
 

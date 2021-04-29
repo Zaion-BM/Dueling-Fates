@@ -8,13 +8,14 @@ import java.awt.event.*;
 
 public class ScoreState extends GameState implements MouseListener, ActionListener {
 
+    private final Color colorRematch = new Color(165,158,94);
     //Gombok
     private final JButton buttonQuitToMenu = new JButton("Quit To Menu");
     private final JButton buttonRematch = new JButton("Rematch");
     private final JButton buttonSaveToFile = new JButton("Save Scores");
 
     //Háttér
-    private final ImageIcon background = new ImageIcon("DuelingFates/Sources/background_JoinAndHost.png");
+    private final ImageIcon background = new ImageIcon("DuelingFates/Sources/background_Score2.png");
     private final JLabel backgroundLabel = new JLabel(background);
 
     //Labels
@@ -63,8 +64,21 @@ public class ScoreState extends GameState implements MouseListener, ActionListen
 
         winnerLabel.setFont(new Font("Arial Black",Font.BOLD, 70));
         winnerLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        winnerLabel.setForeground(MainMenuState.darkYellow);
-        winnerLabel.setBounds((MainProcess.getGameWidth()/2)-370, (int)(MainProcess.getGameHeight()*0.15),700,70);
+        winnerLabel.setForeground(Color.WHITE);
+        winnerLabel.setBounds((MainProcess.getGameWidth()/2)-370, (int)(MainProcess.getGameHeight()*0.13),700,70);
+
+        JLabel winnerName = new JLabel("getPlayer()");
+        winnerName.setFont(new Font("Arial Black",Font.BOLD, 60));
+        winnerName.setHorizontalAlignment(SwingConstants.CENTER);
+        winnerName.setForeground(MainMenuState.darkYellow);
+        winnerName.setBounds((MainProcess.getGameWidth()/2)-370, (int)(MainProcess.getGameHeight()*0.25),700,90);
+
+        String playerText = "<html>Player1: Score1<br/>Player2: Score2<br/></html>";
+        JLabel playerScores = new JLabel(playerText);
+        playerScores.setHorizontalAlignment(SwingConstants.CENTER);
+        playerScores.setFont(MainProcess.BalooThambiFont);
+        playerScores.setForeground(Color.BLACK);
+        playerScores.setBounds((MainProcess.getGameWidth()/2)-370, (int)(MainProcess.getGameHeight()*0.37),700,300);
 
         layeredPane.setBounds(0,0, MainProcess.getGameWidth(), MainProcess.getGameHeight());
         layeredPane.add(backgroundLabel, JLayeredPane.DEFAULT_LAYER);
@@ -72,6 +86,8 @@ public class ScoreState extends GameState implements MouseListener, ActionListen
         layeredPane.add(buttonRematch,JLayeredPane.POPUP_LAYER);
         layeredPane.add(buttonSaveToFile,JLayeredPane.POPUP_LAYER);
         layeredPane.add(winnerLabel, JLayeredPane.POPUP_LAYER);
+        layeredPane.add(winnerName,JLayeredPane.POPUP_LAYER);
+        layeredPane.add(playerScores,JLayeredPane.POPUP_LAYER);
 
         duelingFates.setCursor(MainProcess.gameCursor);
         duelingFates.add(layeredPane);
@@ -81,17 +97,20 @@ public class ScoreState extends GameState implements MouseListener, ActionListen
         duelingFates.pack();
         duelingFates.setVisible(true);
 
-        buttonQuitToMenu.setBounds((int)(MainProcess.getGameWidth()*0.05), (int)(MainProcess.getGameHeight()*0.86), 370,50);
+        buttonQuitToMenu.setBounds((int)(MainProcess.getGameWidth()*0.05), (int)(MainProcess.getGameHeight()*0.90), 370,50);
         buttonQuitToMenu.addActionListener(this);
         buttonQuitToMenu.addMouseListener(this);
 
-        buttonSaveToFile.setBounds((int)(MainProcess.getGameWidth()*0.5-165), (int)(MainProcess.getGameHeight()*0.86), 350,50);
+        buttonSaveToFile.setBounds((int)(MainProcess.getGameWidth()*0.5-165), (int)(MainProcess.getGameHeight()*0.90), 350,50);
         buttonSaveToFile.addActionListener(this);
         buttonSaveToFile.addMouseListener(this);
 
-        buttonRematch.setBounds((int)(MainProcess.getGameWidth()*0.91)-200, (int)(MainProcess.getGameHeight()*0.86), 300,50);
+
+        buttonRematch.setBounds((int)(MainProcess.getGameWidth()*0.91)-200, (int)(MainProcess.getGameHeight()*0.90), 300,50);
+        buttonRematch.setForeground(Color.green);
         buttonRematch.addActionListener(this);
         buttonRematch.addMouseListener(this);
+
 
         duelingFates.repaint();
 
@@ -132,7 +151,7 @@ public class ScoreState extends GameState implements MouseListener, ActionListen
 
         if(e.getSource() == buttonRematch){
 
-            buttonRematch.setForeground(MainMenuState.darkGreen);
+            buttonRematch.setForeground(MainMenuState.darkYellow);
 
         }
 
@@ -165,7 +184,7 @@ public class ScoreState extends GameState implements MouseListener, ActionListen
 
         if(e.getSource() == buttonRematch){
 
-            buttonRematch.setForeground(Color.green);
+            buttonRematch.setForeground(MainMenuState.darkGreen);
 
         }
 
@@ -188,7 +207,7 @@ public class ScoreState extends GameState implements MouseListener, ActionListen
 
         if(e.getSource() == buttonRematch){
 
-            buttonRematch.setForeground(MainMenuState.darkGreen);
+            buttonRematch.setForeground(Color.GREEN);
 
         }
 

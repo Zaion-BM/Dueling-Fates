@@ -108,7 +108,7 @@ public class MainMenuState extends GameState implements ActionListener, MouseLis
         if(e.getSource() == buttonJoin) {
 
             /*****stateManager.setState(StateManager.States.JOINSTATE);****/
-            stateManager.setState(StateManager.States.GAMEPLAYSTATE);
+            stateManager.setState(StateManager.States.SCORESTATE);
 
         }
 

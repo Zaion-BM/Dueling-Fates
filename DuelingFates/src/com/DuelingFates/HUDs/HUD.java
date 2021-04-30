@@ -14,26 +14,31 @@ public class HUD {
     //TODO list: evlileg ha csak a player saját adatait definiáljuk
     //és majd a Server ezeket megjeleníti, akkor nincs szükség az enemy UI-ra
     //ha nem, akkor csak két főre kell limitálnunk, és implementálni
+    //TODO: lehet enemy és player helyett first place és second place kell, ezáltal egyszerűbb lehet
 
     //player adatok
     private String playerNameUI;
     private String playerAmmoUI;
     private String playerScoreUI;
 
+    //enemy adatok
+    private String enemyNameUI;
+    private String enemyScoreUI;
 
     //egyéb adatok
     private String timerValue;
     private final String playerScoreLabel = new String("Your score:");
+    private final String enemyScoreLabel;
 
     //ammo image
     private BufferedImage ammoImg;
 
     public HUD(Player p){
 
-        this.timerValue = "getTimerValue()";
-        this.playerNameUI = "getPlayerName()";
-        this.playerScoreUI = "getPlayerScore()";
-        this.playerAmmoUI = "getPlayerAmmo()";
+        //session során nem frissülő adatok
+        enemyScoreLabel = "EnemyName() score:";
+        playerNameUI = "getPlayerName()";
+        enemyNameUI = "getEnemyName()";
 
         try{
 
@@ -49,6 +54,14 @@ public class HUD {
     //TODO: Ha a playert, mindig átadjuk argumentumként akkor az adatok könnyen lekérdezhetők
     public void draw(Graphics2D graphics){
 
+        //frissülő adatok lekérdezése
+        timerValue = "getTimerValue()";
+
+        playerScoreUI = "getPlayerScore()";
+        playerAmmoUI = "getPlayerAmmo()";
+
+        enemyScoreUI = "getEnemyScore()";
+
         graphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
 
         graphics.drawImage(ammoImg,(int)(MainProcess.getGameWidth()*0.05),(int)(MainProcess.getGameHeight()*0.90),ammoImg.getWidth(),ammoImg.getHeight(),null);
@@ -58,10 +71,26 @@ public class HUD {
         graphics.drawString(playerScoreLabel,(int)(MainProcess.getGameWidth()*0.05),(int)(MainProcess.getGameHeight()*0.05));
         graphics.drawString(playerScoreUI,(int)(MainProcess.getGameWidth()*0.25),(int)(MainProcess.getGameHeight()*0.05));
 
+        graphics.setColor(Color.white);
+        graphics.drawString(enemyScoreLabel,(int)(MainProcess.getGameWidth()*0.05),(int)(MainProcess.getGameHeight()*0.11));
+        graphics.drawString(enemyScoreUI,(int)(MainProcess.getGameWidth()*0.25),(int)(MainProcess.getGameHeight()*0.05));
+
         graphics.setColor(Color.WHITE);
         graphics.drawString(timerValue,(int)(MainProcess.getGameWidth()*0.05),(int)(MainProcess.getGameHeight()*0.95));
 
+        //Player adatok
         /**graphics.drawString(playerNameUI,(int)getPlayerPositionX(), (int)getPlayerPositionY()-80);
+
+         graphics.setColor(MainMenuState.darkRed);
+         graphics.fillRect(getPlayerHP(), 40, (int)getPlayerPositionX(), (int)getPlayerPositionY-50());
+
+         graphics.setColor(Color.BLACK);
+         graphics.drawRect((int)(MainProcess.getGameWidth()*0.06), 40, (int)getPlayerPositionX(), (int)getPlayerPositionY-50());
+
+         **/
+
+        //Enemy adatok
+        /**graphics.drawString(enemyNameUI,(int)getPlayerPositionX(), (int)getPlayerPositionY()-80);
 
          graphics.setColor(MainMenuState.darkRed);
          graphics.fillRect(getPlayerHP(), 40, (int)getPlayerPositionX(), (int)getPlayerPositionY-50());

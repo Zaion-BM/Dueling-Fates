@@ -89,7 +89,7 @@ public class SettingsState extends GameState implements ActionListener, MouseLis
         characterSelectionLabel.setFont(MainProcess.BalooThambiFont);
         characterSelectionLabel.setText("Select character");
         characterSelectionLabel.setForeground(Color.WHITE);
-        characterSelectionLabel.setBounds(MainProcess.getGameWidth()/2-205,(int)(MainProcess.getGameHeight()*0.42),410,50);
+        characterSelectionLabel.setBounds(MainProcess.getGameWidth()/2-205,(int)(MainProcess.getGameHeight()*0.42),450,50);
 
         pirateJRadioButton.setIcon(pirateImg);
         pirateJRadioButton.setName("PirateDeckhand");

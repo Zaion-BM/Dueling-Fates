@@ -53,7 +53,6 @@ public class MainMenuState extends GameState implements ActionListener, MouseLis
     public void updateSwingUI(JFrame duelingFates,JLayeredPane layeredPane) {
 
         layeredPane.removeAll();
-
         backgroundLabel.setBounds(0,0,background.getIconWidth(), background.getIconHeight());
         logoImageLabel.setBounds((int)(MainProcess.getGameWidth()*-0.055),(int)(MainProcess.getGameHeight()*0.74),logoImage.getIconWidth()/2, logoImage.getIconHeight()/2);
 
@@ -71,7 +70,6 @@ public class MainMenuState extends GameState implements ActionListener, MouseLis
         layeredPane.add(buttonQuit,JLayeredPane.POPUP_LAYER);
 
         //majd fullscreen esetben
-        //duelingFates.setUndecorated(true);                                     //nincs keret
         //duelingFates.setExtendedState(JFrame.MAXIMIZED_BOTH);                  //max Vertical & Horizontal
         duelingFates.setCursor(MainProcess.gameCursor);
         duelingFates.add(layeredPane);

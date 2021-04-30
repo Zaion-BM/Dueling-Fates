@@ -27,7 +27,7 @@ public class TileMap {
     private Tile tileHorizontal;
     private Tile tileVertical;
 
-    public TileMap(int tileSize) {                      //64x64 miatt 30db soronként és 16 oszloponként
+    public TileMap(int tileSize) {                      //1920*1080 64x64 miatt 30db soronként és 16 oszloponként     //1600*9000 53*53
 
         this.tileSize = tileSize;
         this.tiles = new Tile[9];
@@ -37,6 +37,7 @@ public class TileMap {
     public void loadTilesFormFiles(String fileLocation) {
 
         try {
+
             tileLonely = new Tile(ImageIO.read(new File(fileLocation + "TileLonely.png")));
             tileUp = new Tile(ImageIO.read(new File(fileLocation + "TileUp.png")));
             tileDown = new Tile(ImageIO.read(new File(fileLocation + "TileDown.png")));
@@ -111,8 +112,15 @@ public class TileMap {
 
                 //minden más esetben a tiles[] tömb adott pozíciójában található elemét rajzoljuk (pl. 5),
                 //mely megegyezik a mapLayout[][] "mátrix" adott elemének értékével.
-                graphics.drawImage(tiles[mapLayout[row][col]].getTileImage(),
-                                mapStartX + col*tileSize,mapStartY + row*tileSize,null);
+                //Ha kisebb felbontáson szeretnénk játszani akkor az alábbi kirajzolás skálázza az imaget
+                //Ehhez egyedül a tile méretét kell tudni, a beolvasott tile mindig 64 pixeles
+                //A kirajzoláskor vett pixelszélességgel kell a játékban is számolni, ami 53 1600*900-as febontáson
+                graphics.drawImage(tiles[mapLayout[row][col]].getTileImage().getScaledInstance(
+                                (int)(tiles[mapLayout[row][col]].getTileImage().getWidth()*((float)tileSize/64f)),
+                                (int)(tiles[mapLayout[row][col]].getTileImage().getWidth()*((float)tileSize/64f)),
+                                Image.SCALE_SMOOTH),
+                                mapStartX + (int)(col*tileSize*(tileSize/64f)),
+                                mapStartY + (int)(row*tileSize*(tileSize/64f)),null);
 
             }
 

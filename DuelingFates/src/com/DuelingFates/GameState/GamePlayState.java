@@ -1,5 +1,6 @@
 package com.DuelingFates.GameState;
 
+import com.DuelingFates.HUDs.EscapeMenu;
 import com.DuelingFates.Main.MainProcess;
 import com.DuelingFates.TileMap.TileMap;
 

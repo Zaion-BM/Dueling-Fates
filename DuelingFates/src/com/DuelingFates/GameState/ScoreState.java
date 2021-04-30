@@ -5,6 +5,9 @@ import com.DuelingFates.Main.MainProcess;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class ScoreState extends GameState implements MouseListener, ActionListener {
 
@@ -20,8 +23,18 @@ public class ScoreState extends GameState implements MouseListener, ActionListen
 
     //Labels
     private final JLabel winnerLabel = new JLabel("THE WINNER IS");
+    private JLabel player1Label;
+    private JLabel player2Label;
 
+    //player adatok
+    private String player1Score;
+    private String player2Score;
 
+    //file adatok //nem a legjobb megoldás, Windows API-t használva biztonságosabb lenne
+    private final static File resultsTxt = new File("C:/Users/" + System.getProperty("user.name") + "/Desktop/results.txt");
+
+    //formátum a fájl kiírásához
+    SimpleDateFormat dateStyle = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
     public ScoreState(StateManager stateManager){
 
@@ -45,10 +58,18 @@ public class ScoreState extends GameState implements MouseListener, ActionListen
 
     }
 
-    public void showWinnderAndPlayerScores(String player1, String player2, String player3, String score1, String score2, String score3 ){
+    public void printPlayersAndScores(String results){
 
-        //még nem tudom mi lesz itt
+        try {
 
+            BufferedWriter writer = new BufferedWriter(new FileWriter(resultsTxt, true));
+
+            writer.write(results);
+            writer.close();
+
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -73,12 +94,21 @@ public class ScoreState extends GameState implements MouseListener, ActionListen
         winnerName.setForeground(MainMenuState.darkYellow);
         winnerName.setBounds((MainProcess.getGameWidth()/2)-370, (int)(MainProcess.getGameHeight()*0.25),700,90);
 
-        String playerText = "<html>Player1: Score1<br/>Player2: Score2<br/></html>";
-        JLabel playerScores = new JLabel(playerText);
-        playerScores.setHorizontalAlignment(SwingConstants.CENTER);
-        playerScores.setFont(MainProcess.BalooThambiFont);
-        playerScores.setForeground(Color.BLACK);
-        playerScores.setBounds((MainProcess.getGameWidth()/2)-370, (int)(MainProcess.getGameHeight()*0.37),700,300);
+        player1Score = "getName(): + getScore()";
+        player1Label = new JLabel(player1Score);
+        player2Score = "getName(): + getScore()";
+        player2Label = new JLabel(player2Score);
+
+        player1Label.setHorizontalAlignment(SwingConstants.CENTER);
+        player1Label.setFont(MainProcess.BalooThambiFont);
+        player1Label.setForeground(Color.BLACK);
+        player1Label.setBounds((MainProcess.getGameWidth()/2)-370, (int)(MainProcess.getGameHeight()*0.43),700,60);
+
+        player2Label.setHorizontalAlignment(SwingConstants.CENTER);
+        player2Label.setFont(MainProcess.BalooThambiFont);
+        player2Label.setForeground(Color.BLACK);
+        player2Label.setBounds((MainProcess.getGameWidth()/2)-370, (int)(MainProcess.getGameHeight()*0.50),700,60);
+
 
         layeredPane.setBounds(0,0, MainProcess.getGameWidth(), MainProcess.getGameHeight());
         layeredPane.add(backgroundLabel, JLayeredPane.DEFAULT_LAYER);
@@ -87,7 +117,9 @@ public class ScoreState extends GameState implements MouseListener, ActionListen
         layeredPane.add(buttonSaveToFile,JLayeredPane.POPUP_LAYER);
         layeredPane.add(winnerLabel, JLayeredPane.POPUP_LAYER);
         layeredPane.add(winnerName,JLayeredPane.POPUP_LAYER);
-        layeredPane.add(playerScores,JLayeredPane.POPUP_LAYER);
+        layeredPane.add(player1Label,JLayeredPane.POPUP_LAYER);
+        layeredPane.add(player2Label,JLayeredPane.POPUP_LAYER);
+
 
         duelingFates.setCursor(MainProcess.gameCursor);
         duelingFates.add(layeredPane);
@@ -105,16 +137,15 @@ public class ScoreState extends GameState implements MouseListener, ActionListen
         buttonSaveToFile.addActionListener(this);
         buttonSaveToFile.addMouseListener(this);
 
-
         buttonRematch.setBounds((int)(MainProcess.getGameWidth()*0.91)-200, (int)(MainProcess.getGameHeight()*0.90), 300,50);
         buttonRematch.setForeground(Color.green);
         buttonRematch.addActionListener(this);
         buttonRematch.addMouseListener(this);
 
-
         duelingFates.repaint();
 
         StateManager.setStateChangedFalse();
+
 
     }
 
@@ -135,7 +166,9 @@ public class ScoreState extends GameState implements MouseListener, ActionListen
 
         if(e.getSource() == buttonSaveToFile) {
 
-            System.out.println("PrintPlayersAndScores() has been called!");
+            Date time = new Date();
+            String results = new String(dateStyle.format(time) + "\t" + player1Score + " \t" + player2Score + "\n");
+            printPlayersAndScores(results);
 
         }
 

@@ -33,7 +33,7 @@ public class StateManager {
     }
 
 
-        //állapotok alapján új példányok létrehozása
+    //állapotok alapján új példányok létrehozása
     public void loadState(States enumStates){
 
         switch (enumStates){
@@ -94,7 +94,7 @@ public class StateManager {
 
     public void updateSwingUI(JFrame duelingFates, JLayeredPane layeredPane){    //az aktuális swing ablak frissítése
 
-        if(gameStates[currentState.ordinal()] != null) {
+        if (gameStates[currentState.ordinal()] != null) {
             gameStates[currentState.ordinal()].updateSwingUI(duelingFates, layeredPane);
         }
 

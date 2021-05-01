@@ -12,12 +12,15 @@ public class TileMap {
     private int[][] mapLayout;                          //map 2D-s tömb, X és Y irány
     private int mapRows;                                //oszlopok és sorok száma
     private int mapColumns;
-    private int mapStartX = 0;                          //innen kezddődik a map kirajzolása
-    private int mapStartY = 25;
+
+    @SuppressWarnings("FieldCanBeLocal")
+    private final int mapStartX = 0;                    //innen kezddődik a map kirajzolása
+    @SuppressWarnings("FieldCanBeLocal")
+    private final int mapStartY = 25;
 
     //Tile paraméterek
-    private int tileSize;
-    private Tile[] tiles;
+    private final int tileSize;
+    private final Tile[] tiles;
     private Tile tileLonely;
     private Tile tileUp;
     private Tile tileDown;
@@ -27,10 +30,13 @@ public class TileMap {
     private Tile tileHorizontal;
     private Tile tileVertical;
 
+    //TODO SPIKE: 64-esre felhúzni a 30x30-as tilet, és elhelyezni a mappon VAGY mivel ezen át tudsz menni,
+    // így lehet egyszerűbb külön elhelyezni és a mapot ezt békén hagyni
+
     public TileMap(int tileSize) {                      //1920*1080 64x64 miatt 30db soronként és 16 oszloponként     //1600*9000 53*53
 
         this.tileSize = tileSize;
-        this.tiles = new Tile[9];
+        this.tiles = new Tile[9];                       //mert összesen 9 tilet használunk a mapon
 
     }
 
@@ -99,7 +105,6 @@ public class TileMap {
         }
 
     }
-
 
     public void draw (Graphics2D graphics){
 

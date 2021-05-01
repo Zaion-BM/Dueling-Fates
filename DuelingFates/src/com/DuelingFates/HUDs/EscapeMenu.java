@@ -6,15 +6,20 @@ import java.awt.*;
 
 public class EscapeMenu{
 
-    private static final String escapeMenu = "Do you want to quit?";
-    private static final String optionYes  = "Yes! (ENTER)";
-    private static final String optionNo   = "No! (ESCAPE)";
+    @SuppressWarnings("FieldCanBeLocal")
+    private final String escapeMenu = "Do you want to quit?";
+
+    @SuppressWarnings("FieldCanBeLocal")
+    private final String optionYes  = "Yes! (ENTER)";
+
+    @SuppressWarnings("FieldCanBeLocal")
+    private final String optionNo   = "No! (ESCAPE)";
 
     public EscapeMenu(){
 
     }
 
-    public static void drawStringToCenter(Graphics2D graphics, String string, int heightPosition) {
+    public void drawStringToCenter(Graphics2D graphics, String string, int heightPosition) {
 
         //adott font renderelési tulajdonságait tartalmazza
         FontMetrics fm = graphics.getFontMetrics();
@@ -24,17 +29,19 @@ public class EscapeMenu{
 
     }
 
-    public static void draw(Graphics2D graphics){
+    public void draw(Graphics2D graphics){
 
-        //BETTER GRAPHICS 😎, AntiAliasing bekapcsolásával
+        //BETTER GRAPHICS, AntiAliasing bekapcsolásával
         graphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
 
+        //háttér
         graphics.setColor(Color.DARK_GRAY);
         graphics.fillRoundRect(MainProcess.getGameWidth()/2-(int)(MainProcess.getGameWidth()*0.2),
                                MainProcess.getGameHeight()/2-(int)(MainProcess.getGameHeight()*0.2),
                                 (int)(MainProcess.getGameWidth()*0.4),
                                 (int)(MainProcess.getGameHeight()*0.35),40,40);
 
+        //border effect egy másik rectangle-lel
         float borderSize = 10;
         graphics.setStroke(new BasicStroke(borderSize));
 
@@ -44,6 +51,7 @@ public class EscapeMenu{
                                 (int)(MainProcess.getGameWidth()*0.4),
                                 (int)(MainProcess.getGameHeight()*0.35),40,40);
 
+        //szövegek
         graphics.setFont(MainProcess.BalooThambiFont);
         graphics.setColor(Color.WHITE);
 

@@ -54,7 +54,7 @@ public class MainMenuState extends GameState implements ActionListener, MouseLis
 
         layeredPane.removeAll();
         backgroundLabel.setBounds(0,0,background.getIconWidth(), background.getIconHeight());
-        logoImageLabel.setBounds((int)(MainProcess.getGameWidth()*-0.055),(int)(MainProcess.getGameHeight()*0.74),logoImage.getIconWidth()/2, logoImage.getIconHeight()/2);
+        logoImageLabel.setBounds((int)(MainProcess.getGameWidth()*-0.055),(int)(MainProcess.getGameHeight()*0.76),logoImage.getIconWidth()/2, logoImage.getIconHeight()/2);
 
         setButtonStyle(buttonJoin);
         setButtonStyle(buttonHost);
@@ -105,8 +105,8 @@ public class MainMenuState extends GameState implements ActionListener, MouseLis
 
         if(e.getSource() == buttonJoin) {
 
-            /*****stateManager.setState(StateManager.States.JOINSTATE);****/
-            stateManager.setState(StateManager.States.SCORESTATE);
+            //TODO stateManager.setState(StateManager.States.JOINSTATE);
+            stateManager.setState(StateManager.States.GAMEPLAYSTATE);
 
         }
 
@@ -124,8 +124,8 @@ public class MainMenuState extends GameState implements ActionListener, MouseLis
 
         if(e.getSource() == buttonQuit){
 
-            System.out.println("System.exit(1) has been called");
-            System.exit(1);
+            System.out.println("System.exit(0) has been called");
+            System.exit(0);
 
         }
 

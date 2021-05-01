@@ -11,7 +11,6 @@ import java.util.Date;
 
 public class ScoreState extends GameState implements MouseListener, ActionListener {
 
-    private final Color colorRematch = new Color(165,158,94);
     //Gombok
     private final JButton buttonQuitToMenu = new JButton("Quit To Menu");
     private final JButton buttonRematch = new JButton("Rematch");
@@ -23,14 +22,15 @@ public class ScoreState extends GameState implements MouseListener, ActionListen
 
     //Labels
     private final JLabel winnerLabel = new JLabel("THE WINNER IS");
-    private JLabel player1Label;
-    private JLabel player2Label;
+    private final JLabel player1Label = new JLabel();
+    private final JLabel player2Label = new JLabel();
 
     //player adatok
     private String player1Score;
     private String player2Score;
 
-    //file adatok //nem a legjobb megoldás, Windows API-t használva biztonságosabb lenne
+    //file adatok
+    //nem a legjobb megoldás, Windows API-t használva biztonságosabb lenne
     private final static File resultsTxt = new File("C:/Users/" + System.getProperty("user.name") + "/Desktop/results.txt");
 
     //formátum a fájl kiírásához
@@ -95,9 +95,10 @@ public class ScoreState extends GameState implements MouseListener, ActionListen
         winnerName.setBounds((MainProcess.getGameWidth()/2)-370, (int)(MainProcess.getGameHeight()*0.25),700,90);
 
         player1Score = "getName(): + getScore()";
-        player1Label = new JLabel(player1Score);
+        player1Label.setText(player1Score);
+
         player2Score = "getName(): + getScore()";
-        player2Label = new JLabel(player2Score);
+        player2Label.setText(player2Score);
 
         player1Label.setHorizontalAlignment(SwingConstants.CENTER);
         player1Label.setFont(MainProcess.BalooThambiFont);
@@ -167,7 +168,7 @@ public class ScoreState extends GameState implements MouseListener, ActionListen
         if(e.getSource() == buttonSaveToFile) {
 
             Date time = new Date();
-            String results = new String(dateStyle.format(time) + "\t" + player1Score + " \t" + player2Score + "\n");
+            String results = (dateStyle.format(time) + "\t" + player1Score + " \t" + player2Score + "\n");
             printPlayersAndScores(results);
 
         }

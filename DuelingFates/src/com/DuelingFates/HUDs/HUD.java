@@ -11,13 +11,13 @@ import java.io.File;
 
 public class HUD {
 
-    //TODO list: evlileg ha csak a player saját adatait definiáljuk
-    //és majd a Server ezeket megjeleníti, akkor nincs szükség az enemy UI-ra
-    //ha nem, akkor csak két főre kell limitálnunk, és implementálni
+    //TODO list: elvileg ha csak a player saját adatait definiáljuk
+    // és majd a Server ezeket megjeleníti, akkor nincs szükség az enemy UI-ra
+    // ha nem, akkor csak két főre kell limitálnunk, és implementálni
     //TODO: lehet enemy és player helyett first place és second place kell, ezáltal egyszerűbb lehet
 
     //player adatok
-    private String playerNameUI;
+    private final String playerNameUI;
     private String playerAmmoUI;
     private String playerScoreUI;
 
@@ -27,13 +27,13 @@ public class HUD {
 
     //egyéb adatok
     private String timerValue;
-    private final String playerScoreLabel = new String("Your score:");
+    private final String playerScoreLabel = "Your score:";
     private final String enemyScoreLabel;
 
     //ammo image
     private BufferedImage ammoImg;
 
-    public HUD(Player p){
+    public HUD(Player player){
 
         //session során nem frissülő adatok
         enemyScoreLabel = "EnemyName() score:";

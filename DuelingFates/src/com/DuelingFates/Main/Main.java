@@ -4,7 +4,7 @@ public class Main {
 
     public static void main(String[] args){
 
-        new MainProcess();                      //MainProces() egy példánya
+        new MainProcess();                      //MainProccess() egy példánya
 
     }
 

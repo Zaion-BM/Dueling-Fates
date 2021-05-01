@@ -10,47 +10,48 @@ import java.awt.image.BufferedImage;
 import java.awt.image.MemoryImageSource;
 import java.io.File;
 
-/*
-TODO list: VALAMIÉRT MOST JÓ, dont ask why
-    1. A MAIN PROCESS() KONSTRUKTORBAN KELL ELENŐRIZNI, hogy a fájlok beolvashatók-e
-    Mert az állapotgép konstruktorában nem tudunk fájlt beolvasni crash nélkül
-    Hogy pontosan miért, azt még nem sikerült kiderítenem --- FIXED!, de hogy miért??? : volatile,
-    meg a swing kirajzolás a whileloopban előbb van??
-    2. Ha a duelingFates static lenne, akkor az egyes állapotokban csak a JLayerPanet kellene
-    mindig frissíteni, és továbbadni. Memória és egyszerűség, majd a végén érdemes frissíteni
-*/
+//TODO list:
+// 1. Ha a duelingFates static lenne, akkor az egyes állapotokban csak a JLayerPanet kellene
+// mindig frissíteni, és továbbadni
 
 public class MainProcess extends JPanel implements Runnable{
 
-    JFrame duelingFates;                                                            //Frame amiben fut az alkalmazás
-    JLayeredPane layeredPane;                                                       //dimenzióval rendelkező ContentPane változat, amin elhelyezzük a Swing elemeket
-    ImageIcon GameLogo;
+    private final JFrame duelingFates;                                              //Frame amiben fut az alkalmazás
+    private final JLayeredPane layeredPane;                                         //dimenzióval rendelkező ContentPane változat, amin elhelyezzük a Swing elemeket
 
-    //állapotgép melyen keresztül az állapotokat elérjük, volatile mert a while gameloop egy része volt hogy nem futott le (? miért?, mert nem változott?)
+    //állapotgép melyen keresztül az állapotokat elérjük: volatile mert a while gameloop egy része néha nem futott le
+    //valószínűleg a feltétel ellenőrzése miatt, mely a swing menük miatt szükséges
     volatile private StateManager stateManager;
 
     private static final int gameWidth = 1920;
     private static final int gameHeight = 1080;
-    public final int FPS = 60;                                                      // 1/60 = 16.67 millisec
-    public boolean gameIsRunning = false;
 
-    public static BufferedImage gameWindow;                                         //amire rajzolunk a Frame-en belül GAMEPLAYSTATE-ben
-    public static Graphics2D graphics;                                              //amit kirajzolunk a gameWindow-ra
-    public Image cursorImage;
+    @SuppressWarnings("FieldCanBeLocal")
+    private final int FPS = 60;                                                     // 1/60 = 16.67 millisec
+    @SuppressWarnings("FieldCanBeLocal")
+    private boolean gameIsRunning = false;
+
+    private static BufferedImage gameWindow;                                        //amire rajzolunk a Frame-en belül GAMEPLAYSTATE-ben
+    @SuppressWarnings("FieldCanBeLocal")
+    private static Graphics2D graphics;                                             //amit kirajzolunk a gameWindow-ra
+    private Image cursorImage;
 
     public static Cursor gameCursor;                                                //egyedi cursor
     public static Cursor hiddenCursor;                                              //GamePlay esetén elrejtjük
     public static Font BalooThambiFont;                                             //egyedi font
-    public static Font BalooThambiFontSmall;                                             //egyedi font a playerName miatt
+    public static Font BalooThambiFontSmall;                                        //egyedi font a playerName miatt
 
     public MainProcess(){
 
         duelingFates = new JFrame("DuelingFates");
         layeredPane = new JLayeredPane();
+        ImageIcon GameLogo;
         String fontLocation = "DuelingFates/Sources/Font/BalooThambi-Regular.ttf";
 
-        //Frame beállítása, Image beolvasása és static változók létrehozása
+        //Frame beállítása, Image beolvasások és static változók létrehozása
         try {
+
+            //TODO JAR fájl itt errort dob...még meg kell oldani
             cursorImage = ImageIO.read(new File("DuelingFates/Sources/gui_Spike.png"));
             GameLogo = new ImageIcon("DuelingFates/Sources/logoicon_DuelingFatesDF.png");                       //Frame logo betöltése
             duelingFates.setIconImage(GameLogo.getImage());                                                             //Icon beállítása - csak Image lehet az argumentum, ezért kell getImage()
@@ -86,7 +87,6 @@ public class MainProcess extends JPanel implements Runnable{
 
     }
 
-
     public static int getGameHeight(){
 
         return gameHeight;
@@ -100,10 +100,12 @@ public class MainProcess extends JPanel implements Runnable{
 
     }
 
+    //TODO join thread? Le kell állítani a threadet?
+
     //Runnable miatt automatikusan meghívódik
     public void run(){
 
-        /**   elvileg itt lesz a networking run() meghívás   **/
+        //TODO elvileg itt lesz a networking run() meghívása
         gameWindow = new BufferedImage(getGameWidth(),getGameHeight(),BufferedImage.TYPE_INT_RGB);    //a kép melyre rajzolunk
         graphics = gameWindow.createGraphics();                                             //grafika amit kirajzolunk
         gameIsRunning = true;

@@ -1,6 +1,5 @@
 package com.DuelingFates.GameState;
 
-import com.DuelingFates.HUDs.EscapeMenu;
 import com.DuelingFates.Main.MainProcess;
 import com.DuelingFates.TileMap.TileMap;
 
@@ -16,7 +15,10 @@ public class GamePlayState extends GameState implements KeyListener {
 
     private BufferedImage background;
     private TileMap tileMap;
+    @SuppressWarnings("FieldCanBeLocal")
     private final int tileSize = 64;
+
+    //private final EscapeMenu escapeMenu = new EscapeMenu();
 
     private boolean escapePressed = false;
 
@@ -54,8 +56,8 @@ public class GamePlayState extends GameState implements KeyListener {
         tileMap.draw(graphics);
         //System.out.println("Game graphics has been updated!");
 
-        /***TO TEST ESCAPE MENU**/
-        //EscapeMenu.draw(graphics);
+        //TODO Escape Menu ESC lenyomásának érzékelése Keylistenerrel
+        //escapeMenu.draw(graphics);
 
     }
 

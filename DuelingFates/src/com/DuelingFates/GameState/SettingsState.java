@@ -142,8 +142,6 @@ public class SettingsState extends GameState implements ActionListener, MouseLis
 
         if(e.getSource() == buttonSave) {
 
-            System.out.println(playerName.getText());
-
             if(pirateJRadioButton.isSelected()){
 
                 selectedChar = pirateJRadioButton.getName();

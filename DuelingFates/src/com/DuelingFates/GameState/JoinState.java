@@ -85,11 +85,11 @@ public class JoinState extends GameState implements ActionListener, MouseListene
         duelingFates.pack();
         duelingFates.setVisible(true);
 
-        buttonBack.setBounds((int)(MainProcess.getGameWidth()*0.05), (int)(MainProcess.getGameHeight()*0.86), 200,50);
+        buttonBack.setBounds((int)(MainProcess.getGameWidth()*0.05), (int)(MainProcess.getGameHeight()*0.89), 200,50);
         buttonBack.addActionListener(this);
         buttonBack.addMouseListener(this);
 
-        buttonJoin.setBounds((int)(MainProcess.getGameWidth()*0.95)-200, (int)(MainProcess.getGameHeight()*0.86), 200,50);
+        buttonJoin.setBounds((int)(MainProcess.getGameWidth()*0.95)-200, (int)(MainProcess.getGameHeight()*0.89), 200,50);
         buttonJoin.setForeground(Color.green);
         buttonJoin.addActionListener(this);
         buttonJoin.addMouseListener(this);

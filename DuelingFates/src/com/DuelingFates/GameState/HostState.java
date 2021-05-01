@@ -76,7 +76,7 @@ public class HostState extends GameState implements ActionListener, MouseListene
         mapSelectionLabel.setHorizontalAlignment(SwingConstants.CENTER);
         mapSelectionLabel.setText("Select map");
         mapSelectionLabel.setForeground(Color.WHITE);
-        mapSelectionLabel.setBounds(MainProcess.getGameWidth()/2-150,(int)(MainProcess.getGameHeight()*0.20),300,50);
+        mapSelectionLabel.setBounds(MainProcess.getGameWidth()/2-150,(int)(MainProcess.getGameHeight()*0.20),300,52);
 
         mapCloudyForest.setIcon(cloudyForestImg);
         mapCloudyForest.setName("CloudyForest");
@@ -147,11 +147,11 @@ public class HostState extends GameState implements ActionListener, MouseListene
         duelingFates.pack();
         duelingFates.setVisible(true);
 
-        buttonBack.setBounds((int)(MainProcess.getGameWidth()*0.05), (int)(MainProcess.getGameHeight()*0.86), 200,50);
+        buttonBack.setBounds((int)(MainProcess.getGameWidth()*0.05), (int)(MainProcess.getGameHeight()*0.89), 200,50);
         buttonBack.addActionListener(this);
         buttonBack.addMouseListener(this);
 
-        buttonStart.setBounds((int)(MainProcess.getGameWidth()*0.95)-200, (int)(MainProcess.getGameHeight()*0.86), 200,50);
+        buttonStart.setBounds((int)(MainProcess.getGameWidth()*0.95)-200, (int)(MainProcess.getGameHeight()*0.89), 200,50);
         buttonStart.setForeground(Color.green);
         buttonStart.addActionListener(this);
         buttonStart.addMouseListener(this);

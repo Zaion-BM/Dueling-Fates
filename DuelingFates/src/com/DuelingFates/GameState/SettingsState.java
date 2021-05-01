@@ -84,7 +84,7 @@ public class SettingsState extends GameState implements ActionListener, MouseLis
         playerNameLabel.setFont(MainProcess.BalooThambiFont);
         playerNameLabel.setText("Player name:");
         playerNameLabel.setForeground(Color.WHITE);
-        playerNameLabel.setBounds(MainProcess.getGameWidth()/2-370,(int)(MainProcess.getGameHeight()*0.32),350,50);
+        playerNameLabel.setBounds(MainProcess.getGameWidth()/2-370,(int)(MainProcess.getGameHeight()*0.32),350,52);
 
         characterSelectionLabel.setFont(MainProcess.BalooThambiFont);
         characterSelectionLabel.setText("Select character");
@@ -125,11 +125,11 @@ public class SettingsState extends GameState implements ActionListener, MouseLis
         duelingFates.pack();
         duelingFates.setVisible(true);
 
-        buttonBack.setBounds((int)(MainProcess.getGameWidth()*0.05), (int)(MainProcess.getGameHeight()*0.86), 200,50);
+        buttonBack.setBounds((int)(MainProcess.getGameWidth()*0.05), (int)(MainProcess.getGameHeight()*0.89), 200,50);
         buttonBack.addActionListener(this);
         buttonBack.addMouseListener(this);
 
-        buttonSave.setBounds((int)(MainProcess.getGameWidth()*0.95)-200, (int)(MainProcess.getGameHeight()*0.86), 200,50);
+        buttonSave.setBounds((int)(MainProcess.getGameWidth()*0.95)-200, (int)(MainProcess.getGameHeight()*0.89), 200,50);
         buttonSave.addActionListener(this);
         buttonSave.addMouseListener(this);
 

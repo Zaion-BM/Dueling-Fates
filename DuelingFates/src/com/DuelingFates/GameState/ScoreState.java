@@ -103,12 +103,12 @@ public class ScoreState extends GameState implements MouseListener, ActionListen
         player1Label.setHorizontalAlignment(SwingConstants.CENTER);
         player1Label.setFont(MainProcess.BalooThambiFont);
         player1Label.setForeground(Color.BLACK);
-        player1Label.setBounds((MainProcess.getGameWidth()/2)-370, (int)(MainProcess.getGameHeight()*0.43),700,60);
+        player1Label.setBounds((MainProcess.getGameWidth()/2)-370, (int)(MainProcess.getGameHeight()*0.49),700,60);
 
         player2Label.setHorizontalAlignment(SwingConstants.CENTER);
         player2Label.setFont(MainProcess.BalooThambiFont);
         player2Label.setForeground(Color.BLACK);
-        player2Label.setBounds((MainProcess.getGameWidth()/2)-370, (int)(MainProcess.getGameHeight()*0.50),700,60);
+        player2Label.setBounds((MainProcess.getGameWidth()/2)-370, (int)(MainProcess.getGameHeight()*0.56),700,60);
 
 
         layeredPane.setBounds(0,0, MainProcess.getGameWidth(), MainProcess.getGameHeight());
@@ -130,15 +130,15 @@ public class ScoreState extends GameState implements MouseListener, ActionListen
         duelingFates.pack();
         duelingFates.setVisible(true);
 
-        buttonQuitToMenu.setBounds((int)(MainProcess.getGameWidth()*0.05), (int)(MainProcess.getGameHeight()*0.90), 370,50);
+        buttonQuitToMenu.setBounds((int)(MainProcess.getGameWidth()*0.05), (int)(MainProcess.getGameHeight()*0.91), 370,50);
         buttonQuitToMenu.addActionListener(this);
         buttonQuitToMenu.addMouseListener(this);
 
-        buttonSaveToFile.setBounds((int)(MainProcess.getGameWidth()*0.5-165), (int)(MainProcess.getGameHeight()*0.90), 350,50);
+        buttonSaveToFile.setBounds((int)(MainProcess.getGameWidth()*0.5-165), (int)(MainProcess.getGameHeight()*0.91), 350,50);
         buttonSaveToFile.addActionListener(this);
         buttonSaveToFile.addMouseListener(this);
 
-        buttonRematch.setBounds((int)(MainProcess.getGameWidth()*0.91)-200, (int)(MainProcess.getGameHeight()*0.90), 300,50);
+        buttonRematch.setBounds((int)(MainProcess.getGameWidth()*0.91)-200, (int)(MainProcess.getGameHeight()*0.91), 300,50);
         buttonRematch.setForeground(Color.green);
         buttonRematch.addActionListener(this);
         buttonRematch.addMouseListener(this);

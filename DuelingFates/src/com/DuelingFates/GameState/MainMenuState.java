@@ -54,7 +54,7 @@ public class MainMenuState extends GameState implements ActionListener, MouseLis
 
         layeredPane.removeAll();
         backgroundLabel.setBounds(0,0,background.getIconWidth(), background.getIconHeight());
-        logoImageLabel.setBounds((int)(MainProcess.getGameWidth()*-0.055),(int)(MainProcess.getGameHeight()*0.76),logoImage.getIconWidth()/2, logoImage.getIconHeight()/2);
+        logoImageLabel.setBounds((int)(MainProcess.getGameWidth()*-0.055),(int)(MainProcess.getGameHeight()*0.775),logoImage.getIconWidth()/2, logoImage.getIconHeight()/2);
 
         setButtonStyle(buttonJoin);
         setButtonStyle(buttonHost);
@@ -87,7 +87,7 @@ public class MainMenuState extends GameState implements ActionListener, MouseLis
         buttonHost.addActionListener(this);
         buttonHost.addMouseListener(this);
 
-        buttonSettings.setBounds((MainProcess.getGameWidth()/2)-150, (int)(MainProcess.getGameHeight()*0.46), 300,50);
+        buttonSettings.setBounds((MainProcess.getGameWidth()/2)-150, (int)(MainProcess.getGameHeight()*0.46), 300,53);
         buttonSettings.addActionListener(this);
         buttonSettings.addMouseListener(this);
 

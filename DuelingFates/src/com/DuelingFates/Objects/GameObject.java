@@ -5,9 +5,6 @@ import com.DuelingFates.TileMap.TileMap;
 public abstract class GameObject {
 
     //a leszármazottakban elérjük, ha protected
-    //protected String objectName;
-    //protected enum objectAppearance{};
-
     protected int tileWidth;
     protected int tileHeight;
 
@@ -18,6 +15,10 @@ public abstract class GameObject {
     protected float posY;
     protected float deltaPosX;
     protected float deltaPosY;
+
+    //elvielg kellene egy temp változó is, hogy csak szinkronizáltan update során frissítsük a karaktert és ne kétszer.
+    protected float tempPosX;
+    protected float tempPosY;
 
     protected TileMap tileMap;
 

@@ -1,7 +1,12 @@
 package com.DuelingFates.GameState;
 
+import com.DuelingFates.HUDs.EscapeMenu;
 import com.DuelingFates.Main.MainProcess;
+import com.DuelingFates.Objects.InputHandler;
+import com.DuelingFates.Objects.Player;
+import com.DuelingFates.Objects.Projectile;
 import com.DuelingFates.TileMap.TileMap;
+
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -10,6 +15,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.ArrayList;
+
 
 public class GamePlayState extends GameState implements KeyListener {
 
@@ -18,9 +25,18 @@ public class GamePlayState extends GameState implements KeyListener {
     @SuppressWarnings("FieldCanBeLocal")
     private final int tileSize = 64;
 
-    //private final EscapeMenu escapeMenu = new EscapeMenu();
+    private Player hostPlayer;
+    private Player clientPlayer;
 
-    private boolean escapePressed = false;
+    //egyellőre külön kezeljük, mert a threadelés nem syncronizált alapból
+    private ArrayList<Projectile> hostBullets;
+    private ArrayList<Projectile> clientBullets;
+
+
+    private final EscapeMenu escapeMenu = new EscapeMenu();
+
+    public boolean escapePressed = false;
+    public boolean escapeBefore = false;
 
     public GamePlayState(StateManager stateManager){
 
@@ -34,6 +50,7 @@ public class GamePlayState extends GameState implements KeyListener {
     @Override
     public void initialization() {
 
+        //TODO load different maps ha működik egy darab
         tileMap = new TileMap(tileSize);
 
         try {
@@ -47,6 +64,11 @@ public class GamePlayState extends GameState implements KeyListener {
         tileMap.loadTilesFormFiles("DuelingFates/Sources/Tiles_Blue/");
         tileMap.loadTilesToMap("DuelingFates/Sources/Maps/CloudyForest.txt");
 
+
+        //TODO player location setter, egy külön metódusban, melyet egy játékos halálakor majd szintén meghívunk
+        //TODO start timer, ami lehet metódus, itt végtelen ciklusban várunk a kliens csatlakozására és utána indul a meccs
+        //TODO projectile tömb létrehozása
+
     }
 
     @Override
@@ -56,22 +78,36 @@ public class GamePlayState extends GameState implements KeyListener {
         tileMap.draw(graphics);
         //System.out.println("Game graphics has been updated!");
 
-        //TODO Escape Menu ESC lenyomásának érzékelése Keylistenerrel
-        //escapeMenu.draw(graphics);
+        if (escapePressed) {
+            escapeMenu.draw(graphics);
+            escapeBefore = true;            //engedélyezzük az eltüntetés lehetőségét
+        }
+
+        //TODO projectile, kirajzolás for ciklussal, arraylisten végiglépkedünk
+        //TODO Objectrenderer meghívása amiben a kirajzolást definiáltuk
 
     }
 
     @Override
     public void update() {
 
-        //inputkezelés
+
+        //TODO inputkezelés, kérdés, hogy állapotgépesen, vagy adott keyboard lenyomása esetén x-et lépünk
+        //TODO player mozgás, projectile update for ciklusban, ha már nem releváns, akkor helyére NULL
+        // ha intersects vagyis érintkezik valamivel és ha nincs a mapon,
 
         //System.out.println("Game has been updated!");
 
     }
 
+
+    //TODO match start, match finish, player death esemény,
+    //TODO ezenkívűl itemek és fegyverek spawnolása
+
     @Override
     public void updateSwingUI(JFrame duelingFates,JLayeredPane layeredPane) {
+
+        duelingFates.addKeyListener(new InputHandler(this));        //Listener a keyboard érzékeléséért
 
         layeredPane.removeAll();                                                //GamePlay-nél nincs szükség a Swing elemekre
         duelingFates.setCursor(MainProcess.hiddenCursor);
@@ -81,30 +117,40 @@ public class GamePlayState extends GameState implements KeyListener {
     }
 
 
-    @Override
     public void keyTyped(KeyEvent e) {
 
     }
 
-    @Override
     public void keyPressed(KeyEvent e) {
 
-        System.out.println("Escape Pressed");
-        if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+        int key = e.getKeyCode();
+
+        //ha épp nincs kirajzolva és ESC-et nyomtak
+        if (key == KeyEvent.VK_ESCAPE & !escapeBefore) {
 
             escapePressed = true;
 
         }
-        if(e.getKeyCode() == KeyEvent.VK_ESCAPE & escapePressed){
+
+        //ha épp ki van rajzolva akkor vissza az alap állapotba és elrejtés
+        if(key == KeyEvent.VK_ESCAPE & escapeBefore) {
 
             escapePressed = false;
+            escapeBefore = false;
 
         }
-
     }
 
-    @Override
     public void keyReleased(KeyEvent e) {
+
+        int key = e.getKeyCode();
+
+        //Enter esetén kilépünk
+        if(key ==KeyEvent.VK_ENTER & escapeBefore){
+
+            stateManager.setState(StateManager.States.MAINMENUSTATE);
+
+        }
 
     }
 }

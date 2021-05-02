@@ -1,6 +1,7 @@
 package com.DuelingFates.GameState;
 
 import com.DuelingFates.Main.MainProcess;
+import com.DuelingFates.Objects.Player;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,12 +27,12 @@ public class SettingsState extends GameState implements ActionListener, MouseLis
     //JRadioButton images beolvasása: default és selected állapot
     private final ImageIcon pirateSelectedImg = new ImageIcon("DuelingFates/Sources/char_PirateDeckhand/PirateDeckhand_jumpingAndFalling3x.png");
     private final ImageIcon pirateImg = new ImageIcon("DuelingFates/Sources/char_PirateDeckhand/PirateDeckhand_standing3x.png");
-    private final ImageIcon knightSelectedImg = new ImageIcon("DuelingFates/Sources/char_PossessedArmor/PossessedArmor_jumpingAndFalling3x.png");
-    private final ImageIcon knightImg = new ImageIcon("DuelingFates/Sources/char_PossessedArmor/PossessedArmor_standing3x.png");
+    private final ImageIcon possessedSelectedImg = new ImageIcon("DuelingFates/Sources/char_PossessedArmor/PossessedArmor_jumpingAndFalling3x.png");
+    private final ImageIcon possessedImg = new ImageIcon("DuelingFates/Sources/char_PossessedArmor/PossessedArmor_standing3x.png");
 
     //JRadioButtons
     private final JRadioButton pirateJRadioButton = new JRadioButton(pirateImg);
-    private final JRadioButton knightJRadioButton = new JRadioButton(knightImg);
+    private final JRadioButton possessedJRadioButton = new JRadioButton(possessedImg);
 
     //ButtonGroup és a hozzá tartozó label
     private final ButtonGroup characterSelection = new ButtonGroup();
@@ -77,7 +78,7 @@ public class SettingsState extends GameState implements ActionListener, MouseLis
         playerName.setForeground(Color.WHITE);
         playerName.setCaretColor(Color.WHITE);
         playerName.setBorder(BorderFactory.createLineBorder(Color.BLACK,2));
-        playerName.setText("Knight Rider");
+        playerName.setText(MainProcess.getPlayerNameTemp());
         playerName.setHorizontalAlignment(SwingConstants.CENTER);
         playerName.setBounds(MainProcess.getGameWidth()/2+75,(int)(MainProcess.getGameHeight()*0.30),400,80);
 
@@ -99,18 +100,19 @@ public class SettingsState extends GameState implements ActionListener, MouseLis
         pirateJRadioButton.setOpaque(false);
         pirateJRadioButton.setSelectedIcon(pirateSelectedImg);
 
-        knightJRadioButton.setIcon(knightImg);
-        knightJRadioButton.setName("PossessedArmor");
-        knightJRadioButton.addActionListener(this);
-        characterSelection.add(knightJRadioButton);
-        knightJRadioButton.setBounds((int)(MainProcess.getGameWidth()*0.43),(int)(MainProcess.getGameHeight()*0.5),knightImg.getIconWidth(),knightImg.getIconHeight());
-        knightJRadioButton.setOpaque(false);
-        knightJRadioButton.setSelectedIcon(knightSelectedImg);
+        possessedJRadioButton.setIcon(possessedImg);
+        possessedJRadioButton.setName("PossessedArmor");
+        possessedJRadioButton.addActionListener(this);
+        characterSelection.add(possessedJRadioButton);
+        possessedJRadioButton.setBounds((int)(MainProcess.getGameWidth()*0.43),(int)(MainProcess.getGameHeight()*0.5),possessedImg.getIconWidth(),possessedImg.getIconHeight());
+        possessedJRadioButton.setOpaque(false);
+        possessedJRadioButton.setSelectedIcon(possessedSelectedImg);
+
 
         layeredPane.setBounds(0,0, MainProcess.getGameWidth(), MainProcess.getGameHeight());
         layeredPane.add(backgroundLabel, JLayeredPane.DEFAULT_LAYER);
         layeredPane.add(characterSelectionLabel,JLayeredPane.POPUP_LAYER);
-        layeredPane.add(knightJRadioButton,JLayeredPane.POPUP_LAYER);
+        layeredPane.add(possessedJRadioButton,JLayeredPane.POPUP_LAYER);
         layeredPane.add(pirateJRadioButton,JLayeredPane.POPUP_LAYER);
         layeredPane.add(playerNameLabel, JLayeredPane.POPUP_LAYER);
         layeredPane.add(playerName, JLayeredPane.POPUP_LAYER);
@@ -135,6 +137,7 @@ public class SettingsState extends GameState implements ActionListener, MouseLis
 
         duelingFates.repaint();
         StateManager.setStateChangedFalse();
+        System.out.println(MainProcess.getCharacterTemp());
     }
 
     @Override
@@ -147,13 +150,19 @@ public class SettingsState extends GameState implements ActionListener, MouseLis
                 selectedChar = pirateJRadioButton.getName();
 
             }
-            else if(knightJRadioButton.isSelected()){
+            else if(possessedJRadioButton.isSelected()){
 
-                selectedChar = knightJRadioButton.getName();
+                selectedChar = possessedJRadioButton.getName();
 
             }
-            System.out.println(selectedChar);
+            else if (!pirateJRadioButton.isSelected() & !possessedJRadioButton.isSelected()){            //ha egyik sincs kiválasztva
+
+                selectedChar = MainProcess.getCharacterTemp();
+
+            }
             stateManager.setState(StateManager.States.MAINMENUSTATE);
+            MainProcess.setPlayerNameTemp(playerName.getText());
+            MainProcess.setCharacterTemp(selectedChar);
 
         }
 

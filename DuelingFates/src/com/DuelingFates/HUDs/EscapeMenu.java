@@ -1,5 +1,6 @@
 package com.DuelingFates.HUDs;
 
+import com.DuelingFates.GameState.GamePlayState;
 import com.DuelingFates.Main.MainProcess;
 
 import java.awt.*;
@@ -60,6 +61,7 @@ public class EscapeMenu{
         graphics.drawString(optionNo, (int)(MainProcess.getGameWidth()*0.32),MainProcess.getGameHeight()/2+(int)(MainProcess.getGameHeight()*0.09));
         graphics.setColor(new Color(34,139,34));
         graphics.drawString(optionYes,(int)(MainProcess.getGameWidth()*0.52),MainProcess.getGameHeight()/2+(int)(MainProcess.getGameHeight()*0.09));
+
 
     }
 

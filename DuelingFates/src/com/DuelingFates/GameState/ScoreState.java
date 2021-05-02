@@ -88,7 +88,7 @@ public class ScoreState extends GameState implements MouseListener, ActionListen
         winnerLabel.setForeground(Color.WHITE);
         winnerLabel.setBounds((MainProcess.getGameWidth()/2)-370, (int)(MainProcess.getGameHeight()*0.13),700,70);
 
-        JLabel winnerName = new JLabel("getPlayer()");
+        JLabel winnerName = new JLabel("getWinnerPlayer()");
         winnerName.setFont(new Font("Arial Black",Font.BOLD, 60));
         winnerName.setHorizontalAlignment(SwingConstants.CENTER);
         winnerName.setForeground(MainMenuState.darkYellow);

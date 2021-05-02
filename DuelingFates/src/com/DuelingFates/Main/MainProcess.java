@@ -1,11 +1,14 @@
 package com.DuelingFates.Main;
 
 import com.DuelingFates.GameState.StateManager;
+import com.DuelingFates.Objects.InputHandler;
+import com.DuelingFates.Objects.Player;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.awt.image.MemoryImageSource;
 import java.io.File;
@@ -40,6 +43,10 @@ public class MainProcess extends JPanel implements Runnable{
     public static Cursor hiddenCursor;                                              //GamePlay esetén elrejtjük
     public static Font BalooThambiFont;                                             //egyedi font
     public static Font BalooThambiFontSmall;                                        //egyedi font a playerName miatt
+
+    public static String playerNameTemp;                                            //játékos neve kezdetben
+    public static String characterTemp;                                             //kiválasztott karakter kezdetben
+
 
     public MainProcess(){
 
@@ -78,7 +85,41 @@ public class MainProcess extends JPanel implements Runnable{
         duelingFates.setSize(new Dimension(getGameWidth(), getGameHeight()));                 //méret megadása, csak Dimension típust értelmez
         duelingFates.setLocationRelativeTo(null);                                             //null: az ablak a képernyőn közepén lesz, focust alapértelmezetten kap
 
+        setPlayerDeafults();
         startThread();
+    }
+
+    private void setPlayerDeafults(){
+
+        playerNameTemp ="Player";                                                             //Default név beállítása
+        characterTemp = "PirateDeckhand";                                                     //Default karakter beállítása
+        //TODO map duration default 2 min
+        //TODO selected default map
+
+    }
+
+    public static String getPlayerNameTemp(){
+
+        return playerNameTemp;
+
+    }
+
+    public static void setPlayerNameTemp(String newPlayerNameTemp){
+
+        playerNameTemp = newPlayerNameTemp;
+
+    }
+
+    public static String getCharacterTemp(){
+
+        return characterTemp;
+
+    }
+
+    public static void setCharacterTemp(String newCharacterTemp){
+
+        characterTemp = newCharacterTemp;
+
     }
 
     public static int getGameWidth(){
@@ -166,4 +207,16 @@ public class MainProcess extends JPanel implements Runnable{
 
     }
 
+    public void keyTyped(KeyEvent e) {
+    }
+
+    public void keyPressed(KeyEvent e) {
+        int key = e.getKeyCode();
+        if (key ==KeyEvent.VK_ESCAPE) {
+            System.out.println(key);
+        }
+    }
+
+    public void keyReleased(KeyEvent e) {
+    }
 }

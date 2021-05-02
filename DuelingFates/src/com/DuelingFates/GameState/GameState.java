@@ -2,6 +2,7 @@ package com.DuelingFates.GameState;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyListener;
 
 public abstract class GameState{
 

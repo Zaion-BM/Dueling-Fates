@@ -78,6 +78,9 @@ public class MainMenuState extends GameState implements ActionListener, MouseLis
         duelingFates.setResizable(false);
         duelingFates.pack();
         duelingFates.setVisible(true);
+        duelingFates.setFocusable(true);
+        duelingFates.requestFocus();
+        duelingFates.requestFocusInWindow();
 
         buttonJoin.setBounds((MainProcess.getGameWidth()/2)-100, (int)(MainProcess.getGameHeight()*0.32), 200,50);
         buttonJoin.addActionListener(this);

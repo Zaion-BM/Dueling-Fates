@@ -57,7 +57,7 @@ public class JoinState extends GameState implements ActionListener, MouseListene
         MainMenuState.setButtonStyle(buttonBack);
 
         inputServerAddress.setBackground(Color.darkGray);
-        inputServerAddress.setFont(MainProcess.BalooThambiFont);
+        inputServerAddress.setFont(MainProcess.balooThambiFont);
         inputServerAddress.setForeground(Color.WHITE);
         inputServerAddress.setCaretColor(Color.WHITE);
         inputServerAddress.setBorder(BorderFactory.createLineBorder(Color.BLACK,2));
@@ -65,7 +65,7 @@ public class JoinState extends GameState implements ActionListener, MouseListene
         inputServerAddress.setHorizontalAlignment(SwingConstants.CENTER);
         inputServerAddress.setBounds(MainProcess.getGameWidth()/2+75,(int)(MainProcess.getGameHeight()*0.30),400,80);
 
-        inputServerAddressLabel.setFont(MainProcess.BalooThambiFont);
+        inputServerAddressLabel.setFont(MainProcess.balooThambiFont);
         inputServerAddressLabel.setText("IP Address:");
         inputServerAddressLabel.setForeground(Color.WHITE);
         inputServerAddressLabel.setBounds(MainProcess.getGameWidth()/2-325,(int)(MainProcess.getGameHeight()*0.32),300,50);

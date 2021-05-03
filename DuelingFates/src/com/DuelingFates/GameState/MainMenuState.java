@@ -143,7 +143,7 @@ public class MainMenuState extends GameState implements ActionListener, MouseLis
         button.setBorderPainted(false);
         button.setFocusPainted(false);
         button.setContentAreaFilled(false);
-        button.setFont(MainProcess.BalooThambiFont);
+        button.setFont(MainProcess.balooThambiFont);
         button.setForeground(Color.WHITE);
 
     }

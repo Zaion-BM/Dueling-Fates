@@ -36,8 +36,8 @@ public class HUD {
     public HUD(Player player){
 
         //session során nem frissülő adatok
-        enemyScoreLabel = "EnemyName() score:";
-        playerNameUI = "getPlayerName()";
+        enemyScoreLabel = "getEnemyName()";
+        playerNameUI = "getPlayerNamer";    //NEM KELL SZERINTEM
         enemyNameUI = "getEnemyName()";
 
         try{
@@ -55,48 +55,66 @@ public class HUD {
     public void draw(Graphics2D graphics){
 
         //frissülő adatok lekérdezése
-        timerValue = "getTimerValue()";
+        timerValue = "2:30s";
 
-        playerScoreUI = "getPlayerScore()";
-        playerAmmoUI = "getPlayerAmmo()";
+        playerScoreUI = "250 pts";
+        playerAmmoUI = "11";
 
-        enemyScoreUI = "getEnemyScore()";
+        enemyScoreUI = "140pts";
 
         graphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
 
-        graphics.drawImage(ammoImg,(int)(MainProcess.getGameWidth()*0.05),(int)(MainProcess.getGameHeight()*0.90),ammoImg.getWidth(),ammoImg.getHeight(),null);
-        graphics.setFont(MainProcess.BalooThambiFont);
+        graphics.drawImage(ammoImg,(int)(MainProcess.getGameWidth()*0.01),(int)(MainProcess.getGameHeight()*0.86),ammoImg.getWidth(),ammoImg.getHeight(),null);
+        graphics.setFont(MainProcess.balooThambiFontSmall);
         graphics.setColor(MainMenuState.darkYellow);
-        graphics.drawString(playerAmmoUI,(int)(MainProcess.getGameWidth()*0.10),(int)(MainProcess.getGameHeight()*0.90));
-        graphics.drawString(playerScoreLabel,(int)(MainProcess.getGameWidth()*0.05),(int)(MainProcess.getGameHeight()*0.05));
-        graphics.drawString(playerScoreUI,(int)(MainProcess.getGameWidth()*0.25),(int)(MainProcess.getGameHeight()*0.05));
-
-        graphics.setColor(Color.white);
-        graphics.drawString(enemyScoreLabel,(int)(MainProcess.getGameWidth()*0.05),(int)(MainProcess.getGameHeight()*0.11));
-        graphics.drawString(enemyScoreUI,(int)(MainProcess.getGameWidth()*0.25),(int)(MainProcess.getGameHeight()*0.05));
+        graphics.drawString(playerScoreLabel,(int)(MainProcess.getGameWidth()*0.01),(int)(MainProcess.getGameHeight()*0.04));
+        graphics.drawString(playerScoreUI,(int)(MainProcess.getGameWidth()*0.20),(int)(MainProcess.getGameHeight()*0.04));
 
         graphics.setColor(Color.WHITE);
-        graphics.drawString(timerValue,(int)(MainProcess.getGameWidth()*0.05),(int)(MainProcess.getGameHeight()*0.95));
+        graphics.drawString(enemyScoreLabel,(int)(MainProcess.getGameWidth()*0.01),(int)(MainProcess.getGameHeight()*0.08));
+        graphics.drawString(enemyScoreUI,(int)(MainProcess.getGameWidth()*0.20),(int)(MainProcess.getGameHeight()*0.08));
+
+        graphics.setFont(MainProcess.balooThambiFont);
+        graphics.drawString(timerValue,(int)(MainProcess.getGameWidth()*0.92),(int)(MainProcess.getGameHeight()*0.05));
+
+        graphics.setColor(MainMenuState.darkYellow);
+        graphics.setFont(MainProcess.balooThambiFontBig);
+        graphics.drawString(playerAmmoUI,(int)(MainProcess.getGameWidth()*0.05),(int)(MainProcess.getGameHeight()*0.97));
+
+
+        graphics.setColor(MainMenuState.darkRed);
+        graphics.fillRect((int)(MainProcess.getGameWidth()*0.3), (int)(MainProcess.getGameHeight()*0.5),50, 12);
+
+        graphics.setColor(Color.BLACK);
+        float borderSize = 2;
+        graphics.setStroke(new BasicStroke(borderSize));
+        graphics.drawRect((int)(MainProcess.getGameWidth()*0.3), (int)(MainProcess.getGameHeight()*0.5),150, 12);
+
 
         //Player adatok
-        /**graphics.drawString(playerNameUI,(int)getPlayerPositionX(), (int)getPlayerPositionY()-80);
+        /**graphics.drawString(playerNameUI,(int)(getPlayerPositionX()), (int)(getPlayerPositionY())-80);
 
          graphics.setColor(MainMenuState.darkRed);
-         graphics.fillRect(getPlayerHP(), 40, (int)getPlayerPositionX(), (int)getPlayerPositionY-50());
+         graphics.fillRect((int)(getPlayerPositionX()), (int)(getPlayerPositionY())-50, getPlayerHealth(), 12);
 
          graphics.setColor(Color.BLACK);
-         graphics.drawRect((int)(MainProcess.getGameWidth()*0.06), 40, (int)getPlayerPositionX(), (int)getPlayerPositionY-50());
+         float borderSize = 2;
+         graphics.setStroke(new BasicStroke(borderSize));
+         graphics.drawRect(getPlayerPositionX()), (int)(getPlayerPositionY())-50, 150, 12);
 
          **/
 
         //Enemy adatok
-        /**graphics.drawString(enemyNameUI,(int)getPlayerPositionX(), (int)getPlayerPositionY()-80);
+        /**graphics.drawString(enemyNameUI,(int)(getEnemyPositionX()), (int)(getEnemyPositionY())-80);
 
          graphics.setColor(MainMenuState.darkRed);
-         graphics.fillRect(getPlayerHP(), 40, (int)getPlayerPositionX(), (int)getPlayerPositionY-50());
+         graphics.fillRect((int)(getEnemyPositionX()), (int)(getEnemyPositionY())-50, getEnemyHealth(), 12);
 
          graphics.setColor(Color.BLACK);
-         graphics.drawRect((int)(MainProcess.getGameWidth()*0.06), 40, (int)getPlayerPositionX(), (int)getPlayerPositionY-50());
+         float borderSize = 2;
+         graphics.setStroke(new BasicStroke(borderSize));
+         graphics.drawRect(getEnemyPositionX()), (int)(getEnemyositionY())-50, 150, 12);
+
 
          **/
 

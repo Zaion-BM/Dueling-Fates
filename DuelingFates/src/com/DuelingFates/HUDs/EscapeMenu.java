@@ -53,7 +53,7 @@ public class EscapeMenu{
                                 (int)(MainProcess.getGameHeight()*0.35),40,40);
 
         //szövegek
-        graphics.setFont(MainProcess.BalooThambiFont);
+        graphics.setFont(MainProcess.balooThambiFont);
         graphics.setColor(Color.WHITE);
 
         drawStringToCenter(graphics,escapeMenu,MainProcess.getGameHeight()/2-(int)(MainProcess.getGameHeight()*0.09));

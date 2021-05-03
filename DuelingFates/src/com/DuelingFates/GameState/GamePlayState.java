@@ -1,6 +1,7 @@
 package com.DuelingFates.GameState;
 
 import com.DuelingFates.HUDs.EscapeMenu;
+import com.DuelingFates.HUDs.HUD;
 import com.DuelingFates.Main.MainProcess;
 import com.DuelingFates.Objects.InputHandler;
 import com.DuelingFates.Objects.Player;
@@ -28,10 +29,11 @@ public class GamePlayState extends GameState implements KeyListener {
     private Player hostPlayer;
     private Player clientPlayer;
 
+    private HUD hud;
+
     //egyellőre külön kezeljük, mert a threadelés nem syncronizált alapból
     private ArrayList<Projectile> hostBullets;
     private ArrayList<Projectile> clientBullets;
-
 
     private final EscapeMenu escapeMenu = new EscapeMenu();
 
@@ -92,11 +94,12 @@ public class GamePlayState extends GameState implements KeyListener {
             tileMap.loadTilesToMap("DuelingFates/Sources/Maps/SnowyMountain.txt");
         }
 
-
+        hud = new HUD(hostPlayer);
 
         //TODO player location setter, egy külön metódusban, melyet egy játékos halálakor majd szintén meghívunk
         //TODO start timer, ami lehet metódus, itt végtelen ciklusban várunk a kliens csatlakozására és utána indul a meccs
         //TODO projectile tömb létrehozása
+
 
     }
 
@@ -106,6 +109,8 @@ public class GamePlayState extends GameState implements KeyListener {
         graphics.drawImage(background,0,0, MainProcess.getGameWidth(), MainProcess.getGameHeight(),null);
         tileMap.draw(graphics);
         //System.out.println("Game graphics has been updated!");
+
+        //hud.draw(graphics);
 
         if (escapePressed) {
             escapeMenu.draw(graphics);

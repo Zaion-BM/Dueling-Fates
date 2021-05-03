@@ -101,12 +101,12 @@ public class ScoreState extends GameState implements MouseListener, ActionListen
         player2Label.setText(player2Score);
 
         player1Label.setHorizontalAlignment(SwingConstants.CENTER);
-        player1Label.setFont(MainProcess.BalooThambiFont);
+        player1Label.setFont(MainProcess.balooThambiFont);
         player1Label.setForeground(Color.BLACK);
         player1Label.setBounds((MainProcess.getGameWidth()/2)-370, (int)(MainProcess.getGameHeight()*0.49),700,60);
 
         player2Label.setHorizontalAlignment(SwingConstants.CENTER);
-        player2Label.setFont(MainProcess.BalooThambiFont);
+        player2Label.setFont(MainProcess.balooThambiFont);
         player2Label.setForeground(Color.BLACK);
         player2Label.setBounds((MainProcess.getGameWidth()/2)-370, (int)(MainProcess.getGameHeight()*0.56),700,60);
 

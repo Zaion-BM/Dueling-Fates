@@ -72,7 +72,7 @@ public class HostState extends GameState implements ActionListener, MouseListene
         MainMenuState.setButtonStyle(buttonStart);
         MainMenuState.setButtonStyle(buttonBack);
 
-        mapSelectionLabel.setFont(MainProcess.BalooThambiFont);
+        mapSelectionLabel.setFont(MainProcess.balooThambiFont);
         mapSelectionLabel.setHorizontalAlignment(SwingConstants.CENTER);
         mapSelectionLabel.setText("Select map");
         mapSelectionLabel.setForeground(Color.WHITE);
@@ -123,7 +123,7 @@ public class HostState extends GameState implements ActionListener, MouseListene
         matchDuration.setValue(MainProcess.getMatchDurationTemp());
         matchDuration.setMinimum(1);
 
-        matchDurationLabel.setFont(MainProcess.BalooThambiFont);
+        matchDurationLabel.setFont(MainProcess.balooThambiFont);
         matchDurationLabel.setText("Match duration:");
         matchDurationLabel.setForeground(Color.WHITE);
         matchDurationLabel.setBounds(MainProcess.getGameWidth()/4,(int)(MainProcess.getGameHeight()*0.55),500,50);

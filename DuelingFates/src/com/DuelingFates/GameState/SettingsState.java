@@ -73,8 +73,9 @@ public class SettingsState extends GameState implements ActionListener, MouseLis
         MainMenuState.setButtonStyle(buttonSave);
         MainMenuState.setButtonStyle(buttonBack);
 
+        playerName.setToolTipText("Enter only 16 characters!");
         playerName.setBackground(Color.darkGray);
-        playerName.setFont(MainProcess.BalooThambiFont);
+        playerName.setFont(MainProcess.balooThambiFont);
         playerName.setForeground(Color.WHITE);
         playerName.setCaretColor(Color.WHITE);
         playerName.setBorder(BorderFactory.createLineBorder(Color.BLACK,2));
@@ -82,12 +83,12 @@ public class SettingsState extends GameState implements ActionListener, MouseLis
         playerName.setHorizontalAlignment(SwingConstants.CENTER);
         playerName.setBounds(MainProcess.getGameWidth()/2+75,(int)(MainProcess.getGameHeight()*0.30),400,80);
 
-        playerNameLabel.setFont(MainProcess.BalooThambiFont);
+        playerNameLabel.setFont(MainProcess.balooThambiFont);
         playerNameLabel.setText("Player name:");
         playerNameLabel.setForeground(Color.WHITE);
         playerNameLabel.setBounds(MainProcess.getGameWidth()/2-370,(int)(MainProcess.getGameHeight()*0.32),350,52);
 
-        characterSelectionLabel.setFont(MainProcess.BalooThambiFont);
+        characterSelectionLabel.setFont(MainProcess.balooThambiFont);
         characterSelectionLabel.setText("Select character");
         characterSelectionLabel.setForeground(Color.WHITE);
         characterSelectionLabel.setBounds(MainProcess.getGameWidth()/2-205,(int)(MainProcess.getGameHeight()*0.42),450,50);
@@ -171,7 +172,13 @@ public class SettingsState extends GameState implements ActionListener, MouseLis
 
             }
             stateManager.setState(StateManager.States.MAINMENUSTATE);
-            MainProcess.setPlayerNameTemp(playerName.getText());
+
+            //ha 16 karakternél hosszabb akor nem mentjük el
+            if(playerName.getText().length() <= 16) {
+                MainProcess.setPlayerNameTemp(playerName.getText());
+            }
+
+
             MainProcess.setCharacterTemp(selectedChar);
 
         }

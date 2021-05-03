@@ -41,8 +41,9 @@ public class MainProcess extends JPanel implements Runnable{
 
     public static Cursor gameCursor;                                                //egyedi cursor
     public static Cursor hiddenCursor;                                              //GamePlay esetén elrejtjük
-    public static Font BalooThambiFont;                                             //egyedi font
-    public static Font BalooThambiFontSmall;                                        //egyedi font a playerName miatt
+    public static Font balooThambiFont;                                             //egyedi font
+    public static Font balooThambiFontSmall;                                        //egyedi font a playerName miatt
+    public static Font balooThambiFontBig;                                          //egyedi font az ammo-hoz
 
     //változók melyek a menüben kapnak értéket, de csak a gameplaynél van szükségünnk rá
     public static String playerNameTemp;                                            //játékos neve kezdetben
@@ -67,11 +68,15 @@ public class MainProcess extends JPanel implements Runnable{
 
             GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();                //fontok leírására használt GraphicsEnvironment
 
-            BalooThambiFont = Font.createFont(Font.TRUETYPE_FONT, new File(fontLocation)).deriveFont(55f);              //font létrehozása a Source mappában lévő .ttf-ből
+            balooThambiFont = Font.createFont(Font.TRUETYPE_FONT, new File(fontLocation)).deriveFont(55f);              //font létrehozása a Source mappában lévő .ttf-ből
             graphicsEnvironment.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File(fontLocation)));
 
-            BalooThambiFontSmall = Font.createFont(Font.TRUETYPE_FONT, new File(fontLocation)).deriveFont(35f);
+            balooThambiFontSmall = Font.createFont(Font.TRUETYPE_FONT, new File(fontLocation)).deriveFont(35f);
             graphicsEnvironment.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File(fontLocation)));
+
+            balooThambiFontBig = Font.createFont(Font.TRUETYPE_FONT, new File(fontLocation)).deriveFont(80f);
+            graphicsEnvironment.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File(fontLocation)));
+
         }
         catch (Exception e){
             e.printStackTrace();

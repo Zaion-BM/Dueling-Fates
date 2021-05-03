@@ -44,9 +44,11 @@ public class MainProcess extends JPanel implements Runnable{
     public static Font BalooThambiFont;                                             //egyedi font
     public static Font BalooThambiFontSmall;                                        //egyedi font a playerName miatt
 
+    //változók melyek a menüben kapnak értéket, de csak a gameplaynél van szükségünnk rá
     public static String playerNameTemp;                                            //játékos neve kezdetben
     public static String characterTemp;                                             //kiválasztott karakter kezdetben
-
+    public static String mapTemp;                                                   //map kedzetben
+    public static int matchDurationTemp;                                            //meccs hossza kezdetben
 
     public MainProcess(){
 
@@ -85,16 +87,16 @@ public class MainProcess extends JPanel implements Runnable{
         duelingFates.setSize(new Dimension(getGameWidth(), getGameHeight()));                 //méret megadása, csak Dimension típust értelmez
         duelingFates.setLocationRelativeTo(null);                                             //null: az ablak a képernyőn közepén lesz, focust alapértelmezetten kap
 
-        setPlayerDeafults();
+        setMenuDefaults();
         startThread();
     }
 
-    private void setPlayerDeafults(){
+    private void setMenuDefaults(){
 
         playerNameTemp ="Player";                                                             //Default név beállítása
         characterTemp = "PirateDeckhand";                                                     //Default karakter beállítása
-        //TODO map duration default 2 min
-        //TODO selected default map
+        mapTemp = "SnowyMountain";                                                            //Default map
+        matchDurationTemp = 2;                                                                //Default time
 
     }
 
@@ -119,6 +121,30 @@ public class MainProcess extends JPanel implements Runnable{
     public static void setCharacterTemp(String newCharacterTemp){
 
         characterTemp = newCharacterTemp;
+
+    }
+
+    public static String getMapTemp(){
+
+        return mapTemp;
+
+    }
+
+    public static void setMapTemp(String newMapTemp){
+
+        mapTemp = newMapTemp;
+
+    }
+
+    public static int getMatchDurationTemp(){
+
+        return matchDurationTemp;
+
+    }
+
+    public static void setMatchDurationTemp(int newMatchDurationTemp){
+
+        matchDurationTemp = newMatchDurationTemp;
 
     }
 

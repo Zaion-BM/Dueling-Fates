@@ -109,6 +109,16 @@ public class SettingsState extends GameState implements ActionListener, MouseLis
         possessedJRadioButton.setSelectedIcon(possessedSelectedImg);
 
 
+        //az eltárolt érték alapján megjelenítjük az éppen kiválasztott karaktert
+        switch (MainProcess.getCharacterTemp()){
+
+            case "PirateDeckhand": pirateJRadioButton.setSelected(true);
+                break;
+            case "PossessedArmor": possessedJRadioButton.setSelected(true);
+                break;
+
+        }
+
         layeredPane.setBounds(0,0, MainProcess.getGameWidth(), MainProcess.getGameHeight());
         layeredPane.add(backgroundLabel, JLayeredPane.DEFAULT_LAYER);
         layeredPane.add(characterSelectionLabel,JLayeredPane.POPUP_LAYER);
@@ -137,7 +147,7 @@ public class SettingsState extends GameState implements ActionListener, MouseLis
 
         duelingFates.repaint();
         StateManager.setStateChangedFalse();
-        System.out.println(MainProcess.getCharacterTemp());
+
     }
 
     @Override

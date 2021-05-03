@@ -53,16 +53,45 @@ public class GamePlayState extends GameState implements KeyListener {
         //TODO load different maps ha működik egy darab
         tileMap = new TileMap(tileSize);
 
-        try {
+        if(MainProcess.getMapTemp().equals("CloudyForest")) {
+            try {
 
-            background = ImageIO.read(new File("DuelingFates/Sources/BG_Widescreen/WS_CloudyForest_Background.png"));
+                background = ImageIO.read(new File("DuelingFates/Sources/BG_Widescreen/WS_CloudyForest_Background.png"));
 
-        }catch (Exception e){
-            e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            tileMap.loadTilesFormFiles("DuelingFates/Sources/Tiles_Brown/");
+            tileMap.loadTilesToMap("DuelingFates/Sources/Maps/CloudyForest.txt");
         }
 
-        tileMap.loadTilesFormFiles("DuelingFates/Sources/Tiles_Blue/");
-        tileMap.loadTilesToMap("DuelingFates/Sources/Maps/CloudyForest.txt");
+        if(MainProcess.getMapTemp().equals("Crimson")) {
+            try {
+
+                background = ImageIO.read(new File("DuelingFates/Sources/BG_Widescreen/WS_Crimson_Background.png"));
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            tileMap.loadTilesFormFiles("DuelingFates/Sources/Tiles_Sand/");
+            tileMap.loadTilesToMap("DuelingFates/Sources/Maps/Crimson.txt");
+        }
+
+        if(MainProcess.getMapTemp().equals("SnowyMountain")) {
+            try {
+
+                background = ImageIO.read(new File("DuelingFates/Sources/BG_Widescreen/WS_Snow_Background.png"));
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            tileMap.loadTilesFormFiles("DuelingFates/Sources/Tiles_Brown/");
+            tileMap.loadTilesToMap("DuelingFates/Sources/Maps/SnowyMountain.txt");
+        }
+
 
 
         //TODO player location setter, egy külön metódusban, melyet egy játékos halálakor majd szintén meghívunk

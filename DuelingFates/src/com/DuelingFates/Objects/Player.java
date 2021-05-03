@@ -11,7 +11,7 @@ public class Player extends GameObject{
     private Weapon playerWeapon;
     private int playerAmmoCount;
 
-    private enum playerCharacter{PIRATE_DECKHAND, POSSESSED_ARMOR};
+    //public static enum playerCharacter{PIRATE_DECKHAND, POSSESSED_ARMOR};
 
     //mozgási paraméterek
     private float moveSpeed;

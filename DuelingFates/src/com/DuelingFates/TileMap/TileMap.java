@@ -47,7 +47,7 @@ public class TileMap {
             tileLonely = new Tile(ImageIO.read(new File(fileLocation + "TileLonely.png")));
             tileUp = new Tile(ImageIO.read(new File(fileLocation + "TileUp.png")));
             tileDown = new Tile(ImageIO.read(new File(fileLocation + "TileDown.png")));
-            tileLeft = new Tile(ImageIO.read(new File(fileLocation + "TilesLeft.png")));
+            tileLeft = new Tile(ImageIO.read(new File(fileLocation + "TileLeft.png")));
             tileRight = new Tile(ImageIO.read(new File(fileLocation + "TileRight.png")));
             tileBottom = new Tile(ImageIO.read(new File(fileLocation + "TileBottom.png")));
             tileHorizontal = new Tile(ImageIO.read(new File(fileLocation + "TileMiddleH.png")));

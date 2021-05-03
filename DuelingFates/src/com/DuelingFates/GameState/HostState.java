@@ -120,13 +120,30 @@ public class HostState extends GameState implements ActionListener, MouseListene
         matchDuration.setPaintLabels(true);
         matchDuration.setOpaque(false);
         matchDuration.setMaximum(10);
-        matchDuration.setValue(5);
+        matchDuration.setValue(MainProcess.getMatchDurationTemp());
         matchDuration.setMinimum(1);
 
         matchDurationLabel.setFont(MainProcess.BalooThambiFont);
         matchDurationLabel.setText("Match duration:");
         matchDurationLabel.setForeground(Color.WHITE);
         matchDurationLabel.setBounds(MainProcess.getGameWidth()/4,(int)(MainProcess.getGameHeight()*0.55),500,50);
+
+        System.out.println(MainProcess.getMapTemp());
+
+        //az eltárolt érték alapján megjelenítjük a kiválasztott mapot
+        switch (MainProcess.getMapTemp()){
+
+            case "CloudyForest": mapCloudyForest.setSelected(true);
+                                 mapCloudyForest.setBorder(BorderFactory.createLineBorder(MainMenuState.darkGreen,4));
+                break;
+            case "Crimson": mapCrimson.setSelected(true);
+                            mapCrimson.setBorder(BorderFactory.createLineBorder(MainMenuState.darkGreen,4));
+                break;
+            case "SnowyMountain": mapSnowyMountain.setSelected(true);
+                                  mapSnowyMountain.setBorder(BorderFactory.createLineBorder(MainMenuState.darkGreen,4));
+                break;
+
+        }
 
         layeredPane.setBounds(0,0, MainProcess.getGameWidth(), MainProcess.getGameHeight());
         layeredPane.add(backgroundLabel, JLayeredPane.DEFAULT_LAYER);
@@ -218,8 +235,10 @@ public class HostState extends GameState implements ActionListener, MouseListene
                 selectedMap = mapSnowyMountain.getName();
 
             }
-            System.out.println(matchDuration.getValue());
-            System.out.println(selectedMap);
+
+            MainProcess.setMapTemp(selectedMap);
+            MainProcess.setMatchDurationTemp(matchDuration.getValue());
+
             //TODO stateManager.setState(StateManager.States.GAMEPLAYSTATE);
             stateManager.setState(StateManager.States.SCORESTATE);
         }

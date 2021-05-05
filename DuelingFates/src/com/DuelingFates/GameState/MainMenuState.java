@@ -116,7 +116,6 @@ public class MainMenuState extends GameState implements ActionListener, MouseLis
         if(e.getSource() == buttonHost){
 
             stateManager.setState(StateManager.States.HOSTSTATE);
-
         }
 
         if(e.getSource() == buttonSettings){

@@ -16,7 +16,7 @@ public class Server {
     public void execute() {
         try (ServerSocket serverSocket = new ServerSocket(port)) {
 
-            System.out.println("Chat Server is listening on port " + port);
+            System.out.println("Server is listening on port " + port);
 
             while (true) {
                 Socket socket = serverSocket.accept();
@@ -34,18 +34,10 @@ public class Server {
         }
     }
 
-    public static void main(String[] args) {
-        System.out.println("Syntax: java ChatServer 6868");
-        int port = 6868;
-
-        Server server = new Server(port);
-        server.execute();
-    }
-
     /**
      * Delivers a message from one user to others (broadcasting)
      */
-    void broadcast(String message, UserThread excludeUser) {
+    public void broadcast(String message, UserThread excludeUser) {
         System.out.println(message);
         for (UserThread aUser : userThreads) {
             if (aUser != excludeUser) {

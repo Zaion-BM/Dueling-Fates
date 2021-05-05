@@ -3,6 +3,7 @@ package com.DuelingFates.Main;
 import com.DuelingFates.GameState.StateManager;
 import com.DuelingFates.Objects.InputHandler;
 import com.DuelingFates.Objects.Player;
+import com.DuelingFates.Networking.Server.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -177,11 +178,11 @@ public class MainProcess extends JPanel implements Runnable{
     //Runnable miatt automatikusan meghívódik
     public void run(){
 
-        //TODO elvileg itt lesz a networking run() meghívása
         gameWindow = new BufferedImage(getGameWidth(),getGameHeight(),BufferedImage.TYPE_INT_RGB);    //a kép melyre rajzolunk
         graphics = gameWindow.createGraphics();                                             //grafika amit kirajzolunk
         gameIsRunning = true;
         stateManager = new StateManager();                                                  //állapotgép példányosítása
+        Server server = new Server(6868);                                              //Szerver példányosítása
 
         final long oneFrameDuration = 1000/FPS;                                             // = (1/60)*1000
 
@@ -192,6 +193,10 @@ public class MainProcess extends JPanel implements Runnable{
             if(StateManager.stateChanged){                                                  //ha állapotot váltunk frissítjük a Swing Frame-et
                 stateManager.updateSwingUI(duelingFates, layeredPane);                      //a Frame és a JLayeredPane továbbadásával tudjuk őket frissíteni
                 //System.out.println("Swing GUI has been updated!");
+                if(stateManager.currentState == StateManager.States.HOSTSTATE){
+                    System.out.println("Host started");
+                    server.execute();
+                }
             }
 
             if(stateManager.currentState == StateManager.States.GAMEPLAYSTATE){             //csak a GamePlayState-ben van grafikus kirajzolás (60 FPS-sel)
@@ -199,6 +204,7 @@ public class MainProcess extends JPanel implements Runnable{
                 updateGame();
                 updateScreen(graphics);
                 renderScreen();
+                //server.broadcast("This is broadcast msg. ",null); //demo üzenet
 
                     try{
                         synchronized (this) {

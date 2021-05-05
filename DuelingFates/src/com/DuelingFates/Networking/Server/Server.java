@@ -1,77 +1,67 @@
 package com.DuelingFates.Networking.Server;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
 
-public class Server {
-    private int port;
-    private Set<String> userNames = new HashSet<>();
-    private Set<UserThread> userThreads = new HashSet<>();
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.Queue;
 
-    public Server(int port) {
-        this.port = port;
+public class Server implements Runnable {
+
+    private Queue<String> messageQueue;
+    private ServerSocket serverSocket = null;
+
+    /**
+     * A ServerSocketHandler osztály konstruktorában vár egy üzenetsort amin keresztül kapja majd később az üzeneteket
+     * <p>
+     * Nem a ConcurrentLinkedQueue-t vesszük át! Interface-t veszünk át paraméterül hogy minél rugalmasabb legyen
+     * az implementációnk.
+     *
+     * @param messageQueue
+     */
+    public Server(Queue<String> messageQueue) {
+        this.messageQueue = messageQueue;
     }
 
-    public void execute() {
-        try (ServerSocket serverSocket = new ServerSocket(port)) {
-
-            System.out.println("Server is listening on port " + port);
+    @Override
+    public void run() {
+        System.out.println("Server socket started");
+        try {
+            serverSocket = new ServerSocket(6868);
 
             while (true) {
-                Socket socket = serverSocket.accept();
-                System.out.println("New user connected");
-
-                UserThread newUser = new UserThread(socket, this);
-                userThreads.add(newUser);
-                newUser.start();
-
+                try {
+                    Socket connection = serverSocket.accept();
+                    System.out.println("Connection established.");
+                    synchronized (this){
+                        System.out.println("Server sync block.");
+                        while (!messageQueue.isEmpty()) {
+                            String msg = messageQueue.remove();
+                            System.out.println(msg);
+                            connection.getOutputStream().write(msg.getBytes());
+                            System.out.println();
+                            connection.getOutputStream().flush();
+                        }
+                        this.wait(10);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
-
-        } catch (IOException ex) {
-            System.out.println("Error in the server: " + ex.getMessage());
-            ex.printStackTrace();
-        }
-    }
-
-    /**
-     * Delivers a message from one user to others (broadcasting)
-     */
-    public void broadcast(String message, UserThread excludeUser) {
-        System.out.println(message);
-        for (UserThread aUser : userThreads) {
-            if (aUser != excludeUser) {
-                aUser.sendMessage(message);
+        } catch (IOException e) {
+            // itt csak azokat a hibákat kell kezelni, ami a server socket készítésekor merültek fel
+            e.printStackTrace();
+        } finally {
+            try {
+                serverSocket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
-    }
 
-    /**
-     * Stores username of the newly connected client.
-     */
-    void addUserName(String userName) {
-        userNames.add(userName);
-    }
+        System.out.println("Server socket stopped");
 
-    /**
-     * When a client is disconneted, removes the associated username and UserThread
-     */
-    void removeUser(String userName, UserThread aUser) {
-        boolean removed = userNames.remove(userName);
-        if (removed) {
-            userThreads.remove(aUser);
-            System.out.println("The user " + userName + " quitted");
-        }
-    }
-
-    Set<String> getUserNames() {
-        return this.userNames;
-    }
-
-    /**
-     * Returns true if there are other users connected (not count the currently connected user)
-     */
-    boolean hasUsers() {
-        return !this.userNames.isEmpty();
     }
 }

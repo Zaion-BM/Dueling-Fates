@@ -1,5 +1,5 @@
 package com.DuelingFates.Networking.Client;
-
+/*
 import java.io.*;
 import java.net.*;
 
@@ -39,3 +39,4 @@ public class ReadThread extends Thread {
         }
     }
 }
+*/

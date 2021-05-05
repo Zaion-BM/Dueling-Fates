@@ -14,6 +14,8 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.awt.image.MemoryImageSource;
 import java.io.File;
+import java.util.LinkedList;
+import java.util.Queue;
 
 //TODO list:
 // 1. Ha a duelingFates static lenne, akkor az egyes állapotokban csak a JLayerPanet kellene
@@ -52,6 +54,7 @@ public class MainProcess extends JPanel implements Runnable{
     public static String characterTemp;                                             //kiválasztott karakter kezdetben
     public static String mapTemp;                                                   //map kedzetben
     public static int matchDurationTemp;                                            //meccs hossza kezdetben
+
 
     public MainProcess(){
 
@@ -178,29 +181,29 @@ public class MainProcess extends JPanel implements Runnable{
 
     //Runnable miatt automatikusan meghívódik
     public void run(){
-
+        Queue<String> messageQueue = new LinkedList<String>();
         gameWindow = new BufferedImage(getGameWidth(),getGameHeight(),BufferedImage.TYPE_INT_RGB);    //a kép melyre rajzolunk
         graphics = gameWindow.createGraphics();                                             //grafika amit kirajzolunk
         gameIsRunning = true;
         stateManager = new StateManager();                                                  //állapotgép példányosítása
-        Server server = new Server(6868);                                              //Szerver példányosítása
-        Client client = new Client("localhost",6868);                         //Kliens példányosítása
 
         final long oneFrameDuration = 1000/FPS;                                             // = (1/60)*1000
 
         while (gameIsRunning){                                                              //"gameloop"
+            Thread serverThread = new Thread(new Server(messageQueue));
+            Thread clientThread = new Thread(new Client("Kliens"));
 
             //System.out.println(stateManager.currentState == StateManager.States.GAMEPLAYSTATE);
 
             if(StateManager.stateChanged){                                                  //ha állapotot váltunk frissítjük a Swing Frame-et
                 stateManager.updateSwingUI(duelingFates, layeredPane);                      //a Frame és a JLayeredPane továbbadásával tudjuk őket frissíteni
                 //System.out.println("Swing GUI has been updated!");
+                System.out.println(stateManager.currentState);
                 if(stateManager.currentState == StateManager.States.HOSTSTATE){
-                    System.out.println("Host started");
-                    server.execute();}
+                    serverThread.start();
+                }
                 if(stateManager.currentState == StateManager.States.JOINSTATE){
-                    System.out.println("Client started");
-                    client.execute();
+                    clientThread.start();
                 }
             }
 
@@ -209,10 +212,11 @@ public class MainProcess extends JPanel implements Runnable{
                 updateGame();
                 updateScreen(graphics);
                 renderScreen();
-                server.broadcast("This is broadcast msg. ",null); //demo üzenet
 
                     try{
                         synchronized (this) {
+                            System.out.println("MainProcess sync block.");
+                            messageQueue.add("MSG");
                             this.wait(oneFrameDuration);                           //Thread.sleep(oneFrameDuration); az éppen futó threadet megszakítja, millisec ideig
                             //System.out.println("I'm waiting");
                         }                                                          //de warningot ad, így ezzel a megoldással elkerülhető

@@ -4,6 +4,7 @@ import com.DuelingFates.GameState.StateManager;
 import com.DuelingFates.Objects.InputHandler;
 import com.DuelingFates.Objects.Player;
 import com.DuelingFates.Networking.Server.*;
+import com.DuelingFates.Networking.Client.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -183,6 +184,7 @@ public class MainProcess extends JPanel implements Runnable{
         gameIsRunning = true;
         stateManager = new StateManager();                                                  //állapotgép példányosítása
         Server server = new Server(6868);                                              //Szerver példányosítása
+        Client client = new Client("localhost",6868);                         //Kliens példányosítása
 
         final long oneFrameDuration = 1000/FPS;                                             // = (1/60)*1000
 
@@ -195,7 +197,10 @@ public class MainProcess extends JPanel implements Runnable{
                 //System.out.println("Swing GUI has been updated!");
                 if(stateManager.currentState == StateManager.States.HOSTSTATE){
                     System.out.println("Host started");
-                    server.execute();
+                    server.execute();}
+                if(stateManager.currentState == StateManager.States.JOINSTATE){
+                    System.out.println("Client started");
+                    client.execute();
                 }
             }
 
@@ -204,7 +209,7 @@ public class MainProcess extends JPanel implements Runnable{
                 updateGame();
                 updateScreen(graphics);
                 renderScreen();
-                //server.broadcast("This is broadcast msg. ",null); //demo üzenet
+                server.broadcast("This is broadcast msg. ",null); //demo üzenet
 
                     try{
                         synchronized (this) {

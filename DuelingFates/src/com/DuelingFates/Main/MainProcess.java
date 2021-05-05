@@ -90,7 +90,7 @@ public class MainProcess extends JPanel implements Runnable{
         Image invisibleImage = Toolkit.getDefaultToolkit().createImage(new MemoryImageSource(16, 16, empty, 0, 16));
         hiddenCursor = Toolkit.getDefaultToolkit().createCustomCursor(invisibleImage, new Point(0,0), "hiddenCursor");
 
-        duelingFates.setUndecorated(true);                                                    //nincs keret
+        duelingFates.setUndecorated(false);                                                    //van keret
         duelingFates.setSize(new Dimension(getGameWidth(), getGameHeight()));                 //méret megadása, csak Dimension típust értelmez
         duelingFates.setLocationRelativeTo(null);                                             //null: az ablak a képernyőn közepén lesz, focust alapértelmezetten kap
 

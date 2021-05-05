@@ -81,7 +81,7 @@ public class JoinState extends GameState implements ActionListener, MouseListene
         duelingFates.add(layeredPane);
         duelingFates.setPreferredSize(new Dimension(MainProcess.getGameWidth(), MainProcess.getGameHeight()));
         duelingFates.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        duelingFates.setResizable(false);
+        duelingFates.setResizable(true);
         duelingFates.pack();
         duelingFates.setVisible(true);
 

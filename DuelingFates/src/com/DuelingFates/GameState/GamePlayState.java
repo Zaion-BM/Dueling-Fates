@@ -110,7 +110,7 @@ public class GamePlayState extends GameState implements KeyListener {
         tileMap.draw(graphics);
         //System.out.println("Game graphics has been updated!");
 
-        //hud.draw(graphics);
+        hud.draw(graphics);
 
         if (escapePressed) {
             escapeMenu.draw(graphics);
@@ -144,7 +144,7 @@ public class GamePlayState extends GameState implements KeyListener {
         duelingFates.addKeyListener(new InputHandler(this));        //Listener a keyboard érzékeléséért
 
         layeredPane.removeAll();                                                //GamePlay-nél nincs szükség a Swing elemekre
-        duelingFates.setCursor(MainProcess.hiddenCursor);
+        //duelingFates.setCursor(MainProcess.hiddenCursor);
         duelingFates.repaint();                                                 //üres Frame-et hagyunk
         StateManager.setStateChangedFalse();
 

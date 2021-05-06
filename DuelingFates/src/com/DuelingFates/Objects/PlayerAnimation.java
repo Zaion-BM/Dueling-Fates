@@ -21,26 +21,30 @@ public class PlayerAnimation {
     }
 
     //ha futunk
-    public void running(){
-
-
+    public void running(int direction){
+        //input event??
+        //left: 0 right: 1
+        switch(direction) {
+            case 0:
+                //runningSprite left
+                break;
+            case 1:
+                //runningSprite right
+        }
     }
 
     //ha állunk
-    public void standing(){
-
-
+    public void standing(Player player){
+            //standingSprite
     }
 
     //ha ugrunk vagy esünk
-    public void jumpingAndFalling(){
-
-
-
+    public void jumpingAndFalling(Player player){
+        //jumpingAndFallingSprite
     }
 
     public void damageAnimation(){
-        //vörös tint ha projectile-lal találkozunk
+        //vörös tinta ha projectile-lal találkozunk
 
 
     }

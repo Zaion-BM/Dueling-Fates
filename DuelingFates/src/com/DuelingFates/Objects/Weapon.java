@@ -2,34 +2,31 @@ package com.DuelingFates.Objects;
 
 public class Weapon extends GameObject{
 
-    public enum Model{DEFAULT, BLASTER, UNDERTAKER, MAGNUM};
-    public Model modelType;
-    public String BulletType;
+    public enum WeaponModel{DEFAULT, BLASTER, UNDERTAKER, MAGNUM}
+    public WeaponModel modelType;
+    public String bulletType;
 
-    //weapon specs
+    //Weapon parameters
     private int weaponDmg;
     private int weaponFireRate;
 
 
-    public void Weapon(Model modelType, String bulletType){
+    public Weapon(WeaponModel modelType, String bulletType){
         this.modelType = modelType;
-        this.BulletType = bulletType;
+        this.bulletType = bulletType;
 
-        if(modelType == Model.DEFAULT){
-            weaponDmg = 4;
-            weaponFireRate = 10;    //jelentsen ez most akármit is
-        }
-
-        if(modelType == Model.BLASTER){
-
-        }
-
-        if(modelType == Model.UNDERTAKER){
-
-        }
-
-        if(modelType == Model.MAGNUM){
-
+        switch(modelType){
+            case MAGNUM:    setWeaponDmg(20);       //firerate=1 -> 1 shoot = 1 bullet (bullet speed: ~0.1s/bullet)
+                            setWeaponFireRate(1);
+                            break;
+            case UNDERTAKER:setWeaponDmg(40);
+                            setWeaponFireRate(1);
+                            break;
+            case BLASTER:   setWeaponDmg(30);
+                            setWeaponFireRate(5);   //firerate=5 -> 1shoot = 5 bullet (semi-automatic) (bullet speed: ~0.02s/bullet)
+                            break;                  //firerate==ammoqty -> 1shoot = all bullet (fully-automatic) (bullet speed: ~0.02s/bullet)
+            case DEFAULT:   setWeaponDmg(10);
+                            setWeaponFireRate(1);
         }
 
     }
@@ -44,5 +41,38 @@ public class Weapon extends GameObject{
 
     }
 
+    /*
+     * Implementation of getters and setters
+     * */
+    public WeaponModel getModelType() {
+        return modelType;
+    }
 
+    public void setModelType(WeaponModel modelType) {
+        this.modelType = modelType;
+    }
+
+    public String getBulletType() {
+        return bulletType;
+    }
+
+    public void setBulletType(String bulletType) {
+        this.bulletType = bulletType;
+    }
+
+    public int getWeaponDmg() {
+        return weaponDmg;
+    }
+
+    public void setWeaponDmg(int weaponDmg) {
+        this.weaponDmg = weaponDmg;
+    }
+
+    public int getWeaponFireRate() {
+        return weaponFireRate;
+    }
+
+    public void setWeaponFireRate(int weaponFireRate) {
+        this.weaponFireRate = weaponFireRate;
+    }
 }

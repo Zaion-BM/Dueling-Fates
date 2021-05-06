@@ -5,13 +5,11 @@ import com.DuelingFates.TileMap.TileMap;
 
 public class Ammo extends Consumable{
 
-    private int ammoQuantity;
+    private int ammoQty;
 
-    public Ammo(TileMap tileMap, int ammoQuantity) {
-
+    public Ammo(TileMap tileMap, int ammoQty) {
         super(tileMap);
-        this.ammoQuantity = ammoQuantity;
-
+        this.ammoQty = ammoQty;
     }
 
     @Override
@@ -32,6 +30,17 @@ public class Ammo extends Consumable{
         //akkor nem kell (ezt külön elenőrizzük az exception elkerülése miatt
 
 
+    }
+
+    /*
+     * Implementation of getters and setters
+     * */
+    public int getAmmoQty() {
+        return ammoQty;
+    }
+
+    public void setAmmoQty(int ammoQty) {
+        this.ammoQty = ammoQty;
     }
 
 }

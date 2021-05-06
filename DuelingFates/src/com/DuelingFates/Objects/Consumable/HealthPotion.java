@@ -14,6 +14,7 @@ public class HealthPotion extends Consumable {
 
     }
 
+
     @Override
     public void spawnConsumable(Consumable consumable) {
         //kiválasztunk egy random pozíciót a mapon és ott példányosítjuk
@@ -30,6 +31,17 @@ public class HealthPotion extends Consumable {
         //a consumable tile-ját.
         //ekkor eltüntetjük, azaz nullba állítjuk az adott példányt, kirajzolni, meg ha null
         //akkor nem kell (ezt külön elenőrizzük az exception elkerülése miatt
+    }
+
+    /*
+     * Implementation of getters and setters
+     * */
+    public int getHealthPoints() {
+        return healthPoints;
+    }
+
+    public void setHealthPoints(int healthPoints) {
+        this.healthPoints = healthPoints;
     }
 
 }

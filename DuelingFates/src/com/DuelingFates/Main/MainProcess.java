@@ -30,8 +30,8 @@ public class MainProcess extends JPanel implements Runnable{
     //valószínűleg a feltétel ellenőrzése miatt, mely a swing menük miatt szükséges
     volatile private StateManager stateManager;
 
-    private static final int gameWidth = 1920;
-    private static final int gameHeight = 1080;
+    private static final int gameWidth = 800;
+    private static final int gameHeight = 600;
 
     @SuppressWarnings("FieldCanBeLocal")
     private final int FPS = 60;                                                     // 1/60 = 16.67 millisec
@@ -182,50 +182,50 @@ public class MainProcess extends JPanel implements Runnable{
     //Runnable miatt automatikusan meghívódik
     public void run(){
         Queue<String> messageQueue = new LinkedList<String>();
+        messageQueue.add("MSG1\n");
+        messageQueue.add("MSG2\n");
         gameWindow = new BufferedImage(getGameWidth(),getGameHeight(),BufferedImage.TYPE_INT_RGB);    //a kép melyre rajzolunk
         graphics = gameWindow.createGraphics();                                             //grafika amit kirajzolunk
         gameIsRunning = true;
         stateManager = new StateManager();                                                  //állapotgép példányosítása
 
         final long oneFrameDuration = 1000/FPS;                                             // = (1/60)*1000
+        Thread serverThread = new Thread(new Server(messageQueue));
+        Thread clientThread = new Thread(new Client("Kliens"));
+        int i = 0;
 
-        while (gameIsRunning){                                                              //"gameloop"
-            Thread serverThread = new Thread(new Server(messageQueue));
-            Thread clientThread = new Thread(new Client("Kliens"));
 
+        while (gameIsRunning) {
             //System.out.println(stateManager.currentState == StateManager.States.GAMEPLAYSTATE);
 
-            if(StateManager.stateChanged){                                                  //ha állapotot váltunk frissítjük a Swing Frame-et
+            if (StateManager.stateChanged) {                                                  //ha állapotot váltunk frissítjük a Swing Frame-et
                 stateManager.updateSwingUI(duelingFates, layeredPane);                      //a Frame és a JLayeredPane továbbadásával tudjuk őket frissíteni
                 //System.out.println("Swing GUI has been updated!");
                 System.out.println(stateManager.currentState);
-                if(stateManager.currentState == StateManager.States.HOSTSTATE){
+                if (stateManager.currentState == StateManager.States.HOSTSTATE) {
                     serverThread.start();
                 }
-                if(stateManager.currentState == StateManager.States.JOINSTATE){
+                if (stateManager.currentState == StateManager.States.JOINSTATE) {
                     clientThread.start();
                 }
             }
 
-            if(stateManager.currentState == StateManager.States.GAMEPLAYSTATE){             //csak a GamePlayState-ben van grafikus kirajzolás (60 FPS-sel)
+            if (stateManager.currentState == StateManager.States.GAMEPLAYSTATE) {             //csak a GamePlayState-ben van grafikus kirajzolás (60 FPS-sel)
 
                 updateGame();
                 updateScreen(graphics);
                 renderScreen();
-
-                    try{
-                        synchronized (this) {
-                            System.out.println("MainProcess sync block.");
-                            messageQueue.add("MSG");
-                            this.wait(oneFrameDuration);                           //Thread.sleep(oneFrameDuration); az éppen futó threadet megszakítja, millisec ideig
-                            //System.out.println("I'm waiting");
-                        }                                                          //de warningot ad, így ezzel a megoldással elkerülhető
-                    }
-                    catch (InterruptedException e){
-                        e.printStackTrace();
-                        }
+                try {
+                    synchronized (this) {
+                        messageQueue.add("MSG3\n");
+                        this.wait(1000);//Thread.sleep(oneFrameDuration); az éppen futó threadet megszakítja, millisec ideig
+                        //System.out.println("I'm waiting");
+                    }                                                          //de warningot ad, így ezzel a megoldással elkerülhető
+                }
+                catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
-
         }
 
     }

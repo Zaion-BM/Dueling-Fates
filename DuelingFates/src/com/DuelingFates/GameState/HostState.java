@@ -239,8 +239,8 @@ public class HostState extends GameState implements ActionListener, MouseListene
             MainProcess.setMapTemp(selectedMap);
             MainProcess.setMatchDurationTemp(matchDuration.getValue());
 
-            //TODO stateManager.setState(StateManager.States.GAMEPLAYSTATE);
-            stateManager.setState(StateManager.States.SCORESTATE);
+            stateManager.setState(StateManager.States.GAMEPLAYSTATE);
+            //stateManager.setState(StateManager.States.SCORESTATE);
         }
 
         if(e.getSource() == buttonBack) {

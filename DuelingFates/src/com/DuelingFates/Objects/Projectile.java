@@ -1,5 +1,7 @@
 package com.DuelingFates.Objects;
 
+import com.DuelingFates.TileMap.TileMap;
+
 public class Projectile extends GameObject{
 
     public enum Types {DEFAULT, ICHOR, METEOR}
@@ -7,7 +9,8 @@ public class Projectile extends GameObject{
     
     private float projectileSpeed;
 
-    public Projectile(Types projectileType){
+    public Projectile(Types projectileType, TileMap tileMap){
+        super(tileMap);
         switch(projectileType) {
             case METEOR:
                 setProjectileSpeed(15);

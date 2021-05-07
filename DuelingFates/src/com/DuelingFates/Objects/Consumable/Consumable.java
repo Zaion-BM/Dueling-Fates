@@ -7,7 +7,7 @@ import com.DuelingFates.TileMap.TileMap;
 public abstract class Consumable extends GameObject {
 
     public Consumable(TileMap tileMap) {
-        super();
+        super(tileMap);
 
     }
 

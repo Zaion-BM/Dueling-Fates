@@ -1,5 +1,7 @@
 package com.DuelingFates.Objects;
 
+import com.DuelingFates.TileMap.TileMap;
+
 public class Weapon extends GameObject{
 
     public enum WeaponModel{DEFAULT, BLASTER, UNDERTAKER, MAGNUM}
@@ -11,7 +13,8 @@ public class Weapon extends GameObject{
     private int weaponFireRate;
 
 
-    public Weapon(WeaponModel modelType, String bulletType){
+    public Weapon(WeaponModel modelType, String bulletType, TileMap tileMap){
+        super(tileMap);
         this.modelType = modelType;
         this.bulletType = bulletType;
 

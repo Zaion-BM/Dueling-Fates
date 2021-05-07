@@ -15,6 +15,7 @@ public class ScoreState extends GameState implements MouseListener, ActionListen
     private final JButton buttonQuitToMenu = new JButton("Quit To Menu");
     private final JButton buttonRematch = new JButton("Rematch");
     private final JButton buttonSaveToFile = new JButton("Save Scores");
+    private boolean buttonSavePressedOnce;
 
     //Háttér
     private final ImageIcon background = new ImageIcon("DuelingFates/Sources/background_Score2.png");
@@ -42,6 +43,19 @@ public class ScoreState extends GameState implements MouseListener, ActionListen
         StateManager.setStateChangedTrue();
 
     }
+
+    private void setButtonSavePressedOnce(){
+
+        buttonSavePressedOnce = true;
+
+    }
+
+    private boolean getButtonSavePressedOnce(){
+
+        return buttonSavePressedOnce;
+
+    }
+
 
     @Override
     public void initialization() {
@@ -165,11 +179,12 @@ public class ScoreState extends GameState implements MouseListener, ActionListen
 
         }
 
-        if(e.getSource() == buttonSaveToFile) {
+        if(e.getSource() == buttonSaveToFile & !getButtonSavePressedOnce()) {
 
             Date time = new Date();
             String results = (dateStyle.format(time) + "\t" + player1Score + " \t" + player2Score + "\n");
             printPlayersAndScores(results);
+            setButtonSavePressedOnce();
 
         }
 

@@ -12,6 +12,8 @@ public class TileMap {
     private int[][] mapLayout;                          //map 2D-s tömb, X és Y irány
     private int mapRows;                                //oszlopok és sorok száma
     private int mapColumns;
+    private int mapWidth;
+    private int mapHeight;
 
     @SuppressWarnings("FieldCanBeLocal")
     private final int mapStartX = 0;                    //innen kezddődik a map kirajzolása
@@ -85,6 +87,9 @@ public class TileMap {
 
             mapLayout = new int[mapRows][mapColumns];                                   //mapLayout létrehozása
 
+            mapWidth=mapColumns*tileSize;//Map szélesség (30*64=1920)
+            mapHeight=mapRows*tileSize;//Map magasság (16*64=1024) //(16*64+56=1080)
+
             String divider = "\\t";                                                     //számok elválasztása tabbal
             int row = 0;
 
@@ -138,6 +143,26 @@ public class TileMap {
         }
 
     }
+
+    /*
+    * Check if in mapLayout [row][col] is a tile
+    * */
+    public int getType(int row, int col){
+        return mapLayout[row][col];
+    }
+
+    public int getMapWidth() {
+        return mapWidth;
+    }
+
+    public int getMapHeight() {
+        return mapHeight;
+    }
+
+    public int getTileSize() {
+        return tileSize;
+    }
+
 
 }
 

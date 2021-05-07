@@ -10,44 +10,44 @@ public class Player extends GameObject{
     private int playerScore;
     private Weapon playerWeapon;
     private int playerAmmoQty;
+    private boolean dead;
+    private boolean blinkRed;
+    private boolean blinkTimer;
+    private boolean shooting;
+    //Player animation actions
+    private static final int IDLE=0;
+    private static final int RUNNING=1;
+    private static final int JUMPINGANDFALLING=2;
+    private static final int SHOOTING=3;
 
     //public static enum playerCharacter{PIRATE_DECKHAND, POSSESSED_ARMOR};
 
-    //Movement parameters
-    private float moveSpeed;
-    private float maxSpeed;
-    private float maxFallingSpeed;
-    private float jumpOffset;
-    private float playerGravity;
-
     private TileMap tileMap;        //amin a collisiont érzékeljük
 
-    public Player(TileMap tileMap, String playerName, Weapon playerWeapon){      //ahol a playername a MainProcess.playerNameTemp
+    public Player(TileMap tileMap){      //ahol a playername a MainProcess.playerNameTemp
+        super(tileMap);
+        //Player sprite dimensions
+        spriteWidth=40;
+        spriteHeight=80;
+        //Physical dimensions
+        objectWidth=30;
+        objectHeight=70;
+        //Specify movement parameters
+        moveSpeed=(float)0.3;
+        maxSpeed=(float)1.6;
+        stopSpeed=(float)0.4;
+        fallSpeed=(float)0.15;
+        maxFallSpeed=(float)4.0;
+        jumpStart=(float)-4.8;
+        stopJumpSpeed=(float)0.3;
+        facingRight=true;
+        //gravity=(float)5;  //tutorialban más volt, még nem látom át hogy lesz ez számolva
+
         //Specify player parameters
-        setPlayerName(playerName);
         setPlayerHealth(100);
         setPlayerScore(0);
-        setPlayerWeapon(playerWeapon);
-        setPlayerAmmoQty(10);
-        //Specify movement parameters
-        setMoveSpeed(1);
-        setMaxSpeed(5);
-        setMaxFallingSpeed(5);
-        setJumpOffset(0);
-        setPlayerGravity(5);
-        //Specify player (object) width and height
-        setObjectWidth(40);
-        setObjectHeight(80);
-        //Spawn point
-        setPosX(200);
-        setPosY(400);
-        //Player is standing still
-        setDeltaPosX(0);
-        setDeltaPosY(0);
-        //Collision to tile under spawn point?
 
-
-        //playerCharacter beállítása, az animation ez alapján történik, mert a spriteok is ott töltődnek be
+        //TODO: playerCharacter beállítása, az animation ez alapján történik, mert a spriteok is ott töltődnek be
 
 
     }
@@ -55,7 +55,6 @@ public class Player extends GameObject{
     /*
     * Implementation of getters and setters
     * */
-
     /*
     *Get player's name
     *@return String: Player's name
@@ -98,9 +97,7 @@ public class Player extends GameObject{
      *@param int: Add number
      *@return Nothing
      * */
-    public void setPlayerScore(int playerScore){
-        this.playerScore = playerScore;
-    }
+    public void setPlayerScore(int playerScore){ this.playerScore = playerScore; }
     /*
      *Get player's weapon
      *@return Weapon: Player's weapon (object)
@@ -132,79 +129,82 @@ public class Player extends GameObject{
         this.playerAmmoQty = playerAmmoQty;
     }
     /*
-     *Get player's movement speed
-     *@return float: Player's movement speed
-     * */
-    public float getMoveSpeed() {
-        return moveSpeed;
+    *
+    * */
+    public void setShooting(){
+        shooting=true;
     }
     /*
-     *Set player's movement speed
-     *@param float: Add number (movement speed) between [1.00,5.00]
-     *@return Nothing
+     *
      * */
-    public void setMoveSpeed(float moveSpeed) {
-        this.moveSpeed = moveSpeed;
+    public void update(){
+        /*
+        * Update player's position
+        * */
+        //getNextPosition();
+        checkTileMapCollision();
+        setPosition(tempX,tempY);
+        /*
+         * Set player's animation
+         * */
+        if(shooting){//shooting
+            if(currentAction!=SHOOTING){
+                currentAction=SHOOTING;
+               // playerAnimation.setFrames(sprites.get(SHOOTING));
+               // playerAnimation.setDelay(50);
+                spriteWidth=60;
+            }
+        }
+        else if(deltaY>0){//falling
+            if(currentAction != JUMPINGANDFALLING){
+                currentAction=JUMPINGANDFALLING;
+                //playerAnimation.setFrames(sprites.get(JUMPINGANDFALLING));
+               // playerAnimation.setDelay(100);
+                spriteWidth=40;
+            }
+
+        }
+        else if(deltaY<0){//jumping
+            if(currentAction != JUMPINGANDFALLING){
+                currentAction=JUMPINGANDFALLING;
+               // playerAnimation.setFrames(sprites.get(JUMPINGANDFALLING));
+              //  playerAnimation.setDelay(-1);
+                spriteWidth=40;
+            }
+
+        }
+        else if(left || right){//running
+            if(currentAction!=RUNNING){
+                currentAction=RUNNING;
+               // playerAnimation.setFrames(sprites.get(RUNNING));
+              //  playerAnimation.setDelay(40);
+                spriteWidth=40;
+            }
+        }
+        else{//standing
+            if(currentAction!=IDLE){
+                currentAction=IDLE;
+              //  playerAnimation.setFrames(sprites.get(IDLE));
+             //   playerAnimation.setDelay(400);
+                spriteWidth=40;
+            }
+        }
+        //update animation of player
+       // playerAnimation.update();
+        //Set direction of facing
+        if(currentAction!=SHOOTING){
+            if(right) facingRight=true;
+            if(left) facingRight=false;
+        }
     }
     /*
-     *Get player's maximal speed limit
-     *@return float: Player's maximal speed limit
+     *
      * */
-    public float getMaxSpeed() {
-        return maxSpeed;
-    }
     /*
-     *Set player's maximal speed limit
-     *@param float: Add number (maximal speed limit) between [1.00,5.00]
-     *@return Nothing
+     *
      * */
-    public void setMaxSpeed(float maxSpeed) {
-        this.maxSpeed = maxSpeed;
-    }
     /*
-     *Get player's maximal falling speed
-     *@return float: Player's maximal falling speed
+     *
      * */
-    public float getMaxFallingSpeed() {
-        return maxFallingSpeed;
-    }
-    /*
-     *Set player's maximal falling speed
-     *@param float: Add number (maximal falling speed) between [1.00,5.00]
-     *@return Nothing
-     * */
-    public void setMaxFallingSpeed(float maxFallingSpeed) {
-        this.maxFallingSpeed = maxFallingSpeed;
-    }
-    /*
-     *Get player's jump offset
-     *@return float: Player's jump offset
-     * */
-    public float getJumpOffset() {
-        return jumpOffset;
-    }
-    /*
-     *Set player's jump offset
-     *@param float: Add number (jump offset) between [1.00,5.00]
-     *@return Nothing
-     * */
-    public void setJumpOffset(float jumpOffset) {
-        this.jumpOffset = jumpOffset;
-    }
-    /*
-     *Get player's gravity
-     *@return float: Player's gravity
-     * */
-    public float getPlayerGravity() {
-        return playerGravity;
-    }
-    /*
-     *Set player's gravity
-     *@param float: Add number (gravity) between [1.00,5.00]
-     *@return Nothing
-     * */
-    public void setPlayerGravity(float playerGravity) {
-        this.playerGravity = playerGravity;
-    }
 
 }

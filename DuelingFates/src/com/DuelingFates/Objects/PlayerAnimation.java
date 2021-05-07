@@ -42,7 +42,6 @@ public class PlayerAnimation {
     public void jumpingAndFalling(Player player){
         //jumpingAndFallingSprite
     }
-
     public void damageAnimation(){
         //vörös tinta ha projectile-lal találkozunk
 

@@ -124,9 +124,9 @@ public class TileMap {
                 //mely megegyezik a mapLayout[][] "mátrix" adott elemének értékével.
 
                 graphics.drawImage(tiles[mapLayout[row][col]].getTileImage(),
-                                    mapStartX + col*tileSize,
-                                    mapStartY + row*tileSize,
-                                    null);
+                        mapStartX + col*tileSize,
+                        mapStartY + row*tileSize,
+                        null);
 
                 /*Ha kisebb felbontáson szeretnénk játszani akkor az alábbi kirajzolás skálázza az imaget
                 Ehhez egyedül a tile méretét kell tudni, a beolvasott tile mindig 64 pixeles
@@ -145,24 +145,22 @@ public class TileMap {
     }
 
     /*
-    * Check if in mapLayout [row][col] is a tile
-    * */
+     * Check if in mapLayout [row][col] is a tile
+     * */
     public int getType(int row, int col){
         return mapLayout[row][col];
     }
-
     public int getMapWidth() {
         return mapWidth;
     }
-
     public int getMapHeight() {
         return mapHeight;
     }
-
     public int getTileSize() {
         return tileSize;
     }
-
+    public int getMapRows() { return mapRows; }
+    public int getMapColumns() { return mapColumns; }
 
 }
 

@@ -30,8 +30,8 @@ public class MainProcess extends JPanel implements Runnable{
     //valószínűleg a feltétel ellenőrzése miatt, mely a swing menük miatt szükséges
     volatile private StateManager stateManager;
 
-    private static final int gameWidth = 800;
-    private static final int gameHeight = 600;
+    private static final int gameWidth = 1280;
+    private static final int gameHeight = 720;
 
     @SuppressWarnings("FieldCanBeLocal")
     private final int FPS = 60;                                                     // 1/60 = 16.67 millisec

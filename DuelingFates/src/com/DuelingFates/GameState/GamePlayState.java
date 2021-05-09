@@ -2,6 +2,7 @@ package com.DuelingFates.GameState;
 
 import com.DuelingFates.HUDs.EscapeMenu;
 import com.DuelingFates.HUDs.HUD;
+import com.DuelingFates.Handlers.Keys;
 import com.DuelingFates.Main.MainProcess;
 import com.DuelingFates.Objects.InputHandler;
 import com.DuelingFates.Objects.Player;
@@ -26,7 +27,7 @@ public class GamePlayState extends GameState implements KeyListener {
     @SuppressWarnings("FieldCanBeLocal")
     private final int tileSize = 64;
 
-    private Player hostPlayer;
+    private Player hostPlayer;  //miért kell két külön player? gombok nyomkodásánál mi lesz?
     private Player clientPlayer;
 
     private HUD hud;
@@ -99,7 +100,8 @@ public class GamePlayState extends GameState implements KeyListener {
         //TODO player location setter, egy külön metódusban, melyet egy játékos halálakor majd szintén meghívunk
         //TODO start timer, ami lehet metódus, itt végtelen ciklusban várunk a kliens csatlakozására és utána indul a meccs
         //TODO projectile tömb létrehozása
-
+        //Player init
+        hostPlayer= new Player(tileMap);
 
     }
 
@@ -120,11 +122,17 @@ public class GamePlayState extends GameState implements KeyListener {
         //TODO projectile, kirajzolás for ciklussal, arraylisten végiglépkedünk
         //TODO Objectrenderer meghívása amiben a kirajzolást definiáltuk
 
+        //Player draw
+        hostPlayer.draw(graphics);
     }
 
     @Override
     public void update() {
+        //check keys
+       // handleInput();
 
+        //Player update
+        hostPlayer.update();
 
         //TODO inputkezelés, kérdés, hogy állapotgépesen, vagy adott keyboard lenyomása esetén x-et lépünk
         //TODO player mozgás, projectile update for ciklusban, ha már nem releváns, akkor helyére NULL
@@ -173,6 +181,15 @@ public class GamePlayState extends GameState implements KeyListener {
             escapeBefore = false;
 
         }
+        /*
+         * Moving players or doing actions if key is pressed
+         * */
+        switch(key){    //TODO: Tesztelni kell hogy client és host most külön mozog vagy egyszerre vagy most mi van?
+            case(KeyEvent.VK_LEFT): hostPlayer.setLeft(true); break;
+            case(KeyEvent.VK_RIGHT): hostPlayer.setRight(true); break;
+            case(KeyEvent.VK_UP): hostPlayer.setJumping(true); break;
+            case(KeyEvent.VK_SPACE): hostPlayer.setShooting(); break;
+        }
     }
 
     public void keyReleased(KeyEvent e) {
@@ -185,6 +202,22 @@ public class GamePlayState extends GameState implements KeyListener {
             stateManager.setState(StateManager.States.MAINMENUSTATE);
 
         }
+        /*
+         * Stop Moving players or doing actions if key is released
+         * */
+        switch(key){
+            case(KeyEvent.VK_LEFT): hostPlayer.setLeft(false); break;
+            case(KeyEvent.VK_RIGHT): hostPlayer.setRight(false); break;
+            case(KeyEvent.VK_UP): hostPlayer.setJumping(false); break;
+            case(KeyEvent.VK_SPACE): hostPlayer.setShooting(); break;
+        }
 
+    }
+
+    public void handleInput() {
+        hostPlayer.setJumping(Keys.keyState[Keys.UP]);
+        hostPlayer.setLeft(Keys.keyState[Keys.LEFT]);
+        hostPlayer.setRight(Keys.keyState[Keys.RIGHT]);
+        if(Keys.isPressed(Keys.SPACE)) hostPlayer.setShooting();
     }
 }

@@ -6,7 +6,6 @@ import java.awt.event.KeyEvent;
 // a key k is down when keyState[k] is true.
 
 public class Keys {
-
     public static final int NUM_KEYS = 16;
 
     public static boolean keyState[] = new boolean[NUM_KEYS];

@@ -27,7 +27,7 @@ public class GamePlayState extends GameState implements KeyListener {
     @SuppressWarnings("FieldCanBeLocal")
     private final int tileSize = 64;
 
-    private Player hostPlayer;  //miért kell két külön player? gombok nyomkodásánál mi lesz?
+    private Player hostPlayer;  //TODO: miért kell két külön player? gombok nyomkodásánál mi lesz?
     private Player clientPlayer;
 
     private HUD hud;

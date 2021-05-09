@@ -218,7 +218,7 @@ public class MainProcess extends JPanel implements Runnable{
                 try {
                     synchronized (this) {
                         messageQueue.add("MSG3\n");
-                        this.wait(1000);//Thread.sleep(oneFrameDuration); az éppen futó threadet megszakítja, millisec ideig
+                        this.wait((long)16.67);//Thread.sleep(oneFrameDuration); az éppen futó threadet megszakítja, millisec ideig
                         //System.out.println("I'm waiting");
                     }                                                          //de warningot ad, így ezzel a megoldással elkerülhető
                 }

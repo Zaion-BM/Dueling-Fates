@@ -34,8 +34,6 @@ public abstract class GameObject {
     //Movement
     protected boolean left;
     protected boolean right;
-    protected boolean up;
-    protected boolean down;
     protected boolean jumping;
     protected boolean falling;
     //Movement attributes
@@ -77,6 +75,9 @@ public abstract class GameObject {
         Rectangle r2 = object.getRectangle();
         return r1.intersects(r2);
     }
+    public boolean intersects(Rectangle r) {
+        return getRectangle().intersects(r);
+    }
     /*
      * The 4-point(corner) method
      * Calculating the corners of object if they hit any tile nearby
@@ -103,16 +104,16 @@ public abstract class GameObject {
         /*
          * 4 corners
          * */
-        topLeftCorner=(tl==1);
-        topRightCorner=(tr==1);
-        bottomLeftCorner=(bl==1);
-        bottomRightCorner=(br==1);
+        topLeftCorner=(tl!=0);
+        topRightCorner=(tr!=0);
+        bottomLeftCorner=(bl!=0);
+        bottomRightCorner=(br!=0);
     }
     /*
      * Collision detection between tiles and objects
      * */
     public void checkTileMapCollision(){
-        currentRow=(int)(x/tileSize);
+        currentColumn=(int)(x/tileSize);
         currentRow=(int)(y/tileSize);
         nextX=x+deltaX;
         nextY=y+deltaY;
@@ -128,7 +129,7 @@ public abstract class GameObject {
                 tempY=currentRow*tileSize+(float)objectHeight/2; //set object just below the tile we hit
             }
             else{//if there is no solid tile above us, we are good to go upwards
-                tempY-=deltaY;
+                tempY+=deltaY;
             }
         }
         if(deltaY>0){ //If we're going downwards
@@ -151,7 +152,7 @@ public abstract class GameObject {
                 tempX=currentColumn*tileSize+(float)objectWidth/2; //set object just right the tile we hit
             }
             else{//we are good to go left
-                tempX-=deltaX;
+                tempX+=deltaX;
             }
         }
         if(deltaX>0){//If we're going right

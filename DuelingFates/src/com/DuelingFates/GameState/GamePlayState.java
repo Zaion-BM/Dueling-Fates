@@ -24,8 +24,9 @@ public class GamePlayState extends GameState implements KeyListener {
     @SuppressWarnings("FieldCanBeLocal")
     private final int tileSize = 64;
 
-    private Player hostPlayer;  //TODO: miért kell két külön player? gombok nyomkodásánál mi lesz?
+    private Player hostPlayer;          //TODO: miért kell két külön player? gombok nyomkodásánál mi lesz?
     private Player clientPlayer;
+    private PlayerAnimation hostAnimation;
 
     private PlayerInputHandler hostInput;
     private HUD hud;
@@ -97,7 +98,9 @@ public class GamePlayState extends GameState implements KeyListener {
         hud = new HUD(hostPlayer);
 
         //Player init
-        hostPlayer= new Player(tileMap);
+        hostPlayer = new Player(tileMap);
+        hostAnimation = new PlayerAnimation(hostPlayer);
+
         //hostProjectile=new Projectile(tileMap,); //TODO: projectile
 
         //TODO player location egy játékos halálakor majd szintén meghívunk
@@ -136,6 +139,9 @@ public class GamePlayState extends GameState implements KeyListener {
 
         //Player update
         hostPlayer.update();
+        hostAnimation.updateAnimation(hostPlayer);
+        //hostAnimation.updateAnimationPossessed(hostPlayer);
+
        // hostProjectile.update();
 
         //TODO player mozgás, projectile update for ciklusban, ha már nem releváns, akkor helyére NULL

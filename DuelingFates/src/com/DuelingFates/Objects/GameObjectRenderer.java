@@ -81,6 +81,7 @@ public class GameObjectRenderer {
 
         drawProjectile(graphics,player.getProjectile());
 
+
         //csak kirajzolunk, az animáció a PlayerAnimation-ben lesz
 
     }
@@ -132,6 +133,7 @@ public class GameObjectRenderer {
 
     public void drawWeapon(Graphics2D graphics, Weapon weapon){
         //kirajzolunk, a fegyver pozíciója a játékoshoz lesz kötve, de azt nem itt adjuk meg
+
 
 
     }

@@ -1,5 +1,6 @@
 package com.DuelingFates.Objects;
 import com.DuelingFates.GameState.GamePlayState;
+import com.DuelingFates.Main.MainProcess;
 import com.DuelingFates.TileMap.TileMap;
 
 import javax.imageio.ImageIO;
@@ -12,55 +13,48 @@ import java.util.ArrayList;
 
 public class Player extends GameObject implements KeyListener {
 
-    //Player parameters
+    //Player parameters - some are public because of animation
+    public static String PIRATE = "PirateDeckhand";
+    public static String POSSESSED = "PossessedArmor";
+
+    private String playerCharacter;
     private String playerName;
-    private int playerHealth;
+
+    public int playerHealth;
     private int maxHealth;
     private int playerScore;
     private Weapon playerWeapon;
-    private int playerAmmoQty;
-    private boolean dead;
+    public int playerAmmoQty;
+    public boolean dead;
     public boolean blinkRed;
     public long blinkCount;
-    private boolean shooting;
-    private ArrayList<Projectile> bullets;
+    public boolean shooting;
+    public ArrayList<Projectile> bullets;
 
-    //Player animation actions
-    private static final int IDLE=0;
-    private static final int RUNNING=2;
-    private static final int SHOOTING=3;
-    private static final int JUMPINGANDFALLING=1;
-    private static final int DEAD=4;
+    //Player actions
+    public static final int IDLE                = 0;
+    public static final int RUNNING             = 2;
+    public static final int SHOOTING            = 3;
+    public static final int JUMPINGANDFALLING   = 1;
+    public static final int DEAD                = 4;
 
     //projectile
-    private Rectangle ar;
-
-    //public static enum playerCharacter{PIRATE_DECKHAND, POSSESSED_ARMOR};
-
-    //Player's sprite animations
-    private ArrayList<BufferedImage[]> sprites;
-    private final int[] NUMFRAMES = {
-            2, 2, 14, 1
-    };
-    private final int[] FRAMEWIDTHS = {
-            41, 39, 43, 46
-    };
-    private final int[] FRAMEHEIGHTS = {
-            44, 44, 44, 44
-    };
-    private final int[] SPRITEDELAYS = {
-            -1, 3, 1, 6
-    };
+    public Rectangle ar;
 
     //ZB: Implementation of constructors
-    public Player(TileMap tileMap) {                        //TODO : ahol a playername a MainProcess.playerNameTemp
+    public Player(TileMap tileMap) {
+
         super(tileMap);
-        //projectile                                        TODO: ezt nem biztos hogy ide kéne
+
+        playerName = MainProcess.getPlayerNameTemp();
+        playerCharacter = MainProcess.getCharacterTemp();
+
+        //projectile                                        TODO: ezt nem biztos hogy ide kéne Dave: hát nem XD
         ar = new Rectangle(0, 0, 0, 0);
         ar.width = 10;
         ar.height = 2;
-        bullets= new ArrayList<Projectile>();
-        playerAmmoQty=30;
+        bullets = new ArrayList<Projectile>();
+        playerAmmoQty = 30;
 
         //Player sprite dimensions
         spriteWidth = 32;
@@ -88,42 +82,13 @@ public class Player extends GameObject implements KeyListener {
         setPlayerHealth(100);
         setPlayerScore(0);
         setPosition(400, 300);
-        //TODO: playerCharacter beállítása, az animation ez alapján történik, mert a spriteok is ott töltődnek be
 
-        try {
-
-            BufferedImage spritesheet = ImageIO.read(new File(
-                            "DuelingFates/Sources/char_PirateDeckhand/PlayerSprite_gun.png"
-                    )
-            );
-
-            int count = 0;
-            sprites = new ArrayList<>();
-
-            for (int i = 0; i < NUMFRAMES.length; i++) {
-                BufferedImage[] bi = new BufferedImage[NUMFRAMES[i]];
-                for (int j = 0; j < NUMFRAMES[i]; j++) {
-                    bi[j] = spritesheet.getSubimage(
-                            j * FRAMEWIDTHS[i],
-                            count,
-                            FRAMEWIDTHS[i],
-                            FRAMEHEIGHTS[i]
-                    );
-                }
-                sprites.add(bi);
-                count += FRAMEHEIGHTS[i];
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        setAnimation(IDLE);
     }
 
     public ArrayList<Projectile> getProjectile(){
         return bullets;
     }
+
     //ZB: Implementation of getters and setters
     /*
      *Get player's name
@@ -212,6 +177,10 @@ public class Player extends GameObject implements KeyListener {
         this.maxHealth = maxHealth;
     }
 
+    public String getPlayerCharacter(){
+        return this.playerCharacter;
+    }
+
     /*
      * Implementation of Player's movements and actions
      * */
@@ -255,6 +224,7 @@ public class Player extends GameObject implements KeyListener {
     public void stop() {
         left = right = blinkRed = jumping = false;
     }
+
     public void respawn(){
         reset();
         setPosition(400, 300);
@@ -315,14 +285,6 @@ public class Player extends GameObject implements KeyListener {
 
     }
 
-    private void setAnimation(int i) {
-        currentAction = i;
-        animation.setFrames(sprites.get(currentAction));
-        animation.setDelay(SPRITEDELAYS[currentAction]);
-        spriteWidth = FRAMEWIDTHS[currentAction];
-        spriteHeight = FRAMEHEIGHTS[currentAction];
-    }
-
     //ZB: Update Player's position and actions
     public void update(){
 
@@ -335,19 +297,6 @@ public class Player extends GameObject implements KeyListener {
         checkTileMapCollision();
         setPosition(tempX,tempY);
 
-        //TODO: ez mire való?   Dave: Azt hiszem valami bugolt neki és ezért írta bele, nem kell szerintem
-        //if(deltaX == 0) x = (int)x;
-
-        /*
-         * Set player's animation
-         * */
-        // check done blinking
-        if(blinkRed) {
-            blinkCount++;
-            if(blinkCount > 120) {
-                blinkRed = false;
-            }
-        }
         //projectiles
             if(shooting && currentAction!=SHOOTING){
                 if(playerAmmoQty>0){
@@ -357,20 +306,13 @@ public class Player extends GameObject implements KeyListener {
                     bullets.add(p);
                 }
             }
-            //update projectiles
+
+        //update projectiles
         for(int i=0; i<bullets.size();i++){
             bullets.get(i).update();
             if(bullets.get(i).shouldRemove()){
                 bullets.remove(i);
                 i--;
-            }
-        }
-
-
-        // check attack finished
-        if(currentAction == SHOOTING) {
-            if(animation.hasPlayedOnce()) {
-                shooting = false;
             }
         }
 
@@ -388,21 +330,15 @@ public class Player extends GameObject implements KeyListener {
             hit(enemy.getDamage());
         }
         */
+
         //TODO: teszt  szükséges
         if(playerHealth==0 || y>tileMap.getMapHeight()+objectHeight*5){
             respawn();
         }
 
-        // set animation, ordered by priority
-        if(playerHealth == 0) {
-            if (currentAction != DEAD) {
-                setAnimation(DEAD);
-            }
-        }
-        else if(shooting){
-            if(currentAction!=SHOOTING){
 
-                setAnimation(SHOOTING);
+        if(shooting){
+            if(currentAction!=SHOOTING){
                 ar.y = (int)y - 6;
                 if(facingRight) ar.x = (int)x + 10;
                 else ar.x = (int)x - 40;
@@ -430,26 +366,6 @@ public class Player extends GameObject implements KeyListener {
 
 
         }
-        else if(deltaY<0){                                      //jumping
-            if(currentAction != JUMPINGANDFALLING){
-                setAnimation(JUMPINGANDFALLING);
-            }
-        }
-        else if(deltaY>0){                                      //falling
-            if(currentAction != JUMPINGANDFALLING){
-                setAnimation(JUMPINGANDFALLING);
-            }
-
-        }
-        else if(left || right){                                 //running
-            if(currentAction!=RUNNING){
-                setAnimation(RUNNING);
-            }
-        }
-        else if(currentAction!=IDLE){                           //standing
-                setAnimation(IDLE);
-        }
-        animation.update();                                     //update animation of player
 
         //Set direction of facing
         if(!shooting){

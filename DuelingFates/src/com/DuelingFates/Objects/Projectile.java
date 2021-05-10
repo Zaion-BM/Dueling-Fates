@@ -38,9 +38,9 @@ public class Projectile extends GameObject{
         if(right) deltaX=projectileSpeed;
         else deltaX=-projectileSpeed;
         spriteHeight=2;
-        spriteWidth=10;
+        spriteWidth=20;
         objectHeight=2;
-        objectWidth=10;
+        objectWidth=20;
 
         //load sprites
         try{

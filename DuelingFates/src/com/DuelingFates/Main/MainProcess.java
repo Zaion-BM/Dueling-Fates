@@ -110,6 +110,7 @@ public class MainProcess extends JPanel implements Runnable{
 
         playerNameTemp ="Player";                                                             //Default név beállítása
         characterTemp = "PirateDeckhand";                                                     //Default karakter beállítása
+        //characterTemp = "PossessedArmor";
         mapTemp = "SnowyMountain";                                                            //Default map
         matchDurationTemp = 2;                                                                //Default time
 

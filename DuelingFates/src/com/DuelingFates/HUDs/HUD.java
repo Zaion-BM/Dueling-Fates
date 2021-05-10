@@ -17,7 +17,7 @@ public class HUD {
     //TODO: lehet enemy és player helyett first place és second place kell, ezáltal egyszerűbb lehet
 
     //player adatok
-    private final String playerNameUI;
+    private String playerNameUI;
     private String playerAmmoUI;
     private String playerScoreUI;
 
@@ -37,7 +37,6 @@ public class HUD {
 
         //session során nem frissülő adatok
         enemyScoreLabel = "getEnemyName()";
-        playerNameUI = MainProcess.getPlayerNameTemp();    //NEM KELL SZERINTEM
         enemyNameUI = "getEnemyName()";
 
         try{
@@ -55,6 +54,7 @@ public class HUD {
 
         //frissülő adatok lekérdezése
         timerValue = "2:30s";
+        playerNameUI = player.getPlayerName();
 
         playerScoreUI = String.valueOf(player.getPlayerScore());    //"250 pts";
         playerAmmoUI = String.valueOf(player.getPlayerAmmoQty());

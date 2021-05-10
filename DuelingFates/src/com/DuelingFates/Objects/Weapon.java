@@ -2,7 +2,10 @@ package com.DuelingFates.Objects;
 
 import com.DuelingFates.TileMap.TileMap;
 
+import java.awt.event.KeyEvent;
+
 public class Weapon extends GameObject{
+
 
     public enum WeaponModel{DEFAULT, BLASTER, UNDERTAKER, MAGNUM}
     public WeaponModel modelType;
@@ -39,10 +42,10 @@ public class Weapon extends GameObject{
 
         //create projectile, a típus alapján
         //csökkentjük a Player töltényeinek számát
-        //ekkor meg kell jeleníteni a player mellett a fegyvert, ha nem lövünk akkor hide oljuk
-
+        //ekkor meg kell jeleníteni a player mellett a fegyvert, ha nem lövünk akkor hideoljuk
 
     }
+
 
     /*
      * Implementation of getters and setters
@@ -77,5 +80,20 @@ public class Weapon extends GameObject{
 
     public void setWeaponFireRate(int weaponFireRate) {
         this.weaponFireRate = weaponFireRate;
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
     }
 }

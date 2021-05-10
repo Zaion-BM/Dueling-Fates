@@ -2,6 +2,8 @@ package com.DuelingFates.Objects;
 
 import com.DuelingFates.TileMap.TileMap;
 
+import java.awt.event.KeyEvent;
+
 public class Projectile extends GameObject{
 
     public enum Types {DEFAULT, ICHOR, METEOR}
@@ -24,10 +26,10 @@ public class Projectile extends GameObject{
 
     }
 
+
     /*
     * Implementation of getters and setters
     * */
-
     public Types getProjectileType() {
         return projectileType;
     }
@@ -43,4 +45,20 @@ public class Projectile extends GameObject{
     public void setProjectileSpeed(float projectileSpeed) {
         this.projectileSpeed = projectileSpeed;
     }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
+    }
+
 }

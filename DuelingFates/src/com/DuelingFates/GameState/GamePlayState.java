@@ -4,11 +4,8 @@ import com.DuelingFates.HUDs.EscapeMenu;
 import com.DuelingFates.HUDs.HUD;
 import com.DuelingFates.Handlers.Keys;
 import com.DuelingFates.Main.MainProcess;
-import com.DuelingFates.Objects.InputHandler;
-import com.DuelingFates.Objects.Player;
-import com.DuelingFates.Objects.Projectile;
+import com.DuelingFates.Objects.*;
 import com.DuelingFates.TileMap.TileMap;
-
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -30,6 +27,7 @@ public class GamePlayState extends GameState implements KeyListener {
     private Player hostPlayer;  //TODO: miért kell két külön player? gombok nyomkodásánál mi lesz?
     private Player clientPlayer;
 
+    private PlayerInputHandler hostInput;
     private HUD hud;
 
     //egyellőre külön kezeljük, mert a threadelés nem syncronizált alapból
@@ -37,9 +35,10 @@ public class GamePlayState extends GameState implements KeyListener {
     private ArrayList<Projectile> clientBullets;
 
     private final EscapeMenu escapeMenu = new EscapeMenu();
-
     public boolean escapePressed = false;
     public boolean escapeBefore = false;
+
+    private GameObjectRenderer gameObjectRenderer = new GameObjectRenderer();
 
     public GamePlayState(StateManager stateManager){
 
@@ -53,7 +52,6 @@ public class GamePlayState extends GameState implements KeyListener {
     @Override
     public void initialization() {
 
-        //TODO load different maps ha működik egy darab
         tileMap = new TileMap(tileSize);
 
         if(MainProcess.getMapTemp().equals("CloudyForest")) {
@@ -97,11 +95,12 @@ public class GamePlayState extends GameState implements KeyListener {
 
         hud = new HUD(hostPlayer);
 
-        //TODO player location setter, egy külön metódusban, melyet egy játékos halálakor majd szintén meghívunk
-        //TODO start timer, ami lehet metódus, itt végtelen ciklusban várunk a kliens csatlakozására és utána indul a meccs
-        //TODO projectile tömb létrehozása
         //Player init
         hostPlayer= new Player(tileMap);
+
+        //TODO player location egy játékos halálakor majd szintén meghívunk
+        //TODO start timer, ami lehet metódus, itt végtelen ciklusban várunk a kliens csatlakozására és utána indul a meccs
+        //TODO projectile tömb létrehozása
 
     }
 
@@ -112,7 +111,7 @@ public class GamePlayState extends GameState implements KeyListener {
         tileMap.draw(graphics);
         //System.out.println("Game graphics has been updated!");
 
-        hud.draw(graphics);
+        hud.draw(graphics, hostPlayer);
 
         if (escapePressed) {
             escapeMenu.draw(graphics);
@@ -123,25 +122,21 @@ public class GamePlayState extends GameState implements KeyListener {
         //TODO Objectrenderer meghívása amiben a kirajzolást definiáltuk
 
         //Player draw
-        hostPlayer.draw(graphics);
+        gameObjectRenderer.drawPlayer(graphics, hostPlayer);
+
     }
 
     @Override
     public void update() {
-        //check keys
-       // handleInput();
+        //System.out.println("Game has been updated!");
 
         //Player update
         hostPlayer.update();
 
-        //TODO inputkezelés, kérdés, hogy állapotgépesen, vagy adott keyboard lenyomása esetén x-et lépünk
         //TODO player mozgás, projectile update for ciklusban, ha már nem releváns, akkor helyére NULL
         // ha intersects vagyis érintkezik valamivel és ha nincs a mapon,
 
-        //System.out.println("Game has been updated!");
-
     }
-
 
     //TODO match start, match finish, player death esemény,
     //TODO ezenkívűl itemek és fegyverek spawnolása
@@ -149,6 +144,7 @@ public class GamePlayState extends GameState implements KeyListener {
     @Override
     public void updateSwingUI(JFrame duelingFates,JLayeredPane layeredPane) {
 
+        duelingFates.addKeyListener(new PlayerInputHandler(hostPlayer));
         duelingFates.addKeyListener(new InputHandler(this));        //Listener a keyboard érzékeléséért
 
         layeredPane.removeAll();                                                //GamePlay-nél nincs szükség a Swing elemekre
@@ -157,7 +153,6 @@ public class GamePlayState extends GameState implements KeyListener {
         StateManager.setStateChangedFalse();
 
     }
-
 
     public void keyTyped(KeyEvent e) {
 
@@ -181,15 +176,6 @@ public class GamePlayState extends GameState implements KeyListener {
             escapeBefore = false;
 
         }
-        /*
-         * Moving players or doing actions if key is pressed
-         * */
-        switch(key){    //TODO: Tesztelni kell hogy client és host most külön mozog vagy egyszerre vagy most mi van?
-            case(KeyEvent.VK_LEFT): hostPlayer.setLeft(true); break;
-            case(KeyEvent.VK_RIGHT): hostPlayer.setRight(true); break;
-            case(KeyEvent.VK_UP): hostPlayer.setJumping(true); break;
-            case(KeyEvent.VK_SPACE): hostPlayer.setShooting(); break;
-        }
     }
 
     public void keyReleased(KeyEvent e) {
@@ -202,22 +188,14 @@ public class GamePlayState extends GameState implements KeyListener {
             stateManager.setState(StateManager.States.MAINMENUSTATE);
 
         }
-        /*
-         * Stop Moving players or doing actions if key is released
-         * */
-        switch(key){
-            case(KeyEvent.VK_LEFT): hostPlayer.setLeft(false); break;
-            case(KeyEvent.VK_RIGHT): hostPlayer.setRight(false); break;
-            case(KeyEvent.VK_UP): hostPlayer.setJumping(false); break;
-            case(KeyEvent.VK_SPACE): hostPlayer.setShooting(); break;
-        }
 
     }
 
+    /*
     public void handleInput() {
         hostPlayer.setJumping(Keys.keyState[Keys.UP]);
         hostPlayer.setLeft(Keys.keyState[Keys.LEFT]);
         hostPlayer.setRight(Keys.keyState[Keys.RIGHT]);
         if(Keys.isPressed(Keys.SPACE)) hostPlayer.setShooting();
-    }
+    }*/
 }

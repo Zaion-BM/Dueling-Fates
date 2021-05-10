@@ -30,8 +30,8 @@ public class MainProcess extends JPanel implements Runnable{
     //valószínűleg a feltétel ellenőrzése miatt, mely a swing menük miatt szükséges
     volatile private StateManager stateManager;
 
-    private static final int gameWidth = 1280;
-    private static final int gameHeight = 720;
+    private static final int gameWidth = 1920;
+    private static final int gameHeight = 1080;
 
     @SuppressWarnings("FieldCanBeLocal")
     private final int FPS = 60;                                                     // 1/60 = 16.67 millisec
@@ -48,6 +48,7 @@ public class MainProcess extends JPanel implements Runnable{
     public static Font balooThambiFont;                                             //egyedi font
     public static Font balooThambiFontSmall;                                        //egyedi font a playerName miatt
     public static Font balooThambiFontBig;                                          //egyedi font az ammo-hoz
+    public static Font balooThambiFontVerySmall;                                    //egyedi font a player névhez
 
     //változók melyek a menüben kapnak értéket, de csak a gameplaynél van szükségünnk rá
     public static String playerNameTemp;                                            //játékos neve kezdetben
@@ -79,6 +80,9 @@ public class MainProcess extends JPanel implements Runnable{
             balooThambiFontSmall = Font.createFont(Font.TRUETYPE_FONT, new File(fontLocation)).deriveFont(35f);
             graphicsEnvironment.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File(fontLocation)));
 
+            balooThambiFontVerySmall = Font.createFont(Font.TRUETYPE_FONT, new File(fontLocation)).deriveFont(20f);
+            graphicsEnvironment.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File(fontLocation)));
+
             balooThambiFontBig = Font.createFont(Font.TRUETYPE_FONT, new File(fontLocation)).deriveFont(80f);
             graphicsEnvironment.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File(fontLocation)));
 
@@ -93,9 +97,10 @@ public class MainProcess extends JPanel implements Runnable{
         Image invisibleImage = Toolkit.getDefaultToolkit().createImage(new MemoryImageSource(16, 16, empty, 0, 16));
         hiddenCursor = Toolkit.getDefaultToolkit().createCustomCursor(invisibleImage, new Point(0,0), "hiddenCursor");
 
-        duelingFates.setUndecorated(false);                                                    //van keret
+        duelingFates.setUndecorated(true);                                                    //van keret
         duelingFates.setSize(new Dimension(getGameWidth(), getGameHeight()));                 //méret megadása, csak Dimension típust értelmez
         duelingFates.setLocationRelativeTo(null);                                             //null: az ablak a képernyőn közepén lesz, focust alapértelmezetten kap
+        //duelingFates.setExtendedState(JFrame.MAXIMIZED_BOTH);                                //max Vertical & Horizontal
 
         setMenuDefaults();
         startThread();
@@ -181,7 +186,7 @@ public class MainProcess extends JPanel implements Runnable{
 
     //Runnable miatt automatikusan meghívódik
     public void run(){
-        Queue<String> messageQueue = new LinkedList<String>();
+        Queue<String> messageQueue = new LinkedList<>();
         messageQueue.add("MSG1\n");
         messageQueue.add("MSG2\n");
         gameWindow = new BufferedImage(getGameWidth(),getGameHeight(),BufferedImage.TYPE_INT_RGB);    //a kép melyre rajzolunk
@@ -201,13 +206,15 @@ public class MainProcess extends JPanel implements Runnable{
             if (StateManager.stateChanged) {                                                  //ha állapotot váltunk frissítjük a Swing Frame-et
                 stateManager.updateSwingUI(duelingFates, layeredPane);                      //a Frame és a JLayeredPane továbbadásával tudjuk őket frissíteni
                 //System.out.println("Swing GUI has been updated!");
-                System.out.println(stateManager.currentState);
+
+                /*System.out.println(stateManager.currentState);
                 if (stateManager.currentState == StateManager.States.HOSTSTATE) {
                     serverThread.start();
                 }
                 if (stateManager.currentState == StateManager.States.JOINSTATE) {
                     clientThread.start();
-                }
+                }*/
+
             }
 
             if (stateManager.currentState == StateManager.States.GAMEPLAYSTATE) {             //csak a GamePlayState-ben van grafikus kirajzolás (60 FPS-sel)
@@ -218,7 +225,7 @@ public class MainProcess extends JPanel implements Runnable{
                 try {
                     synchronized (this) {
                         messageQueue.add("MSG3\n");
-                        this.wait((long)16.67);//Thread.sleep(oneFrameDuration); az éppen futó threadet megszakítja, millisec ideig
+                        this.wait(oneFrameDuration);//Thread.sleep(oneFrameDuration); az éppen futó threadet megszakítja, millisec ideig
                         //System.out.println("I'm waiting");
                     }                                                          //de warningot ad, így ezzel a megoldással elkerülhető
                 }

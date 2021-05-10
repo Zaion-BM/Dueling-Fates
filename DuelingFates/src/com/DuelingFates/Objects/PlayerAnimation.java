@@ -11,8 +11,6 @@ public class PlayerAnimation {
     public PlayerAnimation(Player player){
         //az playerCharacter függvényében más sprite-ot töltünk be
 
-
-
     }
 
     public void shooting(){

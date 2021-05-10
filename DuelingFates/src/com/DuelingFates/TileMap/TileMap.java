@@ -18,7 +18,7 @@ public class TileMap {
     @SuppressWarnings("FieldCanBeLocal")
     private final int mapStartX = 0;                    //innen kezddődik a map kirajzolása
     @SuppressWarnings("FieldCanBeLocal")
-    private final int mapStartY = 25;
+    private final int mapStartY = 0;
 
     //Tile paraméterek
     private final int tileSize;

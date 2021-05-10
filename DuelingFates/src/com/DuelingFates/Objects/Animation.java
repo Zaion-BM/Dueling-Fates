@@ -4,12 +4,12 @@ import java.awt.image.BufferedImage;
 
 public class Animation {
 
-    private BufferedImage[] frames;
-    private int currentFrame;
-    private int numFrames;
+    private BufferedImage[] frames;                             //képkockák
+    private int currentFrame;                                   //aktuális frame
+    private int numFrames;                                      //képkockák száma
 
-    private int count;
-    private int delay;
+    private int count;                                          //update-ek számolása
+    private int delay;                                          //képek közti késés
 
     private int timesPlayed;
 
@@ -32,16 +32,16 @@ public class Animation {
 
     public void update() {
 
-        if(delay == -1) return;
+        if(delay == -1) return;                                 //ha állunk nem csinálunk semmit
 
         count++;
 
-        if(count == delay) {
+        if(count == delay) {                                    //ha letelt az idő, akkor továbblépünk
             currentFrame++;
-            count = 0;
+            count = 0;                                          //nullázzuk a számlálót
         }
-        if(currentFrame == numFrames) {
-            currentFrame = 0;
+        if(currentFrame == numFrames) {                         //ha a kép végére értünk
+            currentFrame = 0;                                   //akkor előről kezdjük
             timesPlayed++;
         }
 

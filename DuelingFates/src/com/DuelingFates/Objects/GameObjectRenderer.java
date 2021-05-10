@@ -52,11 +52,32 @@ public class GameObjectRenderer {
 
         }
 
-
-
     }
 
     public void drawPlayer(Graphics2D graphics, Player player){
+
+        if(player.facingRight){
+            graphics.drawImage(player.animation.getImage(),
+                              (int)(player.x-player.spriteWidth/2),
+                              (int)(player.y-player.spriteHeight/2),
+                              null);
+        }
+
+        //Mirroring animation
+        else{
+            graphics.drawImage(player.animation.getImage(),
+                              (int)(player.x-player.spriteWidth/2 + player.spriteWidth),
+                              (int)(player.y-player.spriteHeight/2),
+                              -player.spriteWidth,
+                              player.spriteHeight,
+                              null);
+        }
+
+        //If we get shot, we are blinking red
+        if(player.blinkRed){
+            if(player.blinkCount % 10 < 5) return;
+        }
+
         //csak kirajzolunk, az animáció a PlayerAnimation-ben lesz
 
     }

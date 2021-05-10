@@ -3,6 +3,8 @@ package com.DuelingFates.Objects.Consumable;
 import com.DuelingFates.Objects.Player;
 import com.DuelingFates.TileMap.TileMap;
 
+import java.awt.event.KeyEvent;
+
 public class Ammo extends Consumable{
 
     private int ammoQty;
@@ -43,4 +45,18 @@ public class Ammo extends Consumable{
         this.ammoQty = ammoQty;
     }
 
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
+    }
 }

@@ -9,17 +9,17 @@ public class Weapon extends GameObject{
 
     public enum WeaponModel{DEFAULT, BLASTER, UNDERTAKER, MAGNUM}
     public WeaponModel modelType;
-    public String bulletType;
+    public Projectile projectile;
 
     //Weapon parameters
     private int weaponDmg;
     private int weaponFireRate;
 
 
-    public Weapon(WeaponModel modelType, String bulletType, TileMap tileMap){
+    public Weapon(TileMap tileMap,WeaponModel modelType, Projectile projectile){
         super(tileMap);
         this.modelType = modelType;
-        this.bulletType = bulletType;
+        this.projectile = projectile;
 
         switch(modelType){
             case MAGNUM:    setWeaponDmg(20);       //firerate=1 -> 1 shoot = 1 bullet (bullet speed: ~0.1s/bullet)
@@ -58,12 +58,12 @@ public class Weapon extends GameObject{
         this.modelType = modelType;
     }
 
-    public String getBulletType() {
-        return bulletType;
+    public Projectile getProjectile() {
+        return projectile;
     }
 
-    public void setBulletType(String bulletType) {
-        this.bulletType = bulletType;
+    public void setProjectile(Projectile projectile) {
+        this.projectile = projectile;
     }
 
     public int getWeaponDmg() {

@@ -33,6 +33,7 @@ public class GamePlayState extends GameState implements KeyListener {
     //egyellőre külön kezeljük, mert a threadelés nem syncronizált alapból
     private ArrayList<Projectile> hostBullets;
     private ArrayList<Projectile> clientBullets;
+    private Projectile hostProjectile;
 
     private final EscapeMenu escapeMenu = new EscapeMenu();
     public boolean escapePressed = false;
@@ -97,6 +98,7 @@ public class GamePlayState extends GameState implements KeyListener {
 
         //Player init
         hostPlayer= new Player(tileMap);
+        //hostProjectile=new Projectile(tileMap,); //TODO: projectile
 
         //TODO player location egy játékos halálakor majd szintén meghívunk
         //TODO start timer, ami lehet metódus, itt végtelen ciklusban várunk a kliens csatlakozására és utána indul a meccs
@@ -123,6 +125,8 @@ public class GamePlayState extends GameState implements KeyListener {
 
         //Player draw
         gameObjectRenderer.drawPlayer(graphics, hostPlayer);
+        //Projectile draw
+       // gameObjectRenderer.drawProjectile(graphics,hostProjectile);
 
     }
 
@@ -132,6 +136,7 @@ public class GamePlayState extends GameState implements KeyListener {
 
         //Player update
         hostPlayer.update();
+       // hostProjectile.update();
 
         //TODO player mozgás, projectile update for ciklusban, ha már nem releváns, akkor helyére NULL
         // ha intersects vagyis érintkezik valamivel és ha nincs a mapon,
@@ -190,12 +195,4 @@ public class GamePlayState extends GameState implements KeyListener {
         }
 
     }
-
-    /*
-    public void handleInput() {
-        hostPlayer.setJumping(Keys.keyState[Keys.UP]);
-        hostPlayer.setLeft(Keys.keyState[Keys.LEFT]);
-        hostPlayer.setRight(Keys.keyState[Keys.RIGHT]);
-        if(Keys.isPressed(Keys.SPACE)) hostPlayer.setShooting();
-    }*/
 }

@@ -6,6 +6,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.ArrayList;
 
 public class GameObjectRenderer {
 
@@ -78,6 +79,8 @@ public class GameObjectRenderer {
             if(player.blinkCount % 10 < 5) return;
         }
 
+        drawProjectile(graphics,player.getProjectile());
+
         //csak kirajzolunk, az animáció a PlayerAnimation-ben lesz
 
     }
@@ -88,22 +91,42 @@ public class GameObjectRenderer {
 
     }
 
-    public void drawProjectile(Graphics2D graphics, Projectile projectile){
+    public void drawProjectile(Graphics2D graphics, ArrayList<Projectile> projectile){
         //ha nem null a projectile, akkor kirajzolja képernyőre
+        for(int i=0; i<projectile.size();i++) {
+            if (projectile.get(i).projectileType == Projectile.Types.DEFAULT){
 
-        if(projectile.projectileType == Projectile.Types.DEFAULT){
+            }
 
+            if (projectile.get(i).projectileType == Projectile.Types.ICHOR) {
+
+            }
+
+            if (projectile.get(i).projectileType == Projectile.Types.METEOR) {
+
+            }
+
+
+            if (projectile.get(i).facingRight) {
+                graphics.drawImage(projectile.get(i).animation.getImage(),
+                        (int) (projectile.get(i).x - projectile.get(i).spriteWidth / 2),
+                        (int) (projectile.get(i).y - projectile.get(i).spriteHeight / 2),
+                        null);
+            }
+
+            //Mirroring animation
+            else {
+                graphics.drawImage(projectile.get(i).animation.getImage(),
+                        (int) (projectile.get(i).x - projectile.get(i).spriteWidth / 2 + projectile.get(i).spriteWidth),
+                        (int) (projectile.get(i).y - projectile.get(i).spriteHeight / 2),
+                        -projectile.get(i).spriteWidth,
+                        projectile.get(i).spriteHeight,
+                        null);
+            }
+
+            //draw projectile
+            projectile.get(i).draw(graphics);
         }
-
-        if(projectile.projectileType == Projectile.Types.ICHOR){
-
-        }
-
-        if(projectile.projectileType == Projectile.Types.METEOR){
-
-        }
-
-
 
     }
 

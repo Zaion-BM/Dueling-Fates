@@ -23,14 +23,13 @@ public class Player extends GameObject implements KeyListener {
     public boolean blinkRed;
     public long blinkCount;
     private boolean shooting;
+    private ArrayList<Projectile> bullets;
 
     //Player animation actions
     private static final int IDLE=0;
     private static final int RUNNING=2;
     private static final int SHOOTING=3;
     private static final int JUMPINGANDFALLING=1;
-    //private static final int JUMPING = 3;
-    //private static final int FALLING = 4; /TODO: jump és falling sprite-ok külön
     private static final int DEAD=4;
 
     //projectile
@@ -60,6 +59,8 @@ public class Player extends GameObject implements KeyListener {
         ar = new Rectangle(0, 0, 0, 0);
         ar.width = 10;
         ar.height = 2;
+        bullets= new ArrayList<Projectile>();
+        playerAmmoQty=30;
 
         //Player sprite dimensions
         spriteWidth = 32;
@@ -120,6 +121,9 @@ public class Player extends GameObject implements KeyListener {
         setAnimation(IDLE);
     }
 
+    public ArrayList<Projectile> getProjectile(){
+        return bullets;
+    }
     //ZB: Implementation of getters and setters
     /*
      *Get player's name
@@ -212,7 +216,7 @@ public class Player extends GameObject implements KeyListener {
      * Implementation of Player's movements and actions
      * */
     public void setShooting(){
-        shooting=true;
+       if(playerAmmoQty>0)  shooting=true;
     }
     public void setLeft(boolean b){ left=b; }
     public void setRight(boolean b){ right=b; }
@@ -250,6 +254,10 @@ public class Player extends GameObject implements KeyListener {
 
     public void stop() {
         left = right = blinkRed = jumping = false;
+    }
+    public void respawn(){
+        reset();
+        setPosition(400, 300);
     }
 
     //ZB: Calculate the Player's next position
@@ -340,6 +348,24 @@ public class Player extends GameObject implements KeyListener {
                 blinkRed = false;
             }
         }
+        //projectiles
+            if(shooting && currentAction!=SHOOTING){
+                if(playerAmmoQty>0){
+                    playerAmmoQty--;
+                    Projectile p=new Projectile(tileMap,facingRight);
+                    p.setPosition(x+spriteWidth,y);
+                    bullets.add(p);
+                }
+            }
+            //update projectiles
+        for(int i=0; i<bullets.size();i++){
+            bullets.get(i).update();
+            if(bullets.get(i).shouldRemove()){
+                bullets.remove(i);
+                i--;
+            }
+        }
+
 
         // check attack finished
         if(currentAction == SHOOTING) {
@@ -362,11 +388,14 @@ public class Player extends GameObject implements KeyListener {
             hit(enemy.getDamage());
         }
         */
-
+        //TODO: teszt  szükséges
+        if(playerHealth==0 || y>tileMap.getMapHeight()+objectHeight*5){
+            respawn();
+        }
 
         // set animation, ordered by priority
         if(playerHealth == 0) {
-            if(currentAction != DEAD) {
+            if (currentAction != DEAD) {
                 setAnimation(DEAD);
             }
         }

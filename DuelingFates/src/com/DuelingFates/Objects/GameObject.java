@@ -159,7 +159,7 @@ public abstract class GameObject {
         //ZB: If we move horizontally
         calculateCorners(nextX,y);
         if(deltaX<0){                                                   //If we're going left
-            if(topLeftCorner||bottomLeftCorner){
+            if(topLeftCorner||bottomLeftCorner || x<0+objectWidth){     //+we can't go offscreen
                 deltaX=0;                                               //stop going left
                 tempX=currentColumn*tileSize+(float)objectWidth/2;      //set object just right the tile we hit
             }
@@ -169,7 +169,7 @@ public abstract class GameObject {
         }
 
         if(deltaX>0){                                                   //If we're going right
-            if(topRightCorner||bottomRightCorner){
+            if(topRightCorner||bottomRightCorner || x>tileMap.getMapWidth()-objectWidth){ //+we can't go offscreen
                 deltaX=0;                                               //stop going right
                 tempX=(currentColumn+1)*tileSize-(float)objectWidth/2;  //set object just left the tile we hit
             }

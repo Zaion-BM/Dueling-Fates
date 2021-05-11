@@ -1,11 +1,13 @@
 package com.DuelingFates.Objects;
 
 import com.DuelingFates.Objects.Consumable.Consumable;
+import com.DuelingFates.Objects.Consumable.HealthPotion;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class GameObjectRenderer {
@@ -33,7 +35,7 @@ public class GameObjectRenderer {
 
         try{
             //consumables
-            healthSprite = ImageIO.read(new File("DuelingFates/Sources/item_Healing_Potion.png"));
+            healthSprite = ImageIO.read(new File("DuelingFates/Sources/item_Healing_PotionBig.png"));
             ammoSprite = ImageIO.read(new File("DuelingFates/Sources/item_Ammo_Pickup.png"));
 
             //projectiles
@@ -86,9 +88,19 @@ public class GameObjectRenderer {
 
     }
 
-    public void drawConsumable(Graphics2D graphics, Consumable consumable){
-        //ha nem null a consumable, akkor kirajzolja képernyőre
+    public void drawHealthPotion(Graphics2D graphics, Consumable consumable){
 
+        //ha nem null a consumable, akkor kirajzoljuk képernyőre
+        graphics.drawImage(healthSprite,(int)(consumable.getPositionX()),
+                          (int)(consumable.getPositionY()), null);
+
+    }
+
+    public void drawAmmoPickup(Graphics2D graphics, Consumable consumable){
+
+        //ha nem null a consumable, akkor kirajzoljuk képernyőre
+        graphics.drawImage(ammoSprite,(int)(consumable.getPositionX()),
+                (int)(consumable.getPositionY()), null);
 
     }
 

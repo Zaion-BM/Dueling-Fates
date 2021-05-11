@@ -4,40 +4,67 @@ import com.DuelingFates.Objects.Player;
 import com.DuelingFates.TileMap.TileMap;
 
 import java.awt.event.KeyEvent;
+import java.util.Random;
 
 public class HealthPotion extends Consumable {
 
     private int healthPoints;
+    private int healthScore;
 
-    public HealthPotion(TileMap tileMap, int healthPoints) {
+    public HealthPotion(TileMap tileMap) {
 
         super(tileMap);
-        this.healthPoints = healthPoints;
+        healthPoints = 30;
+
+        objectHeight = 39;
+        objectWidth = 30;
+
+        healthScore = 5;
+
+        //define spawn bounds
+        Random random = new Random();
+        int availableSpawnsY = random.nextInt(680);
+        availableSpawnsY+= 200;
+        int availableSpawnsX = random.nextInt(1700);
+        availableSpawnsX+= 110;
+
+        this.setPosition(availableSpawnsX,availableSpawnsY);
 
     }
 
 
     @Override
-    public void spawnConsumable(Consumable consumable) {
+    public void spawnConsumable() {
         //kiválasztunk egy random pozíciót a mapon és ott példányosítjuk
         //megadjuk, hogy hova lehet spawnolni, mert tudjuk a map layoutját
         //és azok közül random választunk
         //az időpont amilyen sebeséggel spawnol, pedig szintén lehet random, vagy minden 20 secenként
 
+
     }
 
     @Override
-    public void useConsumable(Consumable consumable, Player player) {
-        //Használjuk a health pickupot, azaz a player playerHealth értékét healthPoints-cal növeljük
-        //collision intersect függvénnyel érzékeljük, hogy a player tile-ja érinti-e már
-        //a consumable tile-ját.
-        //ekkor eltüntetjük, azaz nullba állítjuk az adott példányt, kirajzolni, meg ha null
-        //akkor nem kell (ezt külön elenőrizzük az exception elkerülése miatt
+    public void useConsumable(Player player) {
+
+        player.setPlayerHealth(player.getPlayerHealth() + healthPoints);
+        player.setPlayerScore(player.getPlayerScore() + healthScore);
+
     }
 
     /*
      * Implementation of getters and setters
      * */
+
+    @Override
+    public int getObjectHeight() {
+        return objectHeight;
+    }
+
+    @Override
+    public int getObjectWidth() {
+        return objectWidth;
+    }
+
     public int getHealthPoints() {
         return healthPoints;
     }
@@ -45,6 +72,7 @@ public class HealthPotion extends Consumable {
     public void setHealthPoints(int healthPoints) {
         this.healthPoints = healthPoints;
     }
+
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -60,4 +88,5 @@ public class HealthPotion extends Consumable {
     public void keyReleased(KeyEvent e) {
 
     }
-}
+
+    }

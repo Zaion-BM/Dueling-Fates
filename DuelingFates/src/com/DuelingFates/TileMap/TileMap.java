@@ -87,8 +87,8 @@ public class TileMap {
 
             mapLayout = new int[mapRows][mapColumns];                                   //mapLayout létrehozása
 
-            mapWidth=mapColumns*tileSize;//Map szélesség (30*64=1920)
-            mapHeight=mapRows*tileSize;//Map magasság (16*64=1024) //(16*64+56=1080)
+            mapWidth=mapColumns*tileSize;                                               //Map szélesség (30*64=1920)
+            mapHeight=mapRows*tileSize;                                                 //Map magasság (16*64=1024) //(16*64+56=1080)
 
             String divider = "\\t";                                                     //számok elválasztása tabbal
             int row = 0;

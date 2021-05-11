@@ -79,9 +79,9 @@ public class Player extends GameObject implements KeyListener {
 
         //Specify player parameters
         setPlayerMaxHealth(100);
-        setPlayerHealth(100);
+        setPlayerHealth(80);
         setPlayerScore(0);
-        setPosition(400, 300);
+        setPosition(300, 400);
 
     }
 
@@ -122,6 +122,9 @@ public class Player extends GameObject implements KeyListener {
      * */
     public void setPlayerHealth(int playerHealth){
         this.playerHealth = playerHealth;
+        if (this.playerHealth > 100){
+            this.playerHealth = 100;
+        }
     }
 
     /*
@@ -287,8 +290,6 @@ public class Player extends GameObject implements KeyListener {
 
     //ZB: Update Player's position and actions
     public void update(){
-
-        //TODO: idő kiiratása képernyőre? Dave:GAMEPLAYBEN!!! //time++;
 
         /*
          * Update player's position

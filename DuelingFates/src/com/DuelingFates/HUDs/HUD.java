@@ -37,8 +37,8 @@ public class HUD {
     public HUD(Player player){
 
         //session során nem frissülő adatok
-        enemyScoreLabel = "getEnemyName()";
-        enemyNameUI = "getEnemyName()";
+        enemyScoreLabel = GamePlayState.getClientPlayerName() + "'s score";
+        enemyNameUI = GamePlayState.getClientPlayerName();
 
         try{
 
@@ -70,7 +70,7 @@ public class HUD {
         playerScoreUI = String.valueOf(player.getPlayerScore());    //"250 pts";
         playerAmmoUI = String.valueOf(player.getPlayerAmmoQty());
 
-        enemyScoreUI = "140pts";
+        enemyScoreUI = "getFromClient";
 
         graphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
 
@@ -106,20 +106,19 @@ public class HUD {
         graphics.drawRect((int)(player.getPositionX())-50, (int)(player.getPositionY())-57, 100, 10);
 
 
+        /***Enemy adatok
+        graphics.setFont(MainProcess.balooThambiFontVerySmall);
+        graphics.setColor(Color.BLACK);
+        graphics.drawString(enemyNameUI,(int)(player.getPositionX()- fm.stringWidth(playerNameUI) / 2), (int)(player.getPositionY())-65);
 
-        //Enemy adatok
-        /**graphics.drawString(enemyNameUI,(int)(getEnemyPositionX()), (int)(getEnemyPositionY())-80);
+        graphics.setColor(MainMenuState.darkRed);
+        graphics.fillRect((int)(player.getPositionX())-50, (int)(player.getPositionY())-57, player.getPlayerHealth(), 10);
 
-         graphics.setColor(MainMenuState.darkRed);
-         graphics.fillRect((int)(getEnemyPositionX()), (int)(getEnemyPositionY())-50, getEnemyHealth(), 12);
-
-         graphics.setColor(Color.BLACK);
-         float borderSize = 2;
-         graphics.setStroke(new BasicStroke(borderSize));
-         graphics.drawRect(getEnemyPositionX()), (int)(getEnemyositionY())-50, 150, 12);
-
-
-         **/
+        graphics.setColor(Color.BLACK);
+        float borderSize = 2;
+        graphics.setStroke(new BasicStroke(borderSize));
+        graphics.drawRect((int)(player.getPositionX())-50, (int)(player.getPositionY())-57, 100, 10);
+        **/
 
     }
 

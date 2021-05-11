@@ -4,18 +4,35 @@ import com.DuelingFates.Objects.Player;
 import com.DuelingFates.TileMap.TileMap;
 
 import java.awt.event.KeyEvent;
+import java.util.Random;
 
 public class Ammo extends Consumable{
 
     private int ammoQty;
+    private int ammoScore;
 
-    public Ammo(TileMap tileMap, int ammoQty) {
+    public Ammo(TileMap tileMap) {
         super(tileMap);
-        this.ammoQty = ammoQty;
+        ammoQty = 10;
+
+        objectHeight = 41;
+        objectWidth = 31;
+
+        ammoScore = 10;
+
+        //define spawn bounds
+        Random random = new Random();
+        int availableSpawnsY = random.nextInt(680);
+        availableSpawnsY+= 200;
+        int availableSpawnsX = random.nextInt(1700);
+        availableSpawnsX+= 110;
+
+        this.setPosition(availableSpawnsX,availableSpawnsY);
+
     }
 
     @Override
-    public void spawnConsumable(Consumable consumable) {
+    public void spawnConsumable() {
         //kiválasztunk egy random pozíciót a mapon és ott példányosítjuk
         //megadjuk, hogy hova lehet spawnolni, mert tudjuk a map layoutját
         //és azok közül random választunk
@@ -24,14 +41,20 @@ public class Ammo extends Consumable{
     }
 
     @Override
-    public void useConsumable(Consumable consumable, Player player) {
-        //Használjuk az ammo pickupot, azaz a player ammo számát ammoQuantity-vel növeljük
-        //collision intersect függvénnyel érzékeljük, hogy a player tile-ja érinti-e már
-        //a consumable tile-ját.
-        //ekkor eltüntetjük, azaz nullba állítjuk az adott példányt, kirajzolni, meg ha null
-        //akkor nem kell (ezt külön elenőrizzük az exception elkerülése miatt
+    public void useConsumable(Player player) {
 
+        player.setPlayerAmmoQty(player.getPlayerAmmoQty() + ammoQty);
+        player.setPlayerScore(player.getPlayerScore() + ammoScore);
+    }
 
+    @Override
+    public int getObjectHeight() {
+        return objectHeight;
+    }
+
+    @Override
+    public int getObjectWidth() {
+        return objectWidth;
     }
 
     /*

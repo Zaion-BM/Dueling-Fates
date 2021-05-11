@@ -24,8 +24,9 @@ public class GamePlayState extends GameState implements KeyListener {
     private final int tileSize = 64;
 
     private Player hostPlayer;          //TODO: miért kell két külön player? gombok nyomkodásánál mi lesz?
-    private Player clientPlayer;
     private PlayerAnimation hostAnimation;
+    private Player clientPlayer;
+    private PlayerAnimation clientAnimation;
 
     private PlayerInputHandler hostInput;
     private HUD hud;
@@ -40,10 +41,15 @@ public class GamePlayState extends GameState implements KeyListener {
     public boolean escapeBefore = false;
 
     private GameObjectRenderer gameObjectRenderer = new GameObjectRenderer();
-    private static long seconds = 0;
-    private static long millis = 0;
-    private static int minutes = 0;
+    private static long seconds;
+    private static long millis;
+    private static int minutes;
 
+    private static int hostPlayerScore;
+    private static int clientPlayerScore;
+
+    private static String hostPlayerName;
+    private static String clientPlayerName;
 
     public GamePlayState(StateManager stateManager){
 
@@ -56,6 +62,12 @@ public class GamePlayState extends GameState implements KeyListener {
 
     @Override
     public void initialization() {
+
+        seconds = 0;
+        millis = 0;
+        minutes = 0;
+        hostPlayerScore = 0;
+        clientPlayerScore = 0;
 
         tileMap = new TileMap(tileSize);
 
@@ -98,11 +110,19 @@ public class GamePlayState extends GameState implements KeyListener {
             tileMap.loadTilesToMap("DuelingFates/Sources/Maps/SnowyMountain.txt");
         }
 
-        hud = new HUD(hostPlayer);
-
         //Player init
+        clientPlayer = new Player(tileMap);
+        clientPlayer.setPosition(500,300);
+        clientAnimation = new PlayerAnimation(clientPlayer);
+        setClientPlayerName(clientPlayer.getPlayerName());
+
         hostPlayer = new Player(tileMap);
         hostAnimation = new PlayerAnimation(hostPlayer);
+        hud = new HUD(hostPlayer);
+
+        //TODO CSAK A TESZT MIATT
+        hostPlayer.setPlayerName("HOST!4!44");
+        setHostPlayerName(hostPlayer.getPlayerName());
 
         //hostProjectile=new Projectile(tileMap,); //TODO: projectile
 
@@ -121,6 +141,7 @@ public class GamePlayState extends GameState implements KeyListener {
 
         hud.draw(graphics, hostPlayer);
 
+
         if (escapePressed) {
             escapeMenu.draw(graphics);
             escapeBefore = true;            //engedélyezzük az eltüntetés lehetőségét
@@ -131,6 +152,7 @@ public class GamePlayState extends GameState implements KeyListener {
 
         //Player draw
         gameObjectRenderer.drawPlayer(graphics, hostPlayer);
+        gameObjectRenderer.drawPlayer(graphics, clientPlayer);
         //Projectile draw
        // gameObjectRenderer.drawProjectile(graphics,hostProjectile);
 
@@ -142,8 +164,12 @@ public class GamePlayState extends GameState implements KeyListener {
         //System.out.println("Game has been updated!");
 
         //Player update
+
         hostPlayer.update();
         hostAnimation.updateAnimation(hostPlayer);
+
+        clientPlayer.update();
+        clientAnimation.updateAnimation(clientPlayer);
         //hostAnimation.updateAnimationPossessed(hostPlayer);
 
        // hostProjectile.update();
@@ -153,17 +179,22 @@ public class GamePlayState extends GameState implements KeyListener {
 
 
 
-        /*fpsPassed += (1000/MainProcess.FPS);          //mert ennyit várunk a threadek közben
-        if(fpsPassed >= 1000) {
-            fpsPassed = fpsPassed%1000;
-            seconds++;
-        }*/
+        //Ha a timer elérte a beállított időt, a score state-re jutunk
+        if(minutes == MainProcess.getMatchDurationTemp()){
+
+            stateManager.setState(StateManager.States.SCORESTATE);
+
+        }
+
+
     }
 
     //TODO match start, match finish, player death esemény,
     //TODO ezenkívűl itemek és fegyverek spawnolása
 
-
+    /*
+    *Time methods
+    */
     public static void addMillis(long time){
         millis += time;
     }
@@ -195,6 +226,34 @@ public class GamePlayState extends GameState implements KeyListener {
     public static void addMinutes(){
         minutes++;
     }
+
+    /*
+     *Player Setters and Getters
+     */
+    public static int getHostPlayerScore(){
+        return hostPlayerScore;
+    }
+
+    public static int getClientPlayerScore(){
+        return clientPlayerScore;
+    }
+
+    public static String getHostPlayerName(){
+        return hostPlayerName;
+    }
+
+    public static String getClientPlayerName(){
+        return clientPlayerName;
+    }
+
+    public static void setHostPlayerName(String name){
+        hostPlayerName = name;
+    }
+
+    public static void setClientPlayerName(String name){
+        clientPlayerName = name;
+    }
+
 
     @Override
     public void updateSwingUI(JFrame duelingFates,JLayeredPane layeredPane) {

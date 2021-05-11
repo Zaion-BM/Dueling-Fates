@@ -56,7 +56,15 @@ public class HUD {
         //frissülő adatok lekérdezése
         int timer = (int)GamePlayState.getSeconds();
 
-        timerValue = GamePlayState.getMinutes() + ":" + timer;
+        if (GamePlayState.getSeconds() <= 9){
+
+            timerValue = GamePlayState.getMinutes() + ":0" + timer;
+
+        }
+        else {
+            timerValue = GamePlayState.getMinutes() + ":" + timer;
+        }
+
         playerNameUI = player.getPlayerName();
 
         playerScoreUI = String.valueOf(player.getPlayerScore());    //"250 pts";

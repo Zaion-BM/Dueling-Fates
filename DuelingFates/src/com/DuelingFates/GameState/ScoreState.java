@@ -23,6 +23,7 @@ public class ScoreState extends GameState implements MouseListener, ActionListen
 
     //Labels
     private final JLabel winnerLabel = new JLabel("THE WINNER IS");
+    private JLabel winnerName = new JLabel();
     private final JLabel player1Label = new JLabel();
     private final JLabel player2Label = new JLabel();
 
@@ -31,8 +32,7 @@ public class ScoreState extends GameState implements MouseListener, ActionListen
     private String player2Score;
 
     //file adatok
-    //nem a legjobb megoldás, Windows API-t használva biztonságosabb lenne
-    private final static File resultsTxt = new File("C:/Users/" + System.getProperty("user.name") + "/Desktop/results.txt");
+    private final static File resultsTxt = new File(System.getProperty("user.dir") + "/results.txt");
 
     //formátum a fájl kiírásához
     SimpleDateFormat dateStyle = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -55,7 +55,6 @@ public class ScoreState extends GameState implements MouseListener, ActionListen
         return buttonSavePressedOnce;
 
     }
-
 
     @Override
     public void initialization() {
@@ -102,17 +101,31 @@ public class ScoreState extends GameState implements MouseListener, ActionListen
         winnerLabel.setForeground(Color.WHITE);
         winnerLabel.setBounds((MainProcess.getGameWidth()/2)-370, (int)(MainProcess.getGameHeight()*0.13),700,70);
 
-        JLabel winnerName = new JLabel("getWinnerPlayer()");
-        winnerName.setFont(new Font("Arial Black",Font.BOLD, 60));
-        winnerName.setHorizontalAlignment(SwingConstants.CENTER);
-        winnerName.setForeground(MainMenuState.darkYellow);
-        winnerName.setBounds((MainProcess.getGameWidth()/2)-370, (int)(MainProcess.getGameHeight()*0.25),700,90);
+        //Ha a host az első
+        if (GamePlayState.getHostPlayerScore() > GamePlayState.getClientPlayerScore()) {
 
-        player1Score = "getName(): + getScore()";
-        player1Label.setText(player1Score);
+            player1Score = GamePlayState.getHostPlayerName() + ": " + GamePlayState.getHostPlayerScore();
+            player1Label.setText(player1Score);
 
-        player2Score = "getName(): + getScore()";
-        player2Label.setText(player2Score);
+            player2Score = GamePlayState.getClientPlayerName() + ": " + GamePlayState.getClientPlayerScore();;
+            player2Label.setText(player2Score);
+
+            winnerName = new JLabel(GamePlayState.getHostPlayerName());
+
+
+        }
+        //Ha a client az első
+        else{
+
+            player2Score = GamePlayState.getHostPlayerName() + ": " + GamePlayState.getHostPlayerScore();
+            player2Label.setText(player2Score);
+
+            player1Score = GamePlayState.getClientPlayerName() + ": " + GamePlayState.getClientPlayerScore();;
+            player1Label.setText(player1Score);
+
+            winnerName = new JLabel(GamePlayState.getClientPlayerName());
+
+        }
 
         player1Label.setHorizontalAlignment(SwingConstants.CENTER);
         player1Label.setFont(MainProcess.balooThambiFont);
@@ -124,6 +137,10 @@ public class ScoreState extends GameState implements MouseListener, ActionListen
         player2Label.setForeground(Color.BLACK);
         player2Label.setBounds((MainProcess.getGameWidth()/2)-370, (int)(MainProcess.getGameHeight()*0.56),700,60);
 
+        winnerName.setFont(new Font("Arial Black",Font.BOLD, 80));
+        winnerName.setHorizontalAlignment(SwingConstants.CENTER);
+        winnerName.setForeground(MainMenuState.darkYellow);
+        winnerName.setBounds((MainProcess.getGameWidth()/2)-370, (int)(MainProcess.getGameHeight()*0.25),700,120);
 
         layeredPane.setBounds(0,0, MainProcess.getGameWidth(), MainProcess.getGameHeight());
         layeredPane.add(backgroundLabel, JLayeredPane.DEFAULT_LAYER);
@@ -134,7 +151,6 @@ public class ScoreState extends GameState implements MouseListener, ActionListen
         layeredPane.add(winnerName,JLayeredPane.POPUP_LAYER);
         layeredPane.add(player1Label,JLayeredPane.POPUP_LAYER);
         layeredPane.add(player2Label,JLayeredPane.POPUP_LAYER);
-
 
         duelingFates.setCursor(MainProcess.gameCursor);
         duelingFates.add(layeredPane);

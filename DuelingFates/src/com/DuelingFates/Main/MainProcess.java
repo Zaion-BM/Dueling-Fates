@@ -20,10 +20,6 @@ import java.time.Instant;
 import java.util.LinkedList;
 import java.util.Queue;
 
-//TODO list:
-// 1. Ha a duelingFates static lenne, akkor az egyes állapotokban csak a JLayerPanet kellene
-// mindig frissíteni, és továbbadni
-
 public class MainProcess extends JPanel implements Runnable{
 
     private final JFrame duelingFates;                                              //Frame amiben fut az alkalmazás
@@ -37,7 +33,7 @@ public class MainProcess extends JPanel implements Runnable{
     private static final int gameHeight = 1080;
 
     @SuppressWarnings("FieldCanBeLocal")
-    public final static int FPS = 60;                                                     // 1/60 = 16.67 millisec
+    public final static int FPS = 60;                                                // 1/60 = 16.67 millisec
     @SuppressWarnings("FieldCanBeLocal")
     private boolean gameIsRunning = false;
 
@@ -246,7 +242,7 @@ public class MainProcess extends JPanel implements Runnable{
                     GamePlayState.setMillisZero();
                     GamePlayState.addSeconds();
                 }
-                if(GamePlayState.getSeconds() == 59){
+                if(GamePlayState.getSeconds() == 60){
                     GamePlayState.addMinutes();
                     GamePlayState.setSecondsZero();
                 }

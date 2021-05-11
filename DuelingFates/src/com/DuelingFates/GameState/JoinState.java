@@ -61,7 +61,8 @@ public class JoinState extends GameState implements ActionListener, MouseListene
         inputServerAddress.setForeground(Color.WHITE);
         inputServerAddress.setCaretColor(Color.WHITE);
         inputServerAddress.setBorder(BorderFactory.createLineBorder(Color.BLACK,2));
-        inputServerAddress.setText("192.168.0.121X");
+        inputServerAddress.setEditable(false);
+        inputServerAddress.setText("localhost:6868");
         inputServerAddress.setHorizontalAlignment(SwingConstants.CENTER);
         inputServerAddress.setBounds(MainProcess.getGameWidth()/2+75,(int)(MainProcess.getGameHeight()*0.30),400,80);
 
@@ -106,7 +107,6 @@ public class JoinState extends GameState implements ActionListener, MouseListene
         if(e.getSource() == buttonJoin) {
 
             stateManager.setState(StateManager.States.GAMEPLAYSTATE);
-            System.out.println(inputServerAddress.getText());
 
         }
         if(e.getSource() == buttonBack) {

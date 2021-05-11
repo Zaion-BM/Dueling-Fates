@@ -1,6 +1,5 @@
 package com.DuelingFates.Networking.Server;
 
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
@@ -38,9 +37,7 @@ public class Server implements Runnable {
                         }
                         this.wait(10);
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
+                } catch (IOException | InterruptedException e) {
                     e.printStackTrace();
                 }
             }

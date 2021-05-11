@@ -1,5 +1,6 @@
 package com.DuelingFates.Main;
 
+import com.DuelingFates.GameState.GamePlayState;
 import com.DuelingFates.GameState.StateManager;
 import com.DuelingFates.Objects.InputHandler;
 import com.DuelingFates.Objects.Player;
@@ -14,6 +15,8 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.awt.image.MemoryImageSource;
 import java.io.File;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -34,7 +37,7 @@ public class MainProcess extends JPanel implements Runnable{
     private static final int gameHeight = 1080;
 
     @SuppressWarnings("FieldCanBeLocal")
-    private final int FPS = 60;                                                     // 1/60 = 16.67 millisec
+    public final static int FPS = 60;                                                     // 1/60 = 16.67 millisec
     @SuppressWarnings("FieldCanBeLocal")
     private boolean gameIsRunning = false;
 
@@ -219,6 +222,7 @@ public class MainProcess extends JPanel implements Runnable{
             }
 
             if (stateManager.currentState == StateManager.States.GAMEPLAYSTATE) {             //csak a GamePlayState-ben van grafikus kirajzolás (60 FPS-sel)
+                Instant start = Instant.now();
 
                 updateGame();
                 updateScreen(graphics);
@@ -233,6 +237,20 @@ public class MainProcess extends JPanel implements Runnable{
                 catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+
+                Instant end = Instant.now();
+                Duration timeElapsed = Duration.between(start,end);
+                GamePlayState.addMillis(timeElapsed.toMillis());
+
+                if(GamePlayState.getMillis() >= 1000 ){
+                    GamePlayState.setMillisZero();
+                    GamePlayState.addSeconds();
+                }
+                if(GamePlayState.getSeconds() == 59){
+                    GamePlayState.addMinutes();
+                    GamePlayState.setSecondsZero();
+                }
+
             }
         }
 

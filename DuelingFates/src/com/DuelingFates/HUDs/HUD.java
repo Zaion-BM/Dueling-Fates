@@ -1,5 +1,6 @@
 package com.DuelingFates.HUDs;
 
+import com.DuelingFates.GameState.GamePlayState;
 import com.DuelingFates.GameState.MainMenuState;
 import com.DuelingFates.Main.MainProcess;
 import com.DuelingFates.Objects.Player;
@@ -53,7 +54,9 @@ public class HUD {
     public void draw(Graphics2D graphics, Player player){
 
         //frissülő adatok lekérdezése
-        timerValue = "2:30s";
+        int timer = (int)GamePlayState.getSeconds();
+
+        timerValue = GamePlayState.getMinutes() + ":" + timer;
         playerNameUI = player.getPlayerName();
 
         playerScoreUI = String.valueOf(player.getPlayerScore());    //"250 pts";

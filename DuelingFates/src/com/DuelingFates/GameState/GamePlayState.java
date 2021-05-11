@@ -2,7 +2,6 @@ package com.DuelingFates.GameState;
 
 import com.DuelingFates.HUDs.EscapeMenu;
 import com.DuelingFates.HUDs.HUD;
-import com.DuelingFates.Handlers.Keys;
 import com.DuelingFates.Main.MainProcess;
 import com.DuelingFates.Objects.*;
 import com.DuelingFates.TileMap.TileMap;
@@ -41,6 +40,10 @@ public class GamePlayState extends GameState implements KeyListener {
     public boolean escapeBefore = false;
 
     private GameObjectRenderer gameObjectRenderer = new GameObjectRenderer();
+    private static long seconds = 0;
+    private static long millis = 0;
+    private static int minutes = 0;
+
 
     public GamePlayState(StateManager stateManager){
 
@@ -133,6 +136,7 @@ public class GamePlayState extends GameState implements KeyListener {
 
     }
 
+
     @Override
     public void update() {
         //System.out.println("Game has been updated!");
@@ -147,10 +151,50 @@ public class GamePlayState extends GameState implements KeyListener {
         //TODO player mozgás, projectile update for ciklusban, ha már nem releváns, akkor helyére NULL
         // ha intersects vagyis érintkezik valamivel és ha nincs a mapon,
 
+
+
+        /*fpsPassed += (1000/MainProcess.FPS);          //mert ennyit várunk a threadek közben
+        if(fpsPassed >= 1000) {
+            fpsPassed = fpsPassed%1000;
+            seconds++;
+        }*/
     }
 
     //TODO match start, match finish, player death esemény,
     //TODO ezenkívűl itemek és fegyverek spawnolása
+
+
+    public static void addMillis(long time){
+        millis += time;
+    }
+
+    public static void setMillisZero(){
+        millis = 0;
+    }
+
+    public static long getMillis(){
+        return millis;
+    }
+
+    public static long getSeconds(){
+        return seconds;
+    }
+
+    public static void addSeconds(){
+        seconds++;
+    }
+
+    public static void setSecondsZero(){
+        seconds = 0;
+    }
+
+    public static int getMinutes(){
+        return minutes;
+    }
+
+    public static void addMinutes(){
+        minutes++;
+    }
 
     @Override
     public void updateSwingUI(JFrame duelingFates,JLayeredPane layeredPane) {

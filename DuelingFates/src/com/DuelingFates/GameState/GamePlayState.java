@@ -137,7 +137,7 @@ public class GamePlayState extends GameState implements KeyListener {
 
         //hostProjectile=new Projectile(tileMap,); //TODO: projectile
         //Init Weapon to player //TODO: TESZT, ha működik így akkor lehet szarakodni, hogy hogy adjuk be neki a projectile-t
-        gun= new Weapon(tileMap,0);
+        gun = new Weapon(tileMap,0);
         hostPlayer.setPlayerWeapon(gun);
 
         //TODO player location egy játékos halálakor amit majd szintén meghívunk
@@ -199,10 +199,11 @@ public class GamePlayState extends GameState implements KeyListener {
         //Player update
         hostPlayer.update();
         hostAnimation.updateAnimation(hostPlayer);
+        //hostAnimation.updateAnimationPossessed(hostPlayer);
 
         clientPlayer.update();
         clientAnimation.updateAnimation(clientPlayer);
-        //hostAnimation.updateAnimationPossessed(hostPlayer);
+        //clientAnimation.updateAnimationPossessed(clientPlayer);
 
         //hostProjectile.update();
 
@@ -356,7 +357,7 @@ public class GamePlayState extends GameState implements KeyListener {
         duelingFates.addKeyListener(new InputHandler(this));        //Listener a keyboard érzékeléséért
 
         layeredPane.removeAll();                                                //GamePlay-nél nincs szükség a Swing elemekre
-        //duelingFates.setCursor(MainProcess.hiddenCursor);
+        duelingFates.setCursor(MainProcess.hiddenCursor);
         duelingFates.repaint();                                                 //üres Frame-et hagyunk
         StateManager.setStateChangedFalse();
 

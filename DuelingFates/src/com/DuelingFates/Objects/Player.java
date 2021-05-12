@@ -43,14 +43,15 @@ public class Player extends GameObject implements KeyListener {
     protected float doubleJumpStart;
     protected float stopJumpSpeed;
 
-
     //Player actions
     public static final int IDLE                = 0;
     public static final int RUNNING             = 2;
     public static final int SHOOTING            = 3;
     public static final int JUMPINGANDFALLING   = 1;
     public static final int BLINKING            = 4;
+    //public static final int BLINKINGINAIR       = 5;  //DEAD 6-ra DAVE TEST
     public static final int DEAD                = 5;
+
 
     public boolean keyUpPressed = false;
     //projectile
@@ -80,6 +81,10 @@ public class Player extends GameObject implements KeyListener {
         //Physical dimensions
         objectWidth = 30;
         objectHeight = 40;
+
+        //DAVE TEST for POSSESSED
+        //objectWidth = 32;
+        //objectHeight = 44;
 
         //Specify movement parameters //TODO: Paraméterek tesztelése
         moveSpeed = (float) 2;        //0.3               //mozgás
@@ -209,6 +214,7 @@ public class Player extends GameObject implements KeyListener {
        if(playerAmmoQty>0)  shooting=true;
     }
     public void setLeft(boolean b){ left=b; }
+
     public void setRight(boolean b){ right=b; }
    // public void setJumping(boolean b){ jumping=b; }
 
@@ -232,8 +238,8 @@ public class Player extends GameObject implements KeyListener {
             playerHealth = 0;
             dead=true;
         }
-        blinkRed = true;
 
+        blinkRed = true;
         blinkCount = 0;
 
         if(facingRight) deltaX = -1;
@@ -293,7 +299,7 @@ public class Player extends GameObject implements KeyListener {
                 setPosition(1600, 200);
                 break;
             case 3:
-                setPosition(1800, 500);
+                setPosition(1750, 200);
                 break;
         }
     }
@@ -369,62 +375,58 @@ public class Player extends GameObject implements KeyListener {
     }
 
     //ZB: Update Player's position and actions
-    public void update(){
+    public void update() {
 
         /*
          * Update player's position
          * */
         getNextPosition();
         checkTileMapCollision();
-        setPosition(tempX,tempY);
+        setPosition(tempX, tempY);
 
         //projectiles
-            if(shooting && currentAction!=SHOOTING){
-                if(playerAmmoQty>0){
-                    playerAmmoQty--;
-                    Projectile p=new Projectile(tileMap,facingRight);
-                    p.setPosition(x,y);
-                    bullets.add(p);
-                }
+        if (shooting && currentAction != SHOOTING) {
+            if (playerAmmoQty > 0) {
+                playerAmmoQty--;
+                Projectile p = new Projectile(tileMap, facingRight);
+                p.setPosition(x, y);
+                bullets.add(p);
             }
+        }
 
         //update projectiles
-        for(int i=0; i<bullets.size();i++){
+        for (int i = 0; i < bullets.size(); i++) {
             bullets.get(i).update();
-            if(bullets.get(i).shouldRemove()){
+            if (bullets.get(i).shouldRemove()) {
                 bullets.remove(i);
                 i--;
             }
         }
 
         //TODO: teszt  szükséges
-        if(y>tileMap.getMapHeight()+objectHeight*5){
-            playerScore-=50;
+        if (y > tileMap.getMapHeight() + objectHeight * 5) {
+            playerScore -= 50;
             respawn();
         }
-        if(dead){
+        if (dead) {
             removePlayer();
         }
 
-
-        if(shooting){
-            if(currentAction!=SHOOTING){
-                ar.y = (int)y - 6;
-                if(facingRight) ar.x = (int)x + 10;
-                else ar.x = (int)x - 40;
+        if (shooting) {
+            if (currentAction != SHOOTING) {
+                ar.y = (int) y - 6;
+                if (facingRight) ar.x = (int) x + 10;
+                else ar.x = (int) x - 40;
             }
-
 
         }
 
         //Set direction of facing
-        if(!shooting){
-            if(right) facingRight=true;
-            if(left) facingRight=false;
+        if (!shooting) {
+            if (right) facingRight = true;
+            if (left) facingRight = false;
         }
     }
-
-
 
     @Override
     public void keyTyped(KeyEvent e) {

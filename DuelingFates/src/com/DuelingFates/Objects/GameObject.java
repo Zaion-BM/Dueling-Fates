@@ -74,7 +74,7 @@ public abstract class GameObject {
     //ZB: Creating new rectangle objects (used for intersection detection)
     public Rectangle getRectangle(){
 
-        return new Rectangle((int)(x-objectWidth), (int)(y-objectHeight), objectWidth, objectHeight);
+        return new Rectangle((int)(x-objectWidth/2), (int)(y-objectHeight/2), objectWidth, objectHeight);
 
     }
 
@@ -211,7 +211,9 @@ public abstract class GameObject {
 
     //Player input kezelés miatt
     public abstract void keyTyped(KeyEvent e);
+
     public abstract void keyPressed(KeyEvent e);
+
     public abstract void keyReleased(KeyEvent e);
 
 }

@@ -22,18 +22,18 @@ public class PlayerAnimation {
             -1, 3, 1, 6, 3, 10
     };
 
-    //Posessed
+    //Posessed //TODO JUMPING sebzés, addig nem mergelem a kettőt
     private final int[] NUMFRAMES_P = {
-            2, 2, 14, 1, 2, 1
+            2, 2, 14, 1, 2, 2, 1
     };
     private final int[] FRAMEWIDTHS_P = {
-            32, 32, 33, 32, 32, 32
+            32, 32, 33, 32, 32, 32, 42
     };
     private final int[] FRAMEHEIGHTS_P = {
-            44, 44, 44, 44, 44, 44
+            44, 44, 44, 44, 44, 44, 44
     };
     private final int[] SPRITEDELAYS_P = {
-            -1, 3, 1, 6, 3, 10
+            -1, 3, 1, 6, 3, 3, 10
     };
 
     public PlayerAnimation(Player player){
@@ -84,11 +84,11 @@ public class PlayerAnimation {
                                 j * FRAMEWIDTHS_P[i],
                                 count,
                                 FRAMEWIDTHS_P[i],
-                                FRAMEWIDTHS_P[i]
+                                FRAMEHEIGHTS_P[i]
                         );
                     }
                     sprites.add(bi);
-                    count += FRAMEWIDTHS_P[i];
+                    count += FRAMEHEIGHTS_P[i];
                 }
 
             } catch (Exception e) {

@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Player extends GameObject implements KeyListener {
 
@@ -27,7 +28,21 @@ public class Player extends GameObject implements KeyListener {
     public long blinkCount;
     public boolean shooting;
     public ArrayList<Projectile> bullets;
-    public boolean removed;             //TODO: lehet ezt gameobject-re kéne és akkor használható a cosumablehez
+    public boolean removed; //TODO: lehet ezt gameobject-re kéne és akkor használható a cosumablehez
+
+    //Movement
+    protected boolean jumping;
+    protected boolean doubleJump;
+    protected boolean alreadyDoubleJump;
+
+    //Movement attributes
+    protected float moveSpeed;
+    protected float maxSpeed;
+    protected float stopSpeed;
+    protected float jumpStart;
+    protected float doubleJumpStart;
+    protected float stopJumpSpeed;
+
 
     //Player actions
     public static final int IDLE                = 0;
@@ -67,22 +82,24 @@ public class Player extends GameObject implements KeyListener {
         objectHeight = 40;
 
         //Specify movement parameters //TODO: Paraméterek tesztelése
-        moveSpeed = (float) 1;        //0.3               //mozgás
-        maxSpeed = (float) 5;         //1.6               //max mozgási sebessség
+        moveSpeed = (float) 2;        //0.3               //mozgás
+        maxSpeed = (float) 7;         //1.6               //max mozgási sebessség
         stopSpeed = (float) 0.7;        //0.4               //mennyire csúszik a karakter
 
-        fallSpeed = (float) 1;        //0.15                //esés
-        maxFallSpeed = (float) 6.0;     //4.0               //max esési sebesség
+        fallSpeed = (float) 1.5;        //0.15                //esés
+        maxFallSpeed = (float) 15.0;     //4.0               //max esési sebesség
 
-        jumpStart = (float) -17;       //-4.8               //jump boost
+        jumpStart = (float) -20;       //-4.8               //jump boost
+        doubleJumpStart=(float) -20;
         stopJumpSpeed = (float) 0.3;    //0.3               //lassulás a tetején
         facingRight = true;
+        //gravity=(float)1.8;  //TODO: tutorialban más volt, még nem látom át hogy lesz ez számolva
 
         //Specify player parameters
         setPlayerMaxHealth(100);
-        setPlayerHealth(50);
+        setPlayerHealth(90);
         setPlayerScore(0);
-        setPosition(300, 400);
+        respawn();
 
     }
 
@@ -191,29 +208,32 @@ public class Player extends GameObject implements KeyListener {
     public void setShooting(){
        if(playerAmmoQty>0)  shooting=true;
     }
-
     public void setLeft(boolean b){ left=b; }
-
     public void setRight(boolean b){ right=b; }
+   // public void setJumping(boolean b){ jumping=b; }
 
-    public void setJumping(boolean b){ jumping=b; }
-
+    public void setJumping(boolean b) {
+        if(blinkRed) return;
+        if(b && !jumping && falling && !alreadyDoubleJump) {
+            doubleJump = true;
+        }
+        jumping = b;
+    }
 
     //TODO: damage számolása
     public void hit(int damage) {
         if(blinkRed || dead) return;
         //JukeBox.play("playerhit");            //TODO max erre lesz idő, meg valami háttérzenének, ez 2 hangfájl
         stop();
-        playerScore+=10;
         playerHealth -= damage;
         if(playerHealth < 0) {
-            playerScore+=100;
+            playerScore-=100;
             System.out.println("Enemy is dead");
             playerHealth = 0;
             dead=true;
         }
-
         blinkRed = true;
+
         blinkCount = 0;
 
         if(facingRight) deltaX = -1;
@@ -226,11 +246,9 @@ public class Player extends GameObject implements KeyListener {
         System.out.println("Hit");
         jumping = false;
     }
-
     public boolean isDead(){
         return dead;
     }
-
     public int getDamage(){
         return playerWeapon.getWeaponDmg();
     }
@@ -239,16 +257,15 @@ public class Player extends GameObject implements KeyListener {
     public void checkAttack(Player player){
         for(int i=0; i<bullets.size();i++) {
             if (bullets.get(i).objectIntersection(player)) {
+                if(!player.blinkRed ) playerScore+=getDamage();
                 player.hit(getDamage());
                 bullets.get(i).setHit();
-                //TODO playerScore + player.getDamage()
-               // blinkRed=true;  TODO: összes sprite esetén kell egy red variáció, hogy esés közben is sebződhessen az enemy
                 break;
             }
         }
     }
 
-    //TODO: játék reset, még át kell alakítani úgy , hogy a meghalt játékos újraéledjen a pályán
+
     public void reset() {
         playerHealth = maxHealth;
         facingRight = true;
@@ -262,9 +279,25 @@ public class Player extends GameObject implements KeyListener {
 
     public void respawn(){
         reset();
-        setPosition(400, 300);
+        //define spawn bounds
+        Random random = new Random();
+        randomPosition=random.nextInt(4);
+        switch(randomPosition){
+            case 0:
+                setPosition(400, 300);
+                break;
+            case 1:
+                setPosition(1000, 200);
+                break;
+            case 2:
+                setPosition(1600, 200);
+                break;
+            case 3:
+                setPosition(1800, 500);
+                break;
+        }
     }
-
+    //TODO: a meghalt játékos újraéled a pályán random helyen?
     public void removePlayer() {
 
         System.out.println("Player removed");
@@ -275,7 +308,6 @@ public class Player extends GameObject implements KeyListener {
             //removed = true;
         }
     }
-
     //ZB: Calculate the Player's next position
     private void getNextPosition(){
 
@@ -318,6 +350,13 @@ public class Player extends GameObject implements KeyListener {
             deltaY=jumpStart;
             falling=true;
         }
+        if(doubleJump) {
+            deltaY = doubleJumpStart;
+            alreadyDoubleJump = true;
+            doubleJump = false;
+            //JukeBox.play("playerjump");
+        }
+        if(!falling) alreadyDoubleJump = false;
 
         //ZB: If we are falling
         if(falling){
@@ -360,11 +399,13 @@ public class Player extends GameObject implements KeyListener {
 
         //TODO: teszt  szükséges
         if(y>tileMap.getMapHeight()+objectHeight*5){
+            playerScore-=50;
             respawn();
         }
         if(dead){
             removePlayer();
         }
+
 
         if(shooting){
             if(currentAction!=SHOOTING){
@@ -372,6 +413,7 @@ public class Player extends GameObject implements KeyListener {
                 if(facingRight) ar.x = (int)x + 10;
                 else ar.x = (int)x - 40;
             }
+
 
         }
 
@@ -381,6 +423,8 @@ public class Player extends GameObject implements KeyListener {
             if(left) facingRight=false;
         }
     }
+
+
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -413,7 +457,5 @@ public class Player extends GameObject implements KeyListener {
             case(KeyEvent.VK_UP): this.setJumping(false); this.keyUpPressed = false; break;
             case(KeyEvent.VK_SPACE): this.setShooting(); break;
         }
-
     }
-
 }

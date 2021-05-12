@@ -32,6 +32,8 @@ public class GamePlayState extends GameState implements KeyListener {
     private Player clientPlayer;
     private PlayerAnimation clientAnimation;
     private Weapon gun;
+    private int timerMax;
+    private int timerCount;
 
     private HUD hud;
 
@@ -75,6 +77,8 @@ public class GamePlayState extends GameState implements KeyListener {
         minutes = 0;
         hostPlayerScore = 0;
         clientPlayerScore = 0;
+        timerMax=500;
+        timerCount=0;
 
         tileMap = new TileMap(tileSize);
 
@@ -213,6 +217,19 @@ public class GamePlayState extends GameState implements KeyListener {
         checkPickedUpAmmo(hostPlayer,ammos);
         checkPickedUpAmmo(clientPlayer,ammos);
 
+        //ha szeretnénk ha hullana az ammo
+        //for(int i=0; i<healthPotions.size();i++) healthPotions.get(i).update();
+        //for(int i=0; i<ammos.size();i++) ammos.get(i).update();
+
+        //random spawn consumables
+        timerCount++;
+        if(timerCount == timerMax){
+            removeHealths(healthPotions);
+            healthPotions.add(spawnHealthPotion(tileMap));
+            removeAmmos(ammos);
+            ammos.add(spawnAmmo(tileMap));
+            timerCount=0;
+        }
         //Ha a timer elérte a beállított időt, a score state-re váltunk, adatokat mentünk
         if(minutes == MainProcess.getMatchDurationTemp() ){
 
@@ -307,6 +324,28 @@ public class GamePlayState extends GameState implements KeyListener {
 
             }
         }
+    }
+    public void removeHealths(ArrayList<HealthPotion> h){
+        for(int i=0; i<h.size();i++) h.remove(i);
+    }
+    public void removeAmmos(ArrayList<Ammo> a){
+        for(int i=0; i<a.size();i++) a.remove(i);
+    }
+    public HealthPotion spawnHealthPotion(TileMap tileMap) {
+        //TODO :kiválasztunk egy random pozíciót a mapon és ott példányosítjuk
+        //megadjuk, hogy hova lehet spawnolni, mert tudjuk a map layoutját
+        //és azok közül random választunk
+        //az időpont amilyen sebeséggel spawnol, pedig szintén lehet random, vagy minden 20 secenként
+        HealthPotion h=new HealthPotion(tileMap);
+        return h;
+    }
+    public Ammo spawnAmmo(TileMap tileMap) {
+        //TODO :kiválasztunk egy random pozíciót a mapon és ott példányosítjuk
+        //megadjuk, hogy hova lehet spawnolni, mert tudjuk a map layoutját
+        //és azok közül random választunk
+        //az időpont amilyen sebeséggel spawnol, pedig szintén lehet random, vagy minden 20 secenként
+        Ammo a=new Ammo(tileMap);
+        return a;
     }
 
     @Override

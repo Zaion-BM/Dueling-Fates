@@ -1,4 +1,5 @@
 package com.DuelingFates.Objects;
+
 import com.DuelingFates.TileMap.TileMap;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -206,6 +207,7 @@ public abstract class GameObject {
         this.deltaX=deltaX;
         this.deltaY=deltaY;
     }
+
     public int getCurrentAction(){
         return currentAction;
     }

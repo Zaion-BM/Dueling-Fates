@@ -2,8 +2,6 @@ package com.DuelingFates.Main;
 
 import com.DuelingFates.GameState.GamePlayState;
 import com.DuelingFates.GameState.StateManager;
-import com.DuelingFates.Objects.InputHandler;
-import com.DuelingFates.Objects.Player;
 import com.DuelingFates.Networking.Server.*;
 import com.DuelingFates.Networking.Client.*;
 
@@ -29,18 +27,17 @@ public class MainProcess extends JPanel implements Runnable{
     //valószínűleg a feltétel ellenőrzése miatt, mely a swing menük miatt szükséges
     volatile private StateManager stateManager;
 
-    private static final int gameWidth = 1920;
-    private static final int gameHeight = 1080;
-
     @SuppressWarnings("FieldCanBeLocal")
     public final static int FPS = 60;                                                // 1/60 = 16.67 millisec
     @SuppressWarnings("FieldCanBeLocal")
     private boolean gameIsRunning = false;
 
-    private static BufferedImage gameWindow;                                        //amire rajzolunk a Frame-en belül GAMEPLAYSTATE-ben
     @SuppressWarnings("FieldCanBeLocal")
     private static Graphics2D graphics;                                             //amit kirajzolunk a gameWindow-ra
+    private static BufferedImage gameWindow;                                        //amire rajzolunk a Frame-en belül GAMEPLAYSTATE-ben
     private Image cursorImage;
+    private static final int gameWidth = 1920;
+    private static final int gameHeight = 1080;
 
     public static Cursor gameCursor;                                                //egyedi cursor
     public static Cursor hiddenCursor;                                              //GamePlay esetén elrejtjük
@@ -99,7 +96,6 @@ public class MainProcess extends JPanel implements Runnable{
         duelingFates.setUndecorated(true);                                                    //van keret
         duelingFates.setSize(new Dimension(getGameWidth(), getGameHeight()));                 //méret megadása, csak Dimension típust értelmez
         duelingFates.setLocationRelativeTo(null);                                             //null: az ablak a képernyőn közepén lesz, focust alapértelmezetten kap
-        //duelingFates.setExtendedState(JFrame.MAXIMIZED_BOTH);                                //max Vertical & Horizontal
 
         setMenuDefaults();
         startThread();
@@ -182,23 +178,21 @@ public class MainProcess extends JPanel implements Runnable{
 
     }
 
-    //TODO join thread? Le kell állítani a threadet?
-
     //Runnable miatt automatikusan meghívódik
     public void run(){
         Queue<String> messageQueue = new LinkedList<>();
         messageQueue.add("MSG1\n");
         messageQueue.add("MSG2\n");
-        gameWindow = new BufferedImage(getGameWidth(),getGameHeight(),BufferedImage.TYPE_INT_RGB);    //a kép melyre rajzolunk
-        graphics = gameWindow.createGraphics();                                             //grafika amit kirajzolunk
-        gameIsRunning = true;
-        stateManager = new StateManager();                                                  //állapotgép példányosítása
 
-        final long oneFrameDuration = 1000/FPS;                                             // = (1/60)*1000
+        gameWindow = new BufferedImage(getGameWidth(),getGameHeight(),BufferedImage.TYPE_INT_RGB);    //a kép melyre rajzolunk
+        graphics = gameWindow.createGraphics();                                                       //grafika amit kirajzolunk
+        gameIsRunning = true;
+        stateManager = new StateManager();                                                            //állapotgép példányosítása
+
+        final long oneFrameDuration = 1000/FPS;                                                         // = (1/60)*1000
         Thread serverThread = new Thread(new Server(messageQueue));
         Thread clientThread = new Thread(new Client("Kliens"));
         int i = 0;
-
 
         while (gameIsRunning) {
             //System.out.println(stateManager.currentState == StateManager.States.GAMEPLAYSTATE);
@@ -223,6 +217,7 @@ public class MainProcess extends JPanel implements Runnable{
                 updateGame();
                 updateScreen(graphics);
                 renderScreen();
+
                 try {
                     synchronized (this) {
                         messageQueue.add("MSG3\n");

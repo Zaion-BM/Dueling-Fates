@@ -96,7 +96,6 @@ public class JoinState extends GameState implements ActionListener, MouseListene
         buttonJoin.addMouseListener(this);
 
         duelingFates.repaint();
-
         StateManager.setStateChangedFalse();
 
     }

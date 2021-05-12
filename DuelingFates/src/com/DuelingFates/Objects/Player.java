@@ -27,8 +27,7 @@ public class Player extends GameObject implements KeyListener {
     public long blinkCount;
     public boolean shooting;
     public ArrayList<Projectile> bullets;
-    public boolean removed; //TODO: lehet ezt gameobject-re kéne és akkor használható a cosumablehez
-
+    public boolean removed;             //TODO: lehet ezt gameobject-re kéne és akkor használható a cosumablehez
 
     //Player actions
     public static final int IDLE                = 0;
@@ -78,7 +77,6 @@ public class Player extends GameObject implements KeyListener {
         jumpStart = (float) -17;       //-4.8               //jump boost
         stopJumpSpeed = (float) 0.3;    //0.3               //lassulás a tetején
         facingRight = true;
-        //gravity=(float)1.8;  //TODO: tutorialban más volt, még nem látom át hogy lesz ez számolva
 
         //Specify player parameters
         setPlayerMaxHealth(100);
@@ -193,9 +191,13 @@ public class Player extends GameObject implements KeyListener {
     public void setShooting(){
        if(playerAmmoQty>0)  shooting=true;
     }
+
     public void setLeft(boolean b){ left=b; }
+
     public void setRight(boolean b){ right=b; }
+
     public void setJumping(boolean b){ jumping=b; }
+
 
     //TODO: damage számolása
     public void hit(int damage) {
@@ -210,8 +212,8 @@ public class Player extends GameObject implements KeyListener {
             playerHealth = 0;
             dead=true;
         }
-        blinkRed = true;
 
+        blinkRed = true;
         blinkCount = 0;
 
         if(facingRight) deltaX = -1;
@@ -224,9 +226,11 @@ public class Player extends GameObject implements KeyListener {
         System.out.println("Hit");
         jumping = false;
     }
+
     public boolean isDead(){
         return dead;
     }
+
     public int getDamage(){
         return playerWeapon.getWeaponDmg();
     }
@@ -260,6 +264,7 @@ public class Player extends GameObject implements KeyListener {
         reset();
         setPosition(400, 300);
     }
+
     public void removePlayer() {
 
         System.out.println("Player removed");
@@ -270,6 +275,7 @@ public class Player extends GameObject implements KeyListener {
             //removed = true;
         }
     }
+
     //ZB: Calculate the Player's next position
     private void getNextPosition(){
 
@@ -360,14 +366,12 @@ public class Player extends GameObject implements KeyListener {
             removePlayer();
         }
 
-
         if(shooting){
             if(currentAction!=SHOOTING){
                 ar.y = (int)y - 6;
                 if(facingRight) ar.x = (int)x + 10;
                 else ar.x = (int)x - 40;
             }
-
 
         }
 
@@ -377,8 +381,6 @@ public class Player extends GameObject implements KeyListener {
             if(left) facingRight=false;
         }
     }
-
-
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -411,5 +413,7 @@ public class Player extends GameObject implements KeyListener {
             case(KeyEvent.VK_UP): this.setJumping(false); this.keyUpPressed = false; break;
             case(KeyEvent.VK_SPACE): this.setShooting(); break;
         }
+
     }
+
 }

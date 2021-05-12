@@ -17,7 +17,6 @@ public class Ammo extends Consumable{
 
         objectHeight = 37;
         objectWidth = 28;
-
         ammoScore = 10;
 
         //define spawn bounds
@@ -26,7 +25,6 @@ public class Ammo extends Consumable{
         availableSpawnsY+= 200;
         int availableSpawnsX = random.nextInt(1700);
         availableSpawnsX+= 110;
-
         this.setPosition(availableSpawnsX,availableSpawnsY);
 
     }

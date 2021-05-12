@@ -1,6 +1,5 @@
 package com.DuelingFates.HUDs;
 
-import com.DuelingFates.GameState.GamePlayState;
 import com.DuelingFates.Main.MainProcess;
 
 import java.awt.*;
@@ -9,10 +8,8 @@ public class EscapeMenu{
 
     @SuppressWarnings("FieldCanBeLocal")
     private final String escapeMenu = "Do you want to quit?";
-
     @SuppressWarnings("FieldCanBeLocal")
     private final String optionYes  = "Yes! (ENTER)";
-
     @SuppressWarnings("FieldCanBeLocal")
     private final String optionNo   = "No! (ESCAPE)";
 

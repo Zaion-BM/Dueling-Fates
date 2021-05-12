@@ -13,7 +13,6 @@ public abstract class Consumable extends GameObject {
 
     public abstract void spawnConsumable();
     public abstract void useConsumable(Player player);
-
     public abstract int getObjectHeight();
     public abstract int getObjectWidth();
 

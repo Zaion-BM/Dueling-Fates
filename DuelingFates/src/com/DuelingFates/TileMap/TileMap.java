@@ -32,9 +32,6 @@ public class TileMap {
     private Tile tileHorizontal;
     private Tile tileVertical;
 
-    //TODO SPIKE: 64-esre felhúzni a 30x30-as tilet, és elhelyezni a mappon VAGY mivel ezen át tudsz menni,
-    // így lehet egyszerűbb külön elhelyezni és a mapot ezt békén hagyni
-
     public TileMap(int tileSize) {                      //1920*1080 64x64 miatt 30db soronként és 16 oszloponként     //1600*9000 53*53
 
         this.tileSize = tileSize;
@@ -150,16 +147,21 @@ public class TileMap {
     public int getType(int row, int col){
         return mapLayout[row][col];
     }
+
     public int getMapWidth() {
         return mapWidth;
     }
+
     public int getMapHeight() {
         return mapHeight;
     }
+
     public int getTileSize() {
         return tileSize;
     }
+
     public int getMapRows() { return mapRows; }
+
     public int getMapColumns() { return mapColumns; }
 
 }

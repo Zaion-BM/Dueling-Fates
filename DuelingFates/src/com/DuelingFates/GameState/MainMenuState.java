@@ -70,7 +70,6 @@ public class MainMenuState extends GameState implements ActionListener, MouseLis
         layeredPane.add(buttonQuit,JLayeredPane.POPUP_LAYER);
 
         //majd fullscreen esetben
-        //duelingFates.setExtendedState(JFrame.MAXIMIZED_BOTH);                  //max Vertical & Horizontal
         duelingFates.setCursor(MainProcess.gameCursor);
         duelingFates.add(layeredPane);
         duelingFates.setPreferredSize(new Dimension(MainProcess.getGameWidth(), MainProcess.getGameHeight()));

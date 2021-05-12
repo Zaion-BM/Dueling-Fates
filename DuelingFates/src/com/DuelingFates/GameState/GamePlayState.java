@@ -192,7 +192,6 @@ public class GamePlayState extends GameState implements KeyListener {
         //TODO match start, player death esemény,
         //TODO ezenkívűl itemek és fegyverek spawnolása
 
-
         //Player update
         hostPlayer.update();
         hostAnimation.updateAnimation(hostPlayer);
@@ -201,7 +200,7 @@ public class GamePlayState extends GameState implements KeyListener {
         clientAnimation.updateAnimation(clientPlayer);
         //hostAnimation.updateAnimationPossessed(hostPlayer);
 
-        // hostProjectile.update();
+        //hostProjectile.update();
 
         //attack enemy player
         hostPlayer.checkAttack(clientPlayer);
@@ -222,7 +221,6 @@ public class GamePlayState extends GameState implements KeyListener {
             stateManager.setState(StateManager.States.SCORESTATE);
 
         }
-
 
     }
 
@@ -287,6 +285,7 @@ public class GamePlayState extends GameState implements KeyListener {
     public static void setClientPlayerName(String name){
         clientPlayerName = name;
     }
+
     //check pickups
     public void checkPickedUpHealth(Player player,ArrayList<HealthPotion> healthPotions){
         for(int i=0; i<healthPotions.size(); i++) {
@@ -298,6 +297,7 @@ public class GamePlayState extends GameState implements KeyListener {
             }
         }
     }
+
     public void checkPickedUpAmmo(Player player,ArrayList<Ammo> ammos){
         for(int i=0; i<ammos.size(); i++) {
             if (player.objectIntersection(ammos.get(i))) {

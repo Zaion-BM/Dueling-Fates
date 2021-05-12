@@ -16,26 +16,26 @@ public class Projectile extends GameObject{
     private int shootRange;
     private int shoot;
 
-    public enum Types {DEFAULT, ICHOR, METEOR}
+    public enum Types {DEFAULT, ICHOR}
     public Types projectileType;
     private float projectileSpeed;
 
     public Projectile(TileMap tileMap, boolean right){
         super(tileMap);
+
        /* switch(projectileType) {
-            case METEOR:
-                setProjectileSpeed(15);
-                break;
             case ICHOR:
                 setProjectileSpeed(13);
                 break;
             case DEFAULT:
                 setProjectileSpeed(10);
         }*/
+
         facingRight=right;
         setProjectileSpeed(20);
-        shootRange=40; //TODO: teszt , lövedk eltűnik egy megadott távolság után  shootRange*projectileSpeed (40*20 = 800 pixel távolság) kb félpálya
-        shoot=0; //update -ben shoot++ és ha shootRange -szer lefut az update, akkor remove bullet
+        shootRange=40;                  //TODO: teszt , lövedk eltűnik egy megadott távolság után
+                                        // shootRange*projectileSpeed (40*20 = 800 pixel távolság) kb félpálya
+        shoot=0;                        // update -ben shoot++ és ha shootRange -szer lefut az update, akkor remove bullet
         if(right) deltaX=projectileSpeed;
         else deltaX=-projectileSpeed;
         spriteHeight=2;
@@ -43,12 +43,11 @@ public class Projectile extends GameObject{
         objectHeight=2;
         objectWidth=20;
 
-        //load sprites
+        //load sprites                  //TODO szerintem az ICHOR lőszer lehet a MAGNUM-nál mert az lesz a best weapon
         try{
-            BufferedImage spritesheet = ImageIO.read(new File(
-                            "DuelingFates/Sources/proj_Default_Bullet.png"
-                    )
-            );
+            BufferedImage spritesheet = ImageIO.read(new File("DuelingFates/Sources/proj_Default_Bullet.png"));
+            //BufferedImage spritesheet = ImageIO.read(new File("DuelingFates/Sources/proj_Ichor_Bullet.png"));
+
             sprites= new BufferedImage[1];
             sprites[0]=spritesheet.getSubimage(0*spriteWidth,0,spriteWidth,spriteHeight);
             animation= new Animation();
@@ -60,15 +59,16 @@ public class Projectile extends GameObject{
         }
     }
 
-
     public void setHit(){
         if(hit) return;
         hit=true;
         deltaX=0;
     }
+
     public boolean shouldRemove(){
         return remove;
     }
+
     public void update(){
         checkTileMapCollision();
         setPosition(tempX,tempY);
@@ -80,9 +80,11 @@ public class Projectile extends GameObject{
             remove=true;
         }
     }
+
     public void draw(Graphics2D g){
 
     }
+
     /*
     * Implementation of getters and setters
     * */

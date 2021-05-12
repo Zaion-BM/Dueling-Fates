@@ -12,10 +12,6 @@ public class Tile {
 
     }
 
-
-    //public Tile getTile(){return this;}
-
-
     public BufferedImage getTileImage(){
 
         return tileImage;

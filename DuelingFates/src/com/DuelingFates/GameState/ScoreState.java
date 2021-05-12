@@ -23,7 +23,6 @@ public class ScoreState extends GameState implements MouseListener, ActionListen
 
     //Labels
     private final JLabel winnerLabel = new JLabel("THE WINNER IS");
-    private JLabel winnerName = new JLabel();
     private final JLabel player1Label = new JLabel();
     private final JLabel player2Label = new JLabel();
 
@@ -102,6 +101,7 @@ public class ScoreState extends GameState implements MouseListener, ActionListen
         winnerLabel.setBounds((MainProcess.getGameWidth()/2)-370, (int)(MainProcess.getGameHeight()*0.13),700,70);
 
         //Ha a host az első
+        JLabel winnerName;
         if (GamePlayState.getHostPlayerScore() > GamePlayState.getClientPlayerScore()) {
 
             player1Score = GamePlayState.getHostPlayerName() + ": " + GamePlayState.getHostPlayerScore();
@@ -176,7 +176,6 @@ public class ScoreState extends GameState implements MouseListener, ActionListen
         duelingFates.repaint();
 
         StateManager.setStateChangedFalse();
-
 
     }
 

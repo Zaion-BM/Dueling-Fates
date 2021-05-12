@@ -173,7 +173,6 @@ public class HostState extends GameState implements ActionListener, MouseListene
         buttonStart.addMouseListener(this);
 
         duelingFates.repaint();
-
         StateManager.setStateChangedFalse();
 
     }

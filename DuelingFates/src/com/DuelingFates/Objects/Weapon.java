@@ -6,8 +6,7 @@ import java.awt.event.KeyEvent;
 
 public class Weapon extends GameObject{
 
-
-    public enum WeaponModel{DEFAULT, BLASTER, UNDERTAKER, MAGNUM}
+    public enum WeaponModel{DEFAULT, UNDERTAKER, MAGNUM}
     public int type;
     public WeaponModel modelType;
     public Projectile projectile;
@@ -23,10 +22,7 @@ public class Weapon extends GameObject{
         this.projectile = projectile;
 
         switch(type){
-            case 3:    setWeaponDmg(20);       //firerate=1 -> 1 shoot = 1 bullet (bullet speed: ~0.1s/bullet)
-                            setWeaponFireRate(1);
-                            break;
-            case 2:    setWeaponDmg(40);
+            case 2:    setWeaponDmg(20);            //firerate=1 -> 1 shoot = 1 bullet (bullet speed: ~0.1s/bullet)
                             setWeaponFireRate(1);
                             break;
             case 1:    setWeaponDmg(30);
@@ -37,7 +33,6 @@ public class Weapon extends GameObject{
         }
 
     }
-
 
     public void shootWeapon(Weapon weapon){
 

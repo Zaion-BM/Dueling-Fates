@@ -1,13 +1,11 @@
 package com.DuelingFates.Objects;
 
 import com.DuelingFates.Objects.Consumable.Consumable;
-import com.DuelingFates.Objects.Consumable.HealthPotion;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class GameObjectRenderer {
@@ -41,13 +39,11 @@ public class GameObjectRenderer {
             //projectiles
             defaultProjSprite = ImageIO.read(new File("DuelingFates/Sources/proj_Default_Bullet.png"));
             IchorProjSprite = ImageIO.read(new File("DuelingFates/Sources/proj_Ichor_Bullet.png"));
-            meteorProjSprite = ImageIO.read(new File("DuelingFates/Sources/proj_Meteor_Bullet.png"));
 
             //weapons
-            defaultWepSprite = ImageIO.read(new File("DuelingFates/Sources/wep_Handgun.png"));
-            blasterWepSprite = ImageIO.read(new File("DuelingFates/Sources/wep_Phoenix_Blaster.png"));
-            undertakerWepSprite = ImageIO.read(new File("DuelingFates/Sources/wep_The_Undertaker.png"));
-            magnumWepSprite = ImageIO.read(new File("DuelingFates/Sources/wep_Venus_Magnum.png"));
+            defaultWepSprite = ImageIO.read(new File("DuelingFates/Sources/wep_DefaultWeapon.png"));
+            undertakerWepSprite = ImageIO.read(new File("DuelingFates/Sources/wep_TheUndertaker.png"));
+            magnumWepSprite = ImageIO.read(new File("DuelingFates/Sources/wep_VenusMagnum.png"));
 
         }catch (Exception e){
 
@@ -59,6 +55,8 @@ public class GameObjectRenderer {
 
     public void drawPlayer(Graphics2D graphics, Player player){
 
+        graphics.drawRect((int)player.getPositionX()-16,(int)player.getPositionY()-22,32,44);
+        /*
         if(player.facingRight){
             graphics.drawImage(player.animation.getImage(),
                               (int)(player.x-player.spriteWidth/2),
@@ -79,12 +77,9 @@ public class GameObjectRenderer {
         //If we get shot, we are blinking red
         if(player.blinkRed){
             if(player.blinkCount % 10 < 5) return;
-        }
+        }*/
 
         drawProjectile(graphics,player.getProjectile());
-
-
-        //csak kirajzolunk, az animáció a PlayerAnimation-ben lesz
 
     }
 
@@ -105,6 +100,7 @@ public class GameObjectRenderer {
     }
 
     public void drawProjectile(Graphics2D graphics, ArrayList<Projectile> projectile){
+
         //ha nem null a projectile, akkor kirajzolja képernyőre
         for(int i=0; i<projectile.size();i++) {
             if (projectile.get(i).projectileType == Projectile.Types.DEFAULT){
@@ -114,11 +110,6 @@ public class GameObjectRenderer {
             if (projectile.get(i).projectileType == Projectile.Types.ICHOR) {
 
             }
-
-            if (projectile.get(i).projectileType == Projectile.Types.METEOR) {
-
-            }
-
 
             if (projectile.get(i).facingRight) {
                 graphics.drawImage(projectile.get(i).animation.getImage(),

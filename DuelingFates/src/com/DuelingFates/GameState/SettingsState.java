@@ -109,7 +109,6 @@ public class SettingsState extends GameState implements ActionListener, MouseLis
         possessedJRadioButton.setOpaque(false);
         possessedJRadioButton.setSelectedIcon(possessedSelectedImg);
 
-
         //az eltárolt érték alapján megjelenítjük az éppen kiválasztott karaktert
         switch (MainProcess.getCharacterTemp()){
 

@@ -43,23 +43,20 @@ public abstract class GameObject {
     //Movement
     protected boolean left;
     protected boolean right;
-    protected boolean jumping;
     protected boolean falling;
 
     //Movement attributes
-    protected float moveSpeed;
-    protected float maxSpeed;
-    protected float stopSpeed;
     protected float fallSpeed;
     protected float maxFallSpeed;
-    protected float jumpStart;
-    protected float stopJumpSpeed;
 
     // animation
     protected Animation animation;
     protected int currentAction;
     protected int previousAction;
     protected boolean facingRight;
+
+    //random
+    protected int randomPosition;
 
     //Implementation of constructors
     public GameObject(TileMap tileMap){

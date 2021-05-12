@@ -20,24 +20,17 @@ public class Ammo extends Consumable{
 
         ammoScore = 10;
 
-        //define spawn bounds
-        Random random = new Random();
-        int availableSpawnsY = random.nextInt(680);
-        availableSpawnsY+= 200;
-        int availableSpawnsX = random.nextInt(1700);
-        availableSpawnsX+= 110;
-
-        this.setPosition(availableSpawnsX,availableSpawnsY);
 
     }
 
     @Override
-    public void spawnConsumable() {
+    public Consumable spawnConsumable(TileMap tileMap) {
         //kiválasztunk egy random pozíciót a mapon és ott példányosítjuk
         //megadjuk, hogy hova lehet spawnolni, mert tudjuk a map layoutját
         //és azok közül random választunk
         //az időpont amilyen sebeséggel spawnol, pedig szintén lehet random, vagy minden 20 secenként
-
+        Ammo a=new Ammo(tileMap);
+        return a;
     }
 
     @Override
@@ -46,7 +39,6 @@ public class Ammo extends Consumable{
         player.setPlayerAmmoQty(player.getPlayerAmmoQty() + ammoQty);
         player.setPlayerScore(player.getPlayerScore() + ammoScore);
     }
-
     @Override
     public int getObjectHeight() {
         return objectHeight;

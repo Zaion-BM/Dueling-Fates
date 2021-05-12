@@ -207,7 +207,7 @@ public class MainProcess extends JPanel implements Runnable{
                 stateManager.updateSwingUI(duelingFates, layeredPane);                      //a Frame és a JLayeredPane továbbadásával tudjuk őket frissíteni
                 //System.out.println("Swing GUI has been updated!");
 
-                /*System.out.println(stateManager.currentState);
+               /* System.out.println(stateManager.currentState);
                 if (stateManager.currentState == StateManager.States.HOSTSTATE) {
                     serverThread.start();
                 }

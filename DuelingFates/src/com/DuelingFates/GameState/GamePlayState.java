@@ -5,6 +5,7 @@ import com.DuelingFates.HUDs.HUD;
 import com.DuelingFates.Main.MainProcess;
 import com.DuelingFates.Objects.*;
 import com.DuelingFates.Objects.Consumable.Ammo;
+import com.DuelingFates.Objects.Consumable.Consumable;
 import com.DuelingFates.Objects.Consumable.HealthPotion;
 import com.DuelingFates.TileMap.TileMap;
 
@@ -30,6 +31,7 @@ public class GamePlayState extends GameState implements KeyListener {
     private PlayerAnimation hostAnimation;
     private Player clientPlayer;
     private PlayerAnimation clientAnimation;
+    private Weapon gun;
 
     private HUD hud;
 
@@ -130,6 +132,9 @@ public class GamePlayState extends GameState implements KeyListener {
         setHostPlayerName(hostPlayer.getPlayerName());
 
         //hostProjectile=new Projectile(tileMap,); //TODO: projectile
+        //Init Weapon to player //TODO: TESZT, ha működik így akkor lehet szarakodni, hogy hogy adjuk be neki a projectile-t
+        gun= new Weapon(tileMap,0);
+        hostPlayer.setPlayerWeapon(gun);
 
         //TODO player location egy játékos halálakor amit majd szintén meghívunk
         //TODO start timer, ami lehet metódus, itt végtelen ciklusban várunk a kliens csatlakozására és utána indul a meccs
@@ -165,11 +170,12 @@ public class GamePlayState extends GameState implements KeyListener {
         gameObjectRenderer.drawPlayer(graphics, clientPlayer);
 
         //TODO SHOULD REMOVE mint a projectile-nál és for ciklusos rajzolás
-        gameObjectRenderer.drawHealthPotion(graphics, healthPotions.get(0));
-        gameObjectRenderer.drawHealthPotion(graphics, healthPotions.get(1));
-
-        gameObjectRenderer.drawAmmoPickup(graphics, ammos.get(0));
-        gameObjectRenderer.drawAmmoPickup(graphics, ammos.get(1));
+        for(int i=0; i<healthPotions.size(); i++) {
+            gameObjectRenderer.drawHealthPotion(graphics, healthPotions.get(i));
+        }
+        for(int i=0; i<ammos.size(); i++) {
+            gameObjectRenderer.drawAmmoPickup(graphics, ammos.get(i));
+        }
 
         //Projectile draw
         //gameObjectRenderer.drawProjectile(graphics,hostProjectile);
@@ -199,23 +205,30 @@ public class GamePlayState extends GameState implements KeyListener {
 
        // hostProjectile.update();
 
+        //attack enemy player
+        hostPlayer.checkAttack(clientPlayer);
+        clientPlayer.checkAttack(hostPlayer);
+
+
         //TODO Dave: DOES NOT WORK (Balázs te tudod? én még nem látom át azt a részt) két playernél megy
-        if (clientPlayer.objectIntersection(healthPotions.get(0))){
+        //check if healthpotions is picked up
+        checkPickedUpHealth(hostPlayer,healthPotions);
+        checkPickedUpHealth(clientPlayer,healthPotions);
 
-            System.out.println("ASD");
-            healthPotions.get(0).useConsumable(hostPlayer);
-
-        }
-
+        checkPickedUpAmmo(hostPlayer,ammos);
+        checkPickedUpAmmo(clientPlayer,ammos);
 
         //Ha a timer elérte a beállított időt, a score state-re váltunk, adatokat mentünk
-        if(minutes == MainProcess.getMatchDurationTemp()){
+        if(minutes == MainProcess.getMatchDurationTemp() ){
 
             hostPlayerScore = hostPlayer.getPlayerScore();
             clientPlayerScore = clientPlayer.getPlayerScore();
             stateManager.setState(StateManager.States.SCORESTATE);
 
         }
+
+
+
 
     }
 
@@ -280,7 +293,27 @@ public class GamePlayState extends GameState implements KeyListener {
     public static void setClientPlayerName(String name){
         clientPlayerName = name;
     }
+    //check pickups
+    public void checkPickedUpHealth(Player player,ArrayList<HealthPotion> healthPotions){
+        for(int i=0; i<healthPotions.size(); i++) {
+            if (player.objectIntersection(healthPotions.get(i))) {
+                healthPotions.get(i).useConsumable(player);
+                System.out.println("+30 Health");
+                healthPotions.remove(i);
 
+            }
+        }
+    }
+    public void checkPickedUpAmmo(Player player,ArrayList<Ammo> ammos){
+        for(int i=0; i<ammos.size(); i++) {
+            if (player.objectIntersection(ammos.get(i))) {
+                ammos.get(i).useConsumable(player);
+                System.out.println("+10 Ammo");
+                ammos.remove(i);
+
+            }
+        }
+    }
 
     @Override
     public void updateSwingUI(JFrame duelingFates,JLayeredPane layeredPane) {

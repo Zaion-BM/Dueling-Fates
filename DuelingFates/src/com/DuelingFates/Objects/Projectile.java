@@ -32,6 +32,7 @@ public class Projectile extends GameObject{
             case DEFAULT:
                 setProjectileSpeed(10);
         }*/
+        facingRight=right;
         setProjectileSpeed(20);
         shootRange=40; //TODO: teszt , lövedk eltűnik egy megadott távolság után  shootRange*projectileSpeed (40*20 = 800 pixel távolság) kb félpálya
         shoot=0; //update -ben shoot++ és ha shootRange -szer lefut az update, akkor remove bullet

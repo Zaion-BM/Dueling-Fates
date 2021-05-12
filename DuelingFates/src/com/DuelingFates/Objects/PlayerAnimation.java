@@ -10,16 +10,16 @@ public class PlayerAnimation {
     //Player's sprite animations
     private ArrayList<BufferedImage[]> sprites;
     private final int[] NUMFRAMES = {
-            2, 2, 14, 1
+            2, 2, 14, 1, 2, 1
     };
     private final int[] FRAMEWIDTHS = {
-            41, 39, 43, 46
+            41, 39, 43, 46, 41, 41
     };
     private final int[] FRAMEHEIGHTS = {
-            44, 44, 44, 44
+            44, 44, 44, 44, 44, 44
     };
     private final int[] SPRITEDELAYS = {
-            -1, 3, 1, 6
+            -1, 3, 1, 6, 3, 10
     };
 
     //Posessed
@@ -51,7 +51,7 @@ public class PlayerAnimation {
         if(player.getPlayerCharacter().equals(Player.PIRATE)) {
             try {
 
-                BufferedImage spriteSheet = ImageIO.read(new File("DuelingFates/Sources/char_PirateDeckhand/PlayerSprite_gun.png"));
+                BufferedImage spriteSheet = ImageIO.read(new File("DuelingFates/Sources/char_PirateDeckhand/PlayerSprite_gun_v2.png"));
 
                 int count = 0;
                 sprites = new ArrayList<>();
@@ -157,17 +157,6 @@ public class PlayerAnimation {
             }
         }
 
-        // check attack TODO: player2 -őt enemynek állítani és checckolni hogy a lövedék eltalálta e
-        //TODO: DAVE: EZT GAMEPLAYBEN NEM?
-        /*//Enemy enemy=player2;
-        if(currentAction == SHOOTING &&
-                animation.getFrame() == 3 && animation.getCount() == 0) {
-            if(enemy.intersects(ar)) {
-                enemy.hit(damage);
-            }
-        }
-        */
-
         // set animation, ordered by priority
         if(player.playerHealth == 0) {
             if (player.currentAction != Player.DEAD) {
@@ -180,26 +169,6 @@ public class PlayerAnimation {
                 //setAnimation(Player.SHOOTING, player);
                 //player.animation.setFrames(jumpingAndFallingSprite);
             }
-
-           /* else { TODO: Projectile-ra ugyanezt megírni
-                if(animation.getFrame() == 4 && animation.getCount() == 0) {
-                    for(int c = 0; c < 3; c++) {
-                        if(facingRight)
-                            energyParticles.add(
-                                    new EnergyParticle(
-                                            tileMap,
-                                            ar.x + ar.width - 4,
-                                            ar.y + ar.height / 2,
-                                            EnergyParticle.RIGHT));
-                        else
-                            energyParticles.add(
-                                    new EnergyParticle(
-                                            tileMap,
-                                            ar.x + 4,
-                                            ar.y + ar.height / 2,
-                                            EnergyParticle.LEFT));
-                    }}
-            }*/
 
 
         }
@@ -241,12 +210,14 @@ public class PlayerAnimation {
 
     public void updateAnimation(Player player){
 
+        //check blinking finished
         if(player.blinkRed) {
-            player.blinkCount++;
-            if(player.blinkCount > 120) {
-                player.blinkRed = false;
-            }
+                player.blinkCount++;
+                if (player.blinkCount > 30) {
+                    player.blinkRed = false;
+                }
         }
+
 
         // check attack finished
         if(player.currentAction == Player.SHOOTING) {
@@ -255,19 +226,13 @@ public class PlayerAnimation {
             }
         }
 
-        // check attack TODO: player2 -őt enemynek állítani és checckolni hogy a lövedék eltalálta e
-        //TODO: DAVE: EZT GAMEPLAYBEN NEM?
-        /*//Enemy enemy=player2;
-        if(currentAction == SHOOTING &&
-                animation.getFrame() == 3 && animation.getCount() == 0) {
-            if(enemy.intersects(ar)) {
-                enemy.hit(damage);
+        // set animation, ordered by priority
+        if(player.blinkRed && !player.dead) {
+            if (player.currentAction != Player.BLINKING) {
+                setAnimation(Player.BLINKING, player);
             }
         }
-        */
-
-        // set animation, ordered by priority
-        if(player.playerHealth == 0) {
+        else if(player.playerHealth == 0) {
             if (player.currentAction != Player.DEAD) {
                 setAnimation(Player.DEAD, player);
             }
@@ -276,27 +241,6 @@ public class PlayerAnimation {
             if(player.currentAction!=Player.SHOOTING){
                 setAnimation(Player.SHOOTING, player);
             }
-
-           /* else { TODO: Projectile-ra ugyanezt megírni
-                if(animation.getFrame() == 4 && animation.getCount() == 0) {
-                    for(int c = 0; c < 3; c++) {
-                        if(facingRight)
-                            energyParticles.add(
-                                    new EnergyParticle(
-                                            tileMap,
-                                            ar.x + ar.width - 4,
-                                            ar.y + ar.height / 2,
-                                            EnergyParticle.RIGHT));
-                        else
-                            energyParticles.add(
-                                    new EnergyParticle(
-                                            tileMap,
-                                            ar.x + 4,
-                                            ar.y + ar.height / 2,
-                                            EnergyParticle.LEFT));
-                    }}
-            }*/
-
 
         }
         else if(player.deltaY<0){                                      //jumping
@@ -322,40 +266,4 @@ public class PlayerAnimation {
 
     }
 
-
-
-    /*
-    public void shooting(){
-        //lövés fegyver megjelenítés, eltüntetés, ammo csökkentés
-
-    }
-
-    //ha futunk
-    public void running(int direction){
-        //input event??
-        //left: 0 right: 1
-        switch(direction) {
-            case 0:
-                //runningSprite left
-                break;
-            case 1:
-                //runningSprite right
-        }
-    }
-
-    //ha állunk
-    public void standing(Player player){
-            //standingSprite
-    }
-
-    //ha ugrunk vagy esünk
-    public void jumpingAndFalling(Player player){
-        //jumpingAndFallingSprite
-    }
-    public void damageAnimation(){
-        //vörös tinta ha projectile-lal találkozunk
-
-
-    }
-*/
 }

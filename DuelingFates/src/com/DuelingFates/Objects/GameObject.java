@@ -206,6 +206,9 @@ public abstract class GameObject {
         this.deltaX=deltaX;
         this.deltaY=deltaY;
     }
+    public int getCurrentAction(){
+        return currentAction;
+    }
 
     //Player input kezelés miatt
     public abstract void keyTyped(KeyEvent e);

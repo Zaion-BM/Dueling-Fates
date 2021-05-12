@@ -51,6 +51,7 @@ public class HealthPotion extends Consumable {
 
     }
 
+
     /*
      * Implementation of getters and setters
      * */

@@ -1,14 +1,11 @@
 package com.DuelingFates.Objects;
-import com.DuelingFates.GameState.GamePlayState;
 import com.DuelingFates.Main.MainProcess;
+import com.DuelingFates.Objects.Consumable.HealthPotion;
 import com.DuelingFates.TileMap.TileMap;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.util.ArrayList;
 
 public class Player extends GameObject implements KeyListener {
@@ -30,13 +27,16 @@ public class Player extends GameObject implements KeyListener {
     public long blinkCount;
     public boolean shooting;
     public ArrayList<Projectile> bullets;
+    public boolean removed; //TODO: lehet ezt gameobject-re kéne és akkor használható a cosumablehez
+
 
     //Player actions
     public static final int IDLE                = 0;
     public static final int RUNNING             = 2;
     public static final int SHOOTING            = 3;
     public static final int JUMPINGANDFALLING   = 1;
-    public static final int DEAD                = 4;
+    public static final int BLINKING            = 4;
+    public static final int DEAD                = 5;
 
     //projectile
     public Rectangle ar;
@@ -46,6 +46,8 @@ public class Player extends GameObject implements KeyListener {
 
         super(tileMap);
 
+        removed=false;
+        dead=false;
         playerName = MainProcess.getPlayerNameTemp();
         playerCharacter = MainProcess.getCharacterTemp();
 
@@ -79,7 +81,7 @@ public class Player extends GameObject implements KeyListener {
 
         //Specify player parameters
         setPlayerMaxHealth(100);
-        setPlayerHealth(80);
+        setPlayerHealth(50);
         setPlayerScore(0);
         setPosition(300, 400);
 
@@ -196,12 +198,17 @@ public class Player extends GameObject implements KeyListener {
 
     //TODO: damage számolása
     public void hit(int damage) {
-        if(blinkRed) return;
+        if(blinkRed || dead) return;
         //JukeBox.play("playerhit");            //TODO max erre lesz idő, meg valami háttérzenének, ez 2 hangfájl
         stop();
-
+        playerScore+=10;
         playerHealth -= damage;
-        if(playerHealth < 0) playerHealth = 0;
+        if(playerHealth < 0) {
+            playerScore+=100;
+            System.out.println("Enemy is dead");
+            playerHealth = 0;
+            dead=true;
+        }
         blinkRed = true;
 
         blinkCount = 0;
@@ -212,8 +219,27 @@ public class Player extends GameObject implements KeyListener {
         deltaY = -3;
 
         //knockback = true;
-        falling = true;
+        //falling = true;
+        System.out.println("Hit");
         jumping = false;
+    }
+    public boolean isDead(){
+        return dead;
+    }
+    public int getDamage(){
+        return playerWeapon.getWeaponDmg();
+    }
+
+    //check attack TODO: TESZTELÉS
+    public void checkAttack(Player player){
+        for(int i=0; i<bullets.size();i++) {
+            if (bullets.get(i).objectIntersection(player)) {
+                player.hit(getDamage());
+                bullets.get(i).setHit();
+               // blinkRed=true;  TODO: összes sprite esetén kell egy red variáció, hogy esés közben is sebződhessen az enemy
+                break;
+            }
+        }
     }
 
     //TODO: játék reset, még át kell alakítani úgy , hogy a meghalt játékos újraéledjen a pályán
@@ -225,14 +251,23 @@ public class Player extends GameObject implements KeyListener {
     }
 
     public void stop() {
-        left = right = blinkRed = jumping = false;
+        left = right = blinkRed = jumping = dead= removed= false;
     }
 
     public void respawn(){
         reset();
         setPosition(400, 300);
     }
+    public void removePlayer() {
 
+        System.out.println("Player removed");
+
+        if(currentAction == DEAD && animation.hasPlayedOnce()) {
+            respawn();
+            //setPosition(9999, 9999);
+            //removed = true;
+        }
+    }
     //ZB: Calculate the Player's next position
     private void getNextPosition(){
 
@@ -303,7 +338,7 @@ public class Player extends GameObject implements KeyListener {
                 if(playerAmmoQty>0){
                     playerAmmoQty--;
                     Projectile p=new Projectile(tileMap,facingRight);
-                    p.setPosition(x+spriteWidth,y);
+                    p.setPosition(x,y);
                     bullets.add(p);
                 }
             }
@@ -317,24 +352,12 @@ public class Player extends GameObject implements KeyListener {
             }
         }
 
-        // check attack TODO: player2 -őt enemynek állítani és checckolni hogy a lövedék eltalálta e
-        //TODO: DAVE: EZT GAMEPLAYBEN NEM?
-       /* //Enemy enemy=player2;
-        if(currentAction == SHOOTING &&
-                animation.getFrame() == 3 && animation.getCount() == 0) {
-            if(enemy.intersects(ar)) {
-                enemy.hit(damage);
-            }
-        }
-        //TODO: check if got hit by enemy player
-        if(!enemy.isDead() && intersects(enemy.getProjectilePosition())) {
-            hit(enemy.getDamage());
-        }
-        */
-
         //TODO: teszt  szükséges
-        if(playerHealth==0 || y>tileMap.getMapHeight()+objectHeight*5){
+        if(y>tileMap.getMapHeight()+objectHeight*5){
             respawn();
+        }
+        if(dead){
+            removePlayer();
         }
 
 
@@ -345,26 +368,6 @@ public class Player extends GameObject implements KeyListener {
                 else ar.x = (int)x - 40;
             }
 
-           /* else { TODO: Projectile-ra ugyanezt megírni
-                if(animation.getFrame() == 4 && animation.getCount() == 0) {
-                    for(int c = 0; c < 3; c++) {
-                        if(facingRight)
-                            energyParticles.add(
-                                    new EnergyParticle(
-                                            tileMap,
-                                            ar.x + ar.width - 4,
-                                            ar.y + ar.height / 2,
-                                            EnergyParticle.RIGHT));
-                        else
-                            energyParticles.add(
-                                    new EnergyParticle(
-                                            tileMap,
-                                            ar.x + 4,
-                                            ar.y + ar.height / 2,
-                                            EnergyParticle.LEFT));
-                    }}
-            }*/
-
 
         }
 
@@ -374,6 +377,8 @@ public class Player extends GameObject implements KeyListener {
             if(left) facingRight=false;
         }
     }
+
+
 
     @Override
     public void keyTyped(KeyEvent e) {

@@ -16,8 +16,8 @@ public class HealthPotion extends Consumable {
         super(tileMap);
         healthPoints = 30;
 
-        objectHeight = 39;
-        objectWidth = 30;
+        objectHeight = 36;
+        objectWidth = 27;
 
         healthScore = 5;
 

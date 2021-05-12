@@ -163,8 +163,6 @@ public class GamePlayState extends GameState implements KeyListener {
 
         hud.draw(graphics, hostPlayer);
 
-        //TODO projectile, kirajzolás for ciklussal, arraylisten végiglépkedünk
-
         //Player draw
         gameObjectRenderer.drawPlayer(graphics, hostPlayer);
         gameObjectRenderer.drawPlayer(graphics, clientPlayer);
@@ -203,14 +201,12 @@ public class GamePlayState extends GameState implements KeyListener {
         clientAnimation.updateAnimation(clientPlayer);
         //hostAnimation.updateAnimationPossessed(hostPlayer);
 
-       // hostProjectile.update();
+        // hostProjectile.update();
 
         //attack enemy player
         hostPlayer.checkAttack(clientPlayer);
         clientPlayer.checkAttack(hostPlayer);
 
-
-        //TODO Dave: DOES NOT WORK (Balázs te tudod? én még nem látom át azt a részt) két playernél megy
         //check if healthpotions is picked up
         checkPickedUpHealth(hostPlayer,healthPotions);
         checkPickedUpHealth(clientPlayer,healthPotions);
@@ -226,8 +222,6 @@ public class GamePlayState extends GameState implements KeyListener {
             stateManager.setState(StateManager.States.SCORESTATE);
 
         }
-
-
 
 
     }

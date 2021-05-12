@@ -15,8 +15,8 @@ public class Ammo extends Consumable{
         super(tileMap);
         ammoQty = 10;
 
-        objectHeight = 41;
-        objectWidth = 31;
+        objectHeight = 37;
+        objectWidth = 28;
 
         ammoScore = 10;
 

@@ -24,26 +24,17 @@ public class PlayerAnimation {
 
     //Posessed
     private final int[] NUMFRAMES_P = {
-            2, 2, 14, 2
+            2, 2, 14, 1
     };
     private final int[] FRAMEWIDTHS_P = {
-            32, 32, 32, 32
+            32, 32, 33, 32
     };
     private final int[] FRAMEHEIGHTS_P = {
             44, 44, 44, 44
     };
     private final int[] SPRITEDELAYS_P = {
-            -1, 2, 1, 6
+            -1, 3, 1, 6
     };
-
-    BufferedImage possessedWalkImg;
-    BufferedImage possessedStandImg;
-    BufferedImage possessedJumpImg;
-
-    private BufferedImage[] walkingSprite;
-    private BufferedImage[] jumpingAndFallingSprite;
-    private BufferedImage[] standingSprite;
-
 
     public PlayerAnimation(Player player){
 
@@ -81,71 +72,50 @@ public class PlayerAnimation {
 
             try {
 
-                possessedJumpImg = ImageIO.read(new File("DuelingFates/Sources/char_PossessedArmor/PossessedArmor_jumpingAndFalling2.png"));
-                possessedStandImg = ImageIO.read(new File("DuelingFates/Sources/char_PossessedArmor/PossessedArmor_standing2.png"));
-                possessedWalkImg = ImageIO.read(new File("DuelingFates/Sources/char_PossessedArmor/PossessedArmor_walking.png"));
+                BufferedImage spriteSheet = ImageIO.read(new File("DuelingFates/Sources/char_PossessedArmor/PossessedArmor_FullTile.png"));
 
+                int count = 0;
+                sprites = new ArrayList<>();
 
-            walkingSprite = new BufferedImage[14];
-            //461 pixel, 1 pixel between each sprite, 461-13=448 / 14 = 32
-            for (int i = 0; i < walkingSprite.length; i++) {
-                walkingSprite[i] = possessedWalkImg.getSubimage(
-                            i * (player.spriteWidth+1),
-                            0,
-                            player.spriteWidth,
-                            player.spriteHeight
-                    );
+                for (int i = 0; i < NUMFRAMES_P.length; i++) {
+                    BufferedImage[] bi = new BufferedImage[NUMFRAMES_P[i]];
+                    for (int j = 0; j < NUMFRAMES_P[i]; j++) {
+                        bi[j] = spriteSheet.getSubimage(
+                                j * FRAMEWIDTHS_P[i],
+                                count,
+                                FRAMEWIDTHS_P[i],
+                                FRAMEWIDTHS_P[i]
+                        );
+                    }
+                    sprites.add(bi);
+                    count += FRAMEWIDTHS_P[i];
                 }
 
-            jumpingAndFallingSprite = new BufferedImage[2];
-            for (int i = 0; i < jumpingAndFallingSprite.length; i++) {
-                jumpingAndFallingSprite[i] = possessedJumpImg.getSubimage(
-                        i * (player.spriteWidth+1),
-                        0,
-                        player.spriteWidth,
-                        player.spriteHeight
-                );
-            }
-
-            standingSprite = new BufferedImage[2];
-            for (int i = 0; i < standingSprite.length; i++) {
-                standingSprite[i] = possessedStandImg.getSubimage(
-                        i * (player.spriteWidth+1),
-                        0,
-                        player.spriteWidth,
-                        player.spriteHeight
-                );
-            }
-
-            } catch (Exception e ){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-
-            setAnimationPossessed(Player.IDLE,player);
-            player.animation.setFrames(standingSprite);
-
-
+            setAnimation(Player.IDLE,player);
 
         }
 
     }
 
-
-    //TODO POSSESSED ANIMATION 2.0 - WITHOUT WEAPON
     private void setAnimationPossessed(int i, Player player) {
         player.currentAction = i;
-        player.animation.setDelay(SPRITEDELAYS_P[player.currentAction]);
-        player.spriteWidth = FRAMEWIDTHS_P[player.currentAction];
-        player.spriteHeight = FRAMEHEIGHTS_P[player.currentAction];
-
+        player.animation.setFrames(sprites.get(player.currentAction));
+        player.animation.setDelay(SPRITEDELAYS[player.currentAction]);
+        player.spriteWidth = FRAMEWIDTHS[player.currentAction];
+        player.spriteHeight = FRAMEHEIGHTS[player.currentAction];
     }
 
+    //TODO POSSESSED ANIMATION 2.0 - WITHOUT WEAPON MÉG NEM MEGY TRY AT OWN RISK
     public void updateAnimationPossessed(Player player){
 
 
+        //check blinking finished
         if(player.blinkRed) {
             player.blinkCount++;
-            if(player.blinkCount > 120) {
+            if (player.blinkCount > 30) {
                 player.blinkRed = false;
             }
         }
@@ -158,45 +128,42 @@ public class PlayerAnimation {
         }
 
         // set animation, ordered by priority
-        if(player.playerHealth == 0) {
+        if(player.blinkRed && !player.dead) {
+            if (player.currentAction != Player.BLINKING) {
+                setAnimationPossessed(Player.BLINKING, player);
+            }
+        }
+        else if(player.playerHealth == 0) {
             if (player.currentAction != Player.DEAD) {
-                setAnimation(Player.DEAD, player);
-                player.animation.setFrames(jumpingAndFallingSprite);
+                setAnimationPossessed(Player.DEAD, player);
             }
         }
         else if(player.shooting){
             if(player.currentAction!=Player.SHOOTING){
-                //setAnimation(Player.SHOOTING, player);
-                //player.animation.setFrames(jumpingAndFallingSprite);
+                setAnimationPossessed(Player.SHOOTING, player);
             }
 
-
         }
-        else if(player.deltaY<0){                                               //jumping
+        else if(player.deltaY<0){                                      //jumping
             if(player.currentAction != Player.JUMPINGANDFALLING){
-                player.animation.setFrames(jumpingAndFallingSprite);
-               setAnimationPossessed(Player.JUMPINGANDFALLING,player);
+                setAnimationPossessed(Player.JUMPINGANDFALLING,player);
             }
         }
-        else if(player.deltaY>0){                                               //falling
+        else if(player.deltaY>0){                                      //falling
             if(player.currentAction != Player.JUMPINGANDFALLING){
-                player.animation.setFrames(jumpingAndFallingSprite);
                 setAnimationPossessed(Player.JUMPINGANDFALLING,player);
             }
 
         }
-        else if(player.left || player.right){                                   //running
+        else if(player.left || player.right){                                 //running
             if(player.currentAction!=Player.RUNNING){
                 setAnimationPossessed(Player.RUNNING,player);
-                player.animation.setFrames(walkingSprite);
             }
         }
-        else if(player.currentAction!=Player.IDLE){                             //standing
+        else if(player.currentAction!=Player.IDLE && !player.keyUpPressed){        //TODO test                   //standing
             setAnimationPossessed(Player.IDLE,player);
-            player.animation.setFrames(standingSprite);
         }
-
-        player.animation.update();                                              //update animation of player
+        player.animation.update();                                     //update animation of player
 
     }
 
@@ -259,7 +226,7 @@ public class PlayerAnimation {
                 setAnimation(Player.RUNNING,player);
             }
         }
-        else if(player.currentAction!=Player.IDLE){                           //standing
+        else if(player.currentAction!=Player.IDLE && !player.keyUpPressed){        //TODO test                   //standing
             setAnimation(Player.IDLE,player);
         }
         player.animation.update();                                     //update animation of player

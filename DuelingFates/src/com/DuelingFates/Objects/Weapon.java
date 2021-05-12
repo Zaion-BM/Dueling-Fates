@@ -26,13 +26,13 @@ public class Weapon extends GameObject{
             case 3:    setWeaponDmg(20);       //firerate=1 -> 1 shoot = 1 bullet (bullet speed: ~0.1s/bullet)
                             setWeaponFireRate(1);
                             break;
-            case 2:setWeaponDmg(40);
+            case 2:    setWeaponDmg(40);
                             setWeaponFireRate(1);
                             break;
-            case 1:   setWeaponDmg(30);
+            case 1:    setWeaponDmg(30);
                             setWeaponFireRate(5);   //firerate=5 -> 1shoot = 5 bullet (semi-automatic) (bullet speed: ~0.02s/bullet)
                             break;                  //firerate==ammoqty -> 1shoot = all bullet (fully-automatic) (bullet speed: ~0.02s/bullet)
-            case 0:   setWeaponDmg(40);
+            case 0:    setWeaponDmg(40);
                             setWeaponFireRate(1);
         }
 

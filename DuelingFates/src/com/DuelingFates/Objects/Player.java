@@ -38,6 +38,7 @@ public class Player extends GameObject implements KeyListener {
     public static final int BLINKING            = 4;
     public static final int DEAD                = 5;
 
+    public boolean keyUpPressed = false;
     //projectile
     public Rectangle ar;
 
@@ -236,6 +237,7 @@ public class Player extends GameObject implements KeyListener {
             if (bullets.get(i).objectIntersection(player)) {
                 player.hit(getDamage());
                 bullets.get(i).setHit();
+                //TODO playerScore + player.getDamage()
                // blinkRed=true;  TODO: összes sprite esetén kell egy red variáció, hogy esés közben is sebződhessen az enemy
                 break;
             }
@@ -301,8 +303,6 @@ public class Player extends GameObject implements KeyListener {
         }
 
         //ZB: While we are shooting, we can not move, expect in air
-        //TODO: Tesztelés szükséges, hogy így jó lesz-e vagy lehessen mozgás közben lőni is
-        //TODO: DAVE: szerintem taktikusabb lesz ha mozgás közben nem tudsz lőni, mert célozni kell, de a másik is logikus
         if(currentAction==SHOOTING && !(jumping||falling)){
             deltaX=0;
         }
@@ -393,7 +393,7 @@ public class Player extends GameObject implements KeyListener {
         switch(key){    //TODO: Tesztelni kell hogy client és host most külön mozog vagy egyszerre vagy most mi van?
             case(KeyEvent.VK_LEFT): this.setLeft(true); break;
             case(KeyEvent.VK_RIGHT): this.setRight(true); break;
-            case(KeyEvent.VK_UP): this.setJumping(true); break;
+            case(KeyEvent.VK_UP): this.setJumping(true); this.keyUpPressed = true; break;
             case(KeyEvent.VK_SPACE):this.setShooting(); break;
         }
 
@@ -408,7 +408,7 @@ public class Player extends GameObject implements KeyListener {
         switch(key){
             case(KeyEvent.VK_LEFT): this.setLeft(false); break;
             case(KeyEvent.VK_RIGHT): this.setRight(false); break;
-            case(KeyEvent.VK_UP): this.setJumping(false); break;
+            case(KeyEvent.VK_UP): this.setJumping(false); this.keyUpPressed = false; break;
             case(KeyEvent.VK_SPACE): this.setShooting(); break;
         }
     }

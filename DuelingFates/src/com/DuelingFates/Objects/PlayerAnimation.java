@@ -72,8 +72,8 @@ public class PlayerAnimation {
 
             try {
 
-                BufferedImage spriteSheet = ImageIO.read(new File("DuelingFates/Sources/char_PossessedArmor/PossessedArmor.png"));
-
+                BufferedImage spriteSheet = ImageIO.read(new File("DuelingFates/Sources/char_PossessedArmor/PossessedArmorWiggleHands.png"));
+                //BufferedImage spriteSheet = ImageIO.read(new File("DuelingFates/Sources/char_PirateDeckhand/PirateDeckhandWiggleHands.png"));
                 int count = 0;
                 sprites = new ArrayList<>();
 

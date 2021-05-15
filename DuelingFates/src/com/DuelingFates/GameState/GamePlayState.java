@@ -29,7 +29,7 @@ public class GamePlayState extends GameState implements KeyListener {
 
     private Player hostPlayer;          //TODO: miért kell két külön player? gombok nyomkodásánál mi lesz?
     private PlayerAnimation hostAnimation;
-    private Player clientPlayer;
+    public static Player clientPlayer;
     private PlayerAnimation clientAnimation;
     private Weapon gun;
     private int timerMax;
@@ -55,7 +55,7 @@ public class GamePlayState extends GameState implements KeyListener {
     private static int clientPlayerScore;
 
     private static String hostPlayerName;
-    private static String clientPlayerName;
+    public static String clientPlayerName;
 
     private ArrayList<HealthPotion> healthPotions = new ArrayList<>();
     private ArrayList<Ammo> ammos = new ArrayList<>();
@@ -210,6 +210,7 @@ public class GamePlayState extends GameState implements KeyListener {
         //attack enemy player
         hostPlayer.checkAttack(clientPlayer);
         clientPlayer.checkAttack(hostPlayer);
+        //clientPlayer.setLeft(getMSG);
 
         //check if healthpotions is picked up
         checkPickedUpHealth(hostPlayer,healthPotions);

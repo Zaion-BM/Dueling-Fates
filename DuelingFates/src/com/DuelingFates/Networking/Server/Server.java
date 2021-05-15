@@ -10,28 +10,28 @@ import java.util.Queue;
 
 public class Server implements Runnable {
 
-    private Queue<String> messageQueue;
+    private Queue<Integer> messageQueue;
     private ServerSocket serverSocket = null;
+    private int port;
 
 
-    public Server(Queue<String> messageQueue) {
+    public Server(Queue<Integer> messageQueue, int port) {
         this.messageQueue = messageQueue;
+        this.port = port;
     }
 
     @Override
     public void run() {
         System.out.println("Server socket started");
         try {
-            serverSocket = new ServerSocket(6868);
+            serverSocket = new ServerSocket(port);
             Socket connection = serverSocket.accept();
             while (true) {
                 try {
                     synchronized (this){
                         if (!messageQueue.isEmpty()) {
-                            String msg = messageQueue.remove();
-                            System.out.print(msg);
                             PrintWriter writer = new PrintWriter(connection.getOutputStream(), true);
-                            writer.write(msg);
+                            writer.write(messageQueue.remove());
                             writer.flush();
                             connection.getOutputStream().flush();
                         }

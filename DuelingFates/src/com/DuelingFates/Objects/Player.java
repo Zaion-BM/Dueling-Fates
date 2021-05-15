@@ -2,11 +2,14 @@ package com.DuelingFates.Objects;
 import com.DuelingFates.Main.MainProcess;
 import com.DuelingFates.Objects.Consumable.HealthPotion;
 import com.DuelingFates.TileMap.TileMap;
+import com.DuelingFates.Networking.Client.*;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Random;
 
 public class Player extends GameObject implements KeyListener {
@@ -14,6 +17,7 @@ public class Player extends GameObject implements KeyListener {
     //Player parameters - some are public because of animation
     public static String PIRATE = "PirateDeckhand";
     public static String POSSESSED = "PossessedArmor";
+    public static Queue<Integer> messageQueue = new LinkedList<>();
 
     private String playerCharacter;
     private String playerName;
@@ -439,10 +443,10 @@ public class Player extends GameObject implements KeyListener {
 
         //ZB: Moving players or doing actions if key is pressed
         switch(key){    //TODO: Tesztelni kell hogy client és host most külön mozog vagy egyszerre vagy most mi van?
-            case(KeyEvent.VK_LEFT): this.setLeft(true); break;
-            case(KeyEvent.VK_RIGHT): this.setRight(true); break;
-            case(KeyEvent.VK_UP): this.setJumping(true); this.keyUpPressed = true; break;
-            case(KeyEvent.VK_SPACE):this.setShooting(); break;
+            case(KeyEvent.VK_LEFT): this.setLeft(true);messageQueue.add(0); break;
+            case(KeyEvent.VK_RIGHT): this.setRight(true);messageQueue.add(1); break;
+            case(KeyEvent.VK_UP): this.setJumping(true);messageQueue.add(2); this.keyUpPressed = true; break;
+            case(KeyEvent.VK_SPACE):this.setShooting(); messageQueue.add(3);break;
         }
 
     }
@@ -454,10 +458,10 @@ public class Player extends GameObject implements KeyListener {
 
         //ZB: Stop Moving players or doing actions if key is released
         switch(key){
-            case(KeyEvent.VK_LEFT): this.setLeft(false); break;
-            case(KeyEvent.VK_RIGHT): this.setRight(false); break;
-            case(KeyEvent.VK_UP): this.setJumping(false); this.keyUpPressed = false; break;
-            case(KeyEvent.VK_SPACE): this.setShooting(); break;
+            case(KeyEvent.VK_LEFT): this.setLeft(false);  messageQueue.add(4); break;
+            case(KeyEvent.VK_RIGHT): this.setRight(false);messageQueue.add(5); break;
+            case(KeyEvent.VK_UP): this.setJumping(false); messageQueue.add(6); this.keyUpPressed = false; break;
+            case(KeyEvent.VK_SPACE): this.setShooting();  messageQueue.add(7);  break;
         }
     }
 }

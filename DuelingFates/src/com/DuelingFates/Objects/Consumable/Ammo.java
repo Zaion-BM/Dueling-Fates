@@ -22,6 +22,19 @@ public class Ammo extends Consumable{
 
 
     }
+    public Ammo(TileMap tileMap,int x, int y) {
+        super(tileMap,x,y);
+        ammoQty = 10;
+
+        objectHeight = 37;
+        objectWidth = 28;
+
+        ammoScore = 10;
+
+
+
+
+    }
 
     @Override
     public Consumable spawnConsumable(TileMap tileMap) {

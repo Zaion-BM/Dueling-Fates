@@ -262,6 +262,9 @@ public class Player extends GameObject implements KeyListener {
     public int getDamage(){
         return playerWeapon.getWeaponDmg();
     }
+    public void setDamage(int damage){
+        playerWeapon.setWeaponDmg(damage);
+    }
 
     //check attack TODO: TESZTELÉS
     public void checkAttack(Player player){
@@ -290,8 +293,9 @@ public class Player extends GameObject implements KeyListener {
     public void respawn(){
         reset();
         //define spawn bounds
-        Random random = new Random();
-        randomPosition=random.nextInt(4);
+       // Random random = new Random();
+       // randomPosition=random.nextInt(4);
+        randomPosition=0;
         switch(randomPosition){
             case 0:
                 setPosition(400, 300);

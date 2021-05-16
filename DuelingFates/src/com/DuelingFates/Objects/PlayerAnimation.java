@@ -107,14 +107,14 @@ public class PlayerAnimation {
         player.spriteWidth = FRAMEWIDTHS_P[player.currentAction];
         player.spriteHeight = FRAMEHEIGHTS_P[player.currentAction];
     }
-
+/*
     //TODO POSSESSED ANIMATION 2.0 - WITHOUT WEAPON MÉG NEM MEGY TRY AT OWN RISK
     public void updateAnimationPossessed(Player player){
 
         //check blinking finished
         if(player.blinkRed) {
             player.blinkCount++;
-            if (player.blinkCount > 30) {
+            if (player.blinkCount > 5) {
                 player.blinkRed = false;
             }
         }
@@ -164,7 +164,7 @@ public class PlayerAnimation {
         }
         player.animation.update();                                                  //update animation of player
 
-    }
+    }*/
 
     private void setAnimation(int i, Player player) {
         player.currentAction = i;
@@ -179,7 +179,7 @@ public class PlayerAnimation {
         //check blinking finished
         if(player.blinkRed) {
                 player.blinkCount++;
-                if (player.blinkCount > 30) {
+                if (player.blinkCount > 5) {
                     player.blinkRed = false;
                 }
         }

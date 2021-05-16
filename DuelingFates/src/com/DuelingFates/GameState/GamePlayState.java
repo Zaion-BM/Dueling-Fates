@@ -32,6 +32,7 @@ public class GamePlayState extends GameState implements KeyListener {
     public static Player clientPlayer;
     private PlayerAnimation clientAnimation;
     private Weapon gun;
+    private Weapon gun2;
     private int timerMax;
     private int timerCount;
 
@@ -138,24 +139,27 @@ public class GamePlayState extends GameState implements KeyListener {
         //hostProjectile=new Projectile(tileMap,); //TODO: projectile
         //Init Weapon to player //TODO: TESZT, ha működik így akkor lehet szarakodni, hogy hogy adjuk be neki a projectile-t
         gun = new Weapon(tileMap,0);
+        gun2 = new Weapon(tileMap,0);
         hostPlayer.setPlayerWeapon(gun);
+        clientPlayer.setPlayerWeapon(gun2);
 
         //TODO player location egy játékos halálakor amit majd szintén meghívunk
         //TODO start timer, ami lehet metódus, itt végtelen ciklusban várunk a kliens csatlakozására és utána indul a meccs
         //TODO projectile tömb létrehozása
 
         HealthPotion healthPotion1 = new HealthPotion(tileMap);
-        HealthPotion healthPotion2 = new HealthPotion(tileMap);
+        HealthPotion healthPotion2 = new HealthPotion(tileMap,200,300);
+
+
 
         healthPotions.add(healthPotion1);
         healthPotions.add(healthPotion2);
 
         Ammo ammo1 = new Ammo(tileMap);
-        Ammo ammo2 = new Ammo(tileMap);
+        Ammo ammo2 = new Ammo(tileMap,200,400);
 
         ammos.add(ammo1);
         ammos.add(ammo2);
-
 
     }
 
@@ -204,13 +208,13 @@ public class GamePlayState extends GameState implements KeyListener {
         clientPlayer.update();
         clientAnimation.updateAnimation(clientPlayer);
         //clientAnimation.updateAnimationPossessed(clientPlayer);
+        clientPlayer.setShooting();
 
         //hostProjectile.update();
-
         //attack enemy player
         hostPlayer.checkAttack(clientPlayer);
         clientPlayer.checkAttack(hostPlayer);
-        //clientPlayer.setLeft(getMSG);
+
 
         //check if healthpotions is picked up
         checkPickedUpHealth(hostPlayer,healthPotions);
@@ -219,9 +223,6 @@ public class GamePlayState extends GameState implements KeyListener {
         checkPickedUpAmmo(hostPlayer,ammos);
         checkPickedUpAmmo(clientPlayer,ammos);
 
-        //ha szeretnénk ha hullana az ammo
-        //for(int i=0; i<healthPotions.size();i++) healthPotions.get(i).update();
-        //for(int i=0; i<ammos.size();i++) ammos.get(i).update();
 
         //random spawn consumables
         timerCount++;

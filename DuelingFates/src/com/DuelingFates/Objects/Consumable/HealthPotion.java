@@ -23,6 +23,15 @@ public class HealthPotion extends Consumable {
 
 
     }
+    public HealthPotion(TileMap tileMap, int x, int y) {
+        super(tileMap,x,y);
+        healthPoints = 30;
+
+        objectHeight = 36;
+        objectWidth = 27;
+
+        healthScore = 5;
+    }
 
 
     @Override

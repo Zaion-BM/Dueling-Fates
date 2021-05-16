@@ -67,6 +67,13 @@ public abstract class GameObject {
         facingRight = true;
     }
 
+    public GameObject(TileMap tileMap, int x, int y){
+        this.tileMap = tileMap;
+        this.tileSize=tileMap.getTileSize();
+        animation = new Animation();
+        facingRight = true;
+        setPosition(x,y);
+    }
     /*
      * Implementation of game engine
      * */

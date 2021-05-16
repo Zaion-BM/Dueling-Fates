@@ -10,8 +10,8 @@ public abstract class Consumable extends GameObject {
 
     public Consumable(TileMap tileMap) {
         super(tileMap);
-        fallSpeed = (float) 1.5;        //0.15                //esés
-        maxFallSpeed = (float) 10.0;
+        //fallSpeed = (float) 1.5;        //0.15                //esés
+        //maxFallSpeed = (float) 10.0;
 
         //define spawn bounds
         Random random = new Random();
@@ -23,6 +23,11 @@ public abstract class Consumable extends GameObject {
         this.setPosition(availableSpawnsX,availableSpawnsY);
 
     }
+
+    public Consumable(TileMap tileMap, int x, int y) {
+        super(tileMap,x,y);
+    }
+
 
     public abstract Consumable spawnConsumable(TileMap tileMap);
 

@@ -17,7 +17,7 @@ public class Player extends GameObject implements KeyListener {
     //Player parameters - some are public because of animation
     public static String PIRATE = "PirateDeckhand";
     public static String POSSESSED = "PossessedArmor";
-    public static Queue<Integer> messageQueue = new LinkedList<>();
+    public static Queue<String> messageQueue = new LinkedList<>();
 
     private String playerCharacter;
     private String playerName;
@@ -273,6 +273,7 @@ public class Player extends GameObject implements KeyListener {
                 if(!player.blinkRed ) playerScore+=getDamage();
                 player.hit(getDamage());
                 bullets.get(i).setHit();
+                messageQueue.add("DAMAGE:".concat(Float.toString(getDamage())));
                 break;
             }
         }
@@ -447,10 +448,10 @@ public class Player extends GameObject implements KeyListener {
 
         //ZB: Moving players or doing actions if key is pressed
         switch(key){    //TODO: Tesztelni kell hogy client és host most külön mozog vagy egyszerre vagy most mi van?
-            case(KeyEvent.VK_LEFT): this.setLeft(true);messageQueue.add(0); break;
-            case(KeyEvent.VK_RIGHT): this.setRight(true);messageQueue.add(1); break;
-            case(KeyEvent.VK_UP): this.setJumping(true);messageQueue.add(2); this.keyUpPressed = true; break;
-            case(KeyEvent.VK_SPACE):this.setShooting(); messageQueue.add(3);break;
+            case(KeyEvent.VK_LEFT): this.setLeft(true);messageQueue.add("LEFT"); break;
+            case(KeyEvent.VK_RIGHT): this.setRight(true);messageQueue.add("RIGHT"); break;
+            case(KeyEvent.VK_UP): this.setJumping(true);messageQueue.add("JUMP"); this.keyUpPressed = true; break;
+            case(KeyEvent.VK_SPACE):this.setShooting(); messageQueue.add("SHOOT");break;
         }
 
     }
@@ -462,10 +463,10 @@ public class Player extends GameObject implements KeyListener {
 
         //ZB: Stop Moving players or doing actions if key is released
         switch(key){
-            case(KeyEvent.VK_LEFT): this.setLeft(false);  messageQueue.add(4); break;
-            case(KeyEvent.VK_RIGHT): this.setRight(false);messageQueue.add(5); break;
-            case(KeyEvent.VK_UP): this.setJumping(false); messageQueue.add(6); this.keyUpPressed = false; break;
-            case(KeyEvent.VK_SPACE): this.setShooting();  messageQueue.add(7);  break;
+            case(KeyEvent.VK_LEFT): this.setLeft(false);  messageQueue.add("STOPLEFT"); break;
+            case(KeyEvent.VK_RIGHT): this.setRight(false);messageQueue.add("STOPRIGHT"); break;
+            case(KeyEvent.VK_UP): this.setJumping(false); messageQueue.add("STOPJUMP"); this.keyUpPressed = false; break;
+            case(KeyEvent.VK_SPACE): this.setShooting();  messageQueue.add("STOPSHOOT");  break;
         }
     }
 }

@@ -19,6 +19,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
 
+import static com.DuelingFates.Objects.Player.*;
 
 public class GamePlayState extends GameState implements KeyListener {
 
@@ -54,6 +55,8 @@ public class GamePlayState extends GameState implements KeyListener {
 
     private static int hostPlayerScore;
     private static int clientPlayerScore;
+
+    public static HealthPotion healthPotion2;
 
     private static String hostPlayerName;
     public static String clientPlayerName;
@@ -122,19 +125,22 @@ public class GamePlayState extends GameState implements KeyListener {
             tileMap.loadTilesToMap("DuelingFates/Sources/Maps/SnowyMountain.txt");
         }
 
-        //Player init
-        clientPlayer = new Player(tileMap);
-        clientPlayer.setPosition(500,300);
-        clientAnimation = new PlayerAnimation(clientPlayer);
-        setClientPlayerName(clientPlayer.getPlayerName());
+        messageQueue.add("MAP:".concat(MainProcess.getMapTemp()));
 
+        //Player init
         hostPlayer = new Player(tileMap);
         hostAnimation = new PlayerAnimation(hostPlayer);
         hud = new HUD(hostPlayer);
-
-        //TODO CSAK A TESZT MIATT
         hostPlayer.setPlayerName("HOST!4!44");
         setHostPlayerName(hostPlayer.getPlayerName());
+        messageQueue.add("NAME:".concat(hostPlayer.getPlayerName()));
+
+        clientPlayer = new Player(tileMap);
+        clientPlayer.setPosition(400,300);
+        clientAnimation = new PlayerAnimation(clientPlayer);
+        setClientPlayerName(clientPlayer.getPlayerName());
+
+
 
         //hostProjectile=new Projectile(tileMap,); //TODO: projectile
         //Init Weapon to player //TODO: TESZT, ha működik így akkor lehet szarakodni, hogy hogy adjuk be neki a projectile-t
@@ -148,18 +154,21 @@ public class GamePlayState extends GameState implements KeyListener {
         //TODO projectile tömb létrehozása
 
         HealthPotion healthPotion1 = new HealthPotion(tileMap);
-        HealthPotion healthPotion2 = new HealthPotion(tileMap,200,300);
+        healthPotion2 = new HealthPotion(tileMap);
 
-
+        messageQueue.add("POTIONX:".concat(Float.toString(healthPotion1.getPositionX())));
+        messageQueue.add("POTIONY:".concat(Float.toString(healthPotion1.getPositionY())));
 
         healthPotions.add(healthPotion1);
         healthPotions.add(healthPotion2);
 
         Ammo ammo1 = new Ammo(tileMap);
-        Ammo ammo2 = new Ammo(tileMap,200,400);
+        Ammo ammo2 = new Ammo(tileMap);
 
         ammos.add(ammo1);
         ammos.add(ammo2);
+        messageQueue.add("AMMOX:".concat(Float.toString(ammo1.getPositionX())));
+        messageQueue.add("AMMOY:".concat(Float.toString(ammo1.getPositionY())));
 
     }
 
@@ -208,7 +217,7 @@ public class GamePlayState extends GameState implements KeyListener {
         clientPlayer.update();
         clientAnimation.updateAnimation(clientPlayer);
         //clientAnimation.updateAnimationPossessed(clientPlayer);
-        clientPlayer.setShooting();
+        //clientPlayer.setShooting();
 
         //hostProjectile.update();
         //attack enemy player
@@ -238,6 +247,7 @@ public class GamePlayState extends GameState implements KeyListener {
 
             hostPlayerScore = hostPlayer.getPlayerScore();
             clientPlayerScore = clientPlayer.getPlayerScore();
+            messageQueue.add("ENEMYSCORE:".concat(Integer.toString(clientPlayerScore)));
             stateManager.setState(StateManager.States.SCORESTATE);
 
         }

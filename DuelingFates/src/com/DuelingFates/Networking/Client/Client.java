@@ -11,7 +11,7 @@ import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.util.Queue;
 
-import static com.DuelingFates.GameState.GamePlayState.clientPlayer;
+import static com.DuelingFates.GameState.GamePlayState.*;
 
 
 public class Client implements Runnable {
@@ -32,6 +32,7 @@ public class Client implements Runnable {
     public void run() {
         boolean tryConnect = true;
         Socket socket =null;
+        String value="DEFAULT,DEFAULT";
         System.out.println("Client socket started");
         while(tryConnect) {
             try {
@@ -48,20 +49,34 @@ public class Client implements Runnable {
             synchronized (this) {
                 try {
                     while (true) {
-                        state = socket.getInputStream().read();
-                        //System.out.println("Received: "+state);
-                        switch(state){
-                            case(0):System.out.println("LEFT"); clientPlayer.setLeft(true); break;
-                            case(1):System.out.println("RIGHT");clientPlayer.setRight(true);break;
-                            case(2):System.out.println("JUMP");clientPlayer.setJumping(true);break;
-                            case(3):System.out.println("SHOOT");clientPlayer.setShooting();break;
-                            case(4):System.out.println("STOPLEFT");clientPlayer.setLeft(false);;break;
-                            case(5):System.out.println("STOPRIGHT");clientPlayer.setRight(false);break;
-                            case(6):System.out.println("STOPJUMP");clientPlayer.setJumping(false);break;
-                            case(7):System.out.println("STOPSHOOT");clientPlayer.setShooting();break;
+                        InputStreamReader streamReader= new InputStreamReader(socket.getInputStream());
+                        BufferedReader reader= new BufferedReader(streamReader);
+                        value="DEFAULT,DEFAULT";
+                        value= reader.readLine();
+                        String[] command = value.split(":",2);
+                        //System.out.println(value);
+
+                        switch(command[0]){
+                            case("LEFT"):       System.out.println(value); clientPlayer.setLeft(true);     break;
+                            case("RIGHT"):      System.out.println(value); clientPlayer.setRight(true);    break;
+                            case("JUMP"):       System.out.println(value); clientPlayer.setJumping(true);  break;
+                            case("SHOOT"):      System.out.println(value); clientPlayer.setShooting();     break;
+                            case("STOPLEFT"):   System.out.println(value); clientPlayer.setLeft(false);;   break;
+                            case("STOPRIGHT"):  System.out.println(value); clientPlayer.setRight(false);   break;
+                            case("STOPJUMP"):   System.out.println(value); clientPlayer.setJumping(false); break;
+                            case("STOPSHOOT"):  System.out.println(value); clientPlayer.setShooting();     break;
+                            case("DAMAGE"):     System.out.println(value);                                 break;
+                            case("ENEMYSCORE"): System.out.println(value);                                 break;
+                            case("NAME"):       System.out.println(command[1]);                            break;
+                            case("AMMOX"):      System.out.println(value);                                 break;
+                            case("AMMOY"):      System.out.println(value);                                 break;
+                            case("POTIONX"):    System.out.println(value);                                 break;
+                            case("POTIONY"):    System.out.println(value);                                 break;
+                            case("MAP"):        System.out.println(command[1]);                            break;
+                            default:            System.out.println(value);                                 break;
                         }
 
-                        this.wait(10);
+                        this.wait(20);
                     }
 
                 }

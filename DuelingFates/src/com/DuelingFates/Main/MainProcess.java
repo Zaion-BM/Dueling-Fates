@@ -38,8 +38,8 @@ public class MainProcess extends JPanel implements Runnable{
     private static Graphics2D graphics;                                             //amit kirajzolunk a gameWindow-ra
     private static BufferedImage gameWindow;                                        //amire rajzolunk a Frame-en belül GAMEPLAYSTATE-ben
     private Image cursorImage;
-    private static final int gameWidth = 1920;
-    private static final int gameHeight = 1080;
+    private static final int gameWidth = 1024;
+    private static final int gameHeight = 720;
 
     public static Cursor gameCursor;                                                //egyedi cursor
     public static Cursor hiddenCursor;                                              //GamePlay esetén elrejtjük
@@ -96,7 +96,7 @@ public class MainProcess extends JPanel implements Runnable{
         Image invisibleImage = Toolkit.getDefaultToolkit().createImage(new MemoryImageSource(16, 16, empty, 0, 16));
         hiddenCursor = Toolkit.getDefaultToolkit().createCustomCursor(invisibleImage, new Point(0,0), "hiddenCursor");
 
-        duelingFates.setUndecorated(true);                                                    //van keret
+        duelingFates.setUndecorated(false);                                                    //van keret
         duelingFates.setSize(new Dimension(getGameWidth(), getGameHeight()));                 //méret megadása, csak Dimension típust értelmez
         duelingFates.setLocationRelativeTo(null);                                             //null: az ablak a képernyőn közepén lesz, focust alapértelmezetten kap
 
@@ -106,7 +106,7 @@ public class MainProcess extends JPanel implements Runnable{
 
     private void setMenuDefaults(){
 
-        playerNameTemp ="Player";                                                             //Default név beállítása
+        playerNameTemp ="Nuck Chorris";                                                       //Default név beállítása
         characterTemp = "PirateDeckhand";                                                     //Default karakter beállítása
         //characterTemp = "PossessedArmor";
         mapTemp = "SnowyMountain";                                                            //Default map
@@ -190,11 +190,11 @@ public class MainProcess extends JPanel implements Runnable{
 
         final long oneFrameDuration = 1000/FPS;                                                         // = (1/60)*1000
 
-        Thread serverSender = new Thread(new Server(messageQueue,6868));
-        Thread serverReceiver = new Thread(new Client("Kliens",6869));
+        Thread serverSender;
+        Thread serverReceiver;
 
-        Thread clientSender = new Thread(new Server(messageQueue,6869));
-        Thread clientReceiver = new Thread(new Client("Kliens",6868));
+        Thread clientSender;
+        Thread clientReceiver;
         int i = 0;
 
         while (gameIsRunning) {
@@ -206,12 +206,16 @@ public class MainProcess extends JPanel implements Runnable{
 
                // System.out.println(stateManager.currentState);
                 if (stateManager.currentState == StateManager.States.HOSTSTATE) {
+                    serverSender = new Thread(new Server(messageQueue,6868));
+                    serverReceiver = new Thread(new Client("Kliens",6869));
                     serverSender.start();
                     serverReceiver.start();
                 }
                 if (stateManager.currentState == StateManager.States.JOINSTATE) {
-                    clientSender.start();
-                    clientReceiver.start();
+                     clientSender = new Thread(new Server(messageQueue,6869));
+                     clientReceiver = new Thread(new Client("Kliens",6868));
+                     clientSender.start();
+                     clientReceiver.start();
                 }
 
             }

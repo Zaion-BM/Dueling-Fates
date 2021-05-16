@@ -1,5 +1,6 @@
 package com.DuelingFates.Objects;
 import com.DuelingFates.Main.MainProcess;
+import com.DuelingFates.Music.JukeBox;
 import com.DuelingFates.Objects.Consumable.HealthPotion;
 import com.DuelingFates.TileMap.TileMap;
 import com.DuelingFates.Networking.Client.*;
@@ -452,6 +453,8 @@ public class Player extends GameObject implements KeyListener {
             case(KeyEvent.VK_RIGHT): this.setRight(true);messageQueue.add("RIGHT"); break;
             case(KeyEvent.VK_UP): this.setJumping(true);messageQueue.add("JUMP"); this.keyUpPressed = true; break;
             case(KeyEvent.VK_SPACE):this.setShooting(); messageQueue.add("SHOOT");break;
+            case(KeyEvent.VK_O): JukeBox.play("omaewa"); break;
+            case(KeyEvent.VK_P): JukeBox.play("nani"); break;
         }
 
     }

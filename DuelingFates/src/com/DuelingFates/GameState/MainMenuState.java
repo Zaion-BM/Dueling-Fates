@@ -1,6 +1,8 @@
 package com.DuelingFates.GameState;
 
 import com.DuelingFates.Main.MainProcess;
+import com.DuelingFates.Music.JukeBox;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -156,24 +158,28 @@ public class MainMenuState extends GameState implements ActionListener, MouseLis
 
         if(e.getSource() == buttonJoin){
 
+            JukeBox.play("menuselect");
             buttonJoin.setForeground(darkYellow);
 
         }
 
         if(e.getSource() == buttonHost){
 
+            JukeBox.play("menuselect");
             buttonHost.setForeground(darkYellow);
 
         }
 
         if(e.getSource() == buttonSettings){
 
+            JukeBox.play("menuselect");
             buttonSettings.setForeground(darkYellow);
 
         }
 
         if(e.getSource() == buttonQuit) {
 
+            JukeBox.play("menuselect");
             buttonQuit.setForeground(darkYellow);
 
         }
@@ -186,6 +192,8 @@ public class MainMenuState extends GameState implements ActionListener, MouseLis
 
     @Override
     public void mouseEntered(MouseEvent e) {
+
+        JukeBox.play("menuoption");
 
         if(e.getSource() == buttonJoin){
 

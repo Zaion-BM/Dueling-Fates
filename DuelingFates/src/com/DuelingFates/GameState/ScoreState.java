@@ -1,6 +1,7 @@
 package com.DuelingFates.GameState;
 
 import com.DuelingFates.Main.MainProcess;
+import com.DuelingFates.Music.JukeBox;
 
 import javax.swing.*;
 import java.awt.*;
@@ -40,6 +41,7 @@ public class ScoreState extends GameState implements MouseListener, ActionListen
 
         super(stateManager);
         StateManager.setStateChangedTrue();
+
 
     }
 
@@ -215,18 +217,21 @@ public class ScoreState extends GameState implements MouseListener, ActionListen
 
         if(e.getSource() == buttonRematch){
 
+            JukeBox.play("menuselect");
             buttonRematch.setForeground(MainMenuState.darkYellow);
 
         }
 
         if(e.getSource() == buttonQuitToMenu){
 
+            JukeBox.play("menuselect");
             buttonQuitToMenu.setForeground(MainMenuState.darkYellow);
 
         }
 
         if(e.getSource() == buttonSaveToFile){
 
+            JukeBox.play("menuselect");
             buttonSaveToFile.setForeground(MainMenuState.darkYellow);
 
         }
@@ -246,6 +251,7 @@ public class ScoreState extends GameState implements MouseListener, ActionListen
     @Override
     public void mouseEntered(MouseEvent e) {
 
+        JukeBox.play("menuoption");
         if(e.getSource() == buttonRematch){
 
             buttonRematch.setForeground(MainMenuState.darkGreen);

@@ -1,6 +1,7 @@
 package com.DuelingFates.GameState;
 
 import com.DuelingFates.Main.MainProcess;
+import com.DuelingFates.Music.JukeBox;
 
 import javax.swing.*;
 import java.awt.*;
@@ -184,6 +185,7 @@ public class HostState extends GameState implements ActionListener, MouseListene
 
             if(mapCloudyForest.isSelected()){
 
+                JukeBox.play("menuselect");
                 mapCloudyForest.setBorder(BorderFactory.createLineBorder(MainMenuState.darkGreen,4));
                 mapCrimson.setBorder(BorderFactory.createLineBorder(Color.WHITE,4));
                 mapSnowyMountain.setBorder(BorderFactory.createLineBorder(Color.WHITE,4));
@@ -196,6 +198,7 @@ public class HostState extends GameState implements ActionListener, MouseListene
 
             if(mapCrimson.isSelected()){
 
+                JukeBox.play("menuselect");
                 mapCrimson.setBorder(BorderFactory.createLineBorder(MainMenuState.darkGreen,4));
                 mapCloudyForest.setBorder(BorderFactory.createLineBorder(Color.WHITE,4));
                 mapSnowyMountain.setBorder(BorderFactory.createLineBorder(Color.WHITE,4));
@@ -208,6 +211,7 @@ public class HostState extends GameState implements ActionListener, MouseListene
 
             if(mapSnowyMountain.isSelected()){
 
+                JukeBox.play("menuselect");
                 mapSnowyMountain.setBorder(BorderFactory.createLineBorder(MainMenuState.darkGreen,4));
                 mapCloudyForest.setBorder(BorderFactory.createLineBorder(Color.WHITE,4));
                 mapCrimson.setBorder(BorderFactory.createLineBorder(Color.WHITE,4));
@@ -217,19 +221,17 @@ public class HostState extends GameState implements ActionListener, MouseListene
         }
 
         if(e.getSource() == buttonStart) {
-
             if(mapCloudyForest.isSelected()){
+
 
                 selectedMap = mapCloudyForest.getName();
 
             }
             else if(mapCrimson.isSelected()){
-
                 selectedMap = mapCrimson.getName();
 
             }
             else if(mapSnowyMountain.isSelected()){
-
                 selectedMap = mapSnowyMountain.getName();
 
             }
@@ -242,7 +244,6 @@ public class HostState extends GameState implements ActionListener, MouseListene
         }
 
         if(e.getSource() == buttonBack) {
-
             stateManager.setState(StateManager.States.MAINMENUSTATE);
 
         }
@@ -258,12 +259,14 @@ public class HostState extends GameState implements ActionListener, MouseListene
 
         if(e.getSource() == buttonStart){
 
+            JukeBox.play("menuselect");
             buttonStart.setForeground(MainMenuState.darkYellow);
 
         }
 
         if(e.getSource() == buttonBack){
 
+            JukeBox.play("menuselect");
             buttonBack.setForeground(MainMenuState.darkYellow);
 
         }
@@ -278,6 +281,7 @@ public class HostState extends GameState implements ActionListener, MouseListene
     @Override
     public void mouseEntered(MouseEvent e) {
 
+        JukeBox.play("menuoption");
         if(e.getSource() == buttonStart){
 
             buttonStart.setForeground(MainMenuState.darkGreen);

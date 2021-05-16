@@ -1,5 +1,7 @@
 package com.DuelingFates.Networking.Server;
 
+import com.DuelingFates.GameState.StateManager;
+
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -8,6 +10,7 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.nio.charset.StandardCharsets;
 import java.util.Queue;
+import static com.DuelingFates.Main.MainProcess.*;
 
 public class Server implements Runnable {
 
@@ -27,6 +30,7 @@ public class Server implements Runnable {
         try {
             serverSocket = new ServerSocket(port);
             Socket socket = serverSocket.accept();
+            stateManager.setState(StateManager.States.GAMEPLAYSTATE);
             while (true) {
                 try {
                     synchronized (this){

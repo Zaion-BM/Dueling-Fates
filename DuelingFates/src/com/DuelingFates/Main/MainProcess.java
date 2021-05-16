@@ -27,7 +27,7 @@ public class MainProcess extends JPanel implements Runnable{
 
     //állapotgép melyen keresztül az állapotokat elérjük: volatile mert a while gameloop egy része néha nem futott le
     //valószínűleg a feltétel ellenőrzése miatt, mely a swing menük miatt szükséges
-    volatile private StateManager stateManager;
+    volatile public static StateManager stateManager;
 
     @SuppressWarnings("FieldCanBeLocal")
     public final static int FPS = 60;                                                // 1/60 = 16.67 millisec
@@ -38,8 +38,8 @@ public class MainProcess extends JPanel implements Runnable{
     private static Graphics2D graphics;                                             //amit kirajzolunk a gameWindow-ra
     private static BufferedImage gameWindow;                                        //amire rajzolunk a Frame-en belül GAMEPLAYSTATE-ben
     private Image cursorImage;
-    private static final int gameWidth = 1024;
-    private static final int gameHeight = 720;
+    private static final int gameWidth = 1200;
+    private static final int gameHeight = 800;
 
     public static Cursor gameCursor;                                                //egyedi cursor
     public static Cursor hiddenCursor;                                              //GamePlay esetén elrejtjük

@@ -106,8 +106,8 @@ public class HUD {
         graphics.drawRect((int)(player.getPositionX())-50, (int)(player.getPositionY())-57, 100, 10);
 
 
-        /***Enemy adatok
-        graphics.setFont(MainProcess.balooThambiFontVerySmall);
+        //Enemy adatok
+        /*graphics.setFont(MainProcess.balooThambiFontVerySmall);
         graphics.setColor(Color.BLACK);
         graphics.drawString(enemyNameUI,(int)(player.getPositionX()- fm.stringWidth(playerNameUI) / 2), (int)(player.getPositionY())-65);
 
@@ -115,10 +115,9 @@ public class HUD {
         graphics.fillRect((int)(player.getPositionX())-50, (int)(player.getPositionY())-57, player.getPlayerHealth(), 10);
 
         graphics.setColor(Color.BLACK);
-        float borderSize = 2;
         graphics.setStroke(new BasicStroke(borderSize));
         graphics.drawRect((int)(player.getPositionX())-50, (int)(player.getPositionY())-57, 100, 10);
-        **/
+        */
 
     }
 

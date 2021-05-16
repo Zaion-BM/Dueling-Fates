@@ -18,7 +18,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
 
+
 import static com.DuelingFates.Objects.Player.*;
+import static com.DuelingFates.Networking.Client.Client.*;
 
 public class GamePlayState extends GameState implements KeyListener {
 
@@ -56,12 +58,13 @@ public class GamePlayState extends GameState implements KeyListener {
     private static int clientPlayerScore;
 
     public static HealthPotion healthPotion2;
+    public static Ammo ammo2;
 
     private static String hostPlayerName;
     public static String clientPlayerName;
 
     private ArrayList<HealthPotion> healthPotions = new ArrayList<>();
-    private ArrayList<Ammo> ammos = new ArrayList<>();
+    public static ArrayList<Ammo> ammos = new ArrayList<>();
 
 
     public GamePlayState(StateManager stateManager){
@@ -154,23 +157,22 @@ public class GamePlayState extends GameState implements KeyListener {
         //TODO projectile tömb létrehozása
 
         HealthPotion healthPotion1 = new HealthPotion(tileMap);
-        healthPotion2 = new HealthPotion(tileMap,-100,-100);
+        healthPotion2 = new HealthPotion(tileMap);
 
-        messageQueue.add("POTIONX:".concat(Float.toString(healthPotion1.getPositionX())));
-        messageQueue.add("POTIONY:".concat(Float.toString(healthPotion1.getPositionY())));
+        //messageQueue.add("POTIONX:".concat(Float.toString(healthPotion1.getPositionX())));
+        //messageQueue.add("POTIONY:".concat(Float.toString(healthPotion1.getPositionY())));
 
         healthPotions.add(healthPotion1);
         healthPotions.add(healthPotion2);
 
         Ammo ammo1 = new Ammo(tileMap);
-        Ammo ammo2 = new Ammo(tileMap,-100,-100);
+        ammo2 = new Ammo(tileMap);
+
+        //messageQueue.add("AMMOX:".concat(Float.toString(ammo1.getPositionX())));
+        //messageQueue.add("AMMOY:".concat(Float.toString(ammo1.getPositionY())));
 
         ammos.add(ammo1);
         ammos.add(ammo2);
-        messageQueue.add("AMMOX:".concat(Float.toString(ammo1.getPositionX())));
-        messageQueue.add("AMMOY:".concat(Float.toString(ammo1.getPositionY())));
-
-
 
     }
 
@@ -211,6 +213,7 @@ public class GamePlayState extends GameState implements KeyListener {
         //TODO match start, player death esemény,
         //TODO ezenkívűl itemek és fegyverek spawnolása
 
+
         //Player update
         hostPlayer.update();
         hostAnimation.updateAnimation(hostPlayer);
@@ -245,7 +248,7 @@ public class GamePlayState extends GameState implements KeyListener {
             timerCount=0;
         }
         //Ha a timer elérte a beállított időt, a score state-re váltunk, adatokat mentünk
-        if(minutes == MainProcess.getMatchDurationTemp() || hostPlayer.getPlayerScore()>100){
+        if(minutes == MainProcess.getMatchDurationTemp()){
 
             hostPlayerScore = hostPlayer.getPlayerScore();
             clientPlayerScore = clientPlayer.getPlayerScore();
@@ -325,7 +328,7 @@ public class GamePlayState extends GameState implements KeyListener {
                 healthPotions.get(i).useConsumable(player);
                 System.out.println("+30 Health");
                 healthPotions.remove(i);
-
+                messageQueue.add("HPADD");
             }
         }
     }

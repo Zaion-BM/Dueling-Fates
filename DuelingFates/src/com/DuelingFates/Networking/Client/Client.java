@@ -57,23 +57,23 @@ public class Client implements Runnable {
                         //System.out.println(value);
 
                         switch(command[0]){
-                            case("LEFT"):       System.out.println(value); clientPlayer.setLeft(true);     break;
-                            case("RIGHT"):      System.out.println(value); clientPlayer.setRight(true);    break;
-                            case("JUMP"):       System.out.println(value); clientPlayer.setJumping(true);  break;
-                            case("SHOOT"):      System.out.println(value); clientPlayer.setShooting();     break;
-                            case("STOPLEFT"):   System.out.println(value); clientPlayer.setLeft(false);;   break;
-                            case("STOPRIGHT"):  System.out.println(value); clientPlayer.setRight(false);   break;
-                            case("STOPJUMP"):   System.out.println(value); clientPlayer.setJumping(false); break;
-                            case("STOPSHOOT"):  System.out.println(value); clientPlayer.setShooting();     break;
-                            case("DAMAGE"):     System.out.println(value);                                 break;
-                            case("ENEMYSCORE"): System.out.println(value);                                 break;
-                            case("NAME"):       System.out.println(command[1]);                            break;
-                            case("AMMOX"):      System.out.println(value);                                 break;
-                            case("AMMOY"):      System.out.println(value);                                 break;
-                            case("POTIONX"):    System.out.println(value);                                 break;
-                            case("POTIONY"):    System.out.println(value);                                 break;
-                            case("MAP"):        System.out.println(command[1]);                            break;
-                            default:            System.out.println(value);                                 break;
+                            case("LEFT"):       System.out.println(value); clientPlayer.setLeft(true);                  break;
+                            case("RIGHT"):      System.out.println(value); clientPlayer.setRight(true);                 break;
+                            case("JUMP"):       System.out.println(value); clientPlayer.setJumping(true);               break;
+                            case("SHOOT"):      System.out.println(value); clientPlayer.setShooting();                  break;
+                            case("STOPLEFT"):   System.out.println(value); clientPlayer.setLeft(false);;                break;
+                            case("STOPRIGHT"):  System.out.println(value); clientPlayer.setRight(false);                break;
+                            case("STOPJUMP"):   System.out.println(value); clientPlayer.setJumping(false);              break;
+                            case("STOPSHOOT"):  System.out.println(value); clientPlayer.setShooting();                  break;
+                            case("DAMAGE"):     System.out.println(value);                                              break;
+                            case("ENEMYSCORE"): System.out.println(value);                                              break;
+                            case("NAME"):       System.out.println(command[1]); clientPlayer.setPlayerName(command[1]); break;
+                            case("AMMOX"):      System.out.println(value);                                              break;
+                            case("AMMOY"):      System.out.println(value);                                              break;
+                            case("POTIONX"):    System.out.println(value);                                              break;
+                            case("POTIONY"):    System.out.println(value);                                              break;
+                            case("MAP"):        System.out.println(command[1]);                                         break;
+                            default:            System.out.println(value);                                              break;
                         }
 
                         this.wait(20);

@@ -273,7 +273,7 @@ public class Player extends GameObject implements KeyListener {
                 if(!player.blinkRed ) playerScore+=getDamage();
                 player.hit(getDamage());
                 bullets.get(i).setHit();
-                messageQueue.add("DAMAGE:".concat(Float.toString(getDamage())));
+                //messageQueue.add("DAMAGE:".concat(Float.toString(getDamage())));
                 break;
             }
         }

@@ -154,7 +154,7 @@ public class GamePlayState extends GameState implements KeyListener {
         //TODO projectile tömb létrehozása
 
         HealthPotion healthPotion1 = new HealthPotion(tileMap);
-        healthPotion2 = new HealthPotion(tileMap);
+        healthPotion2 = new HealthPotion(tileMap,-100,-100);
 
         messageQueue.add("POTIONX:".concat(Float.toString(healthPotion1.getPositionX())));
         messageQueue.add("POTIONY:".concat(Float.toString(healthPotion1.getPositionY())));
@@ -163,7 +163,7 @@ public class GamePlayState extends GameState implements KeyListener {
         healthPotions.add(healthPotion2);
 
         Ammo ammo1 = new Ammo(tileMap);
-        Ammo ammo2 = new Ammo(tileMap);
+        Ammo ammo2 = new Ammo(tileMap,-100,-100);
 
         ammos.add(ammo1);
         ammos.add(ammo2);

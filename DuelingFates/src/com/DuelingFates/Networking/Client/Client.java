@@ -65,12 +65,12 @@ public class Client implements Runnable {
                             case("STOPRIGHT"):  System.out.println(value); clientPlayer.setRight(false);                break;
                             case("STOPJUMP"):   System.out.println(value); clientPlayer.setJumping(false);              break;
                             case("STOPSHOOT"):  System.out.println(value); clientPlayer.setShooting();                  break;
-                            case("DAMAGE"):     System.out.println(value);                                              break;
+                            //case("DAMAGE"):     System.out.println(value);                                              break;
                             case("ENEMYSCORE"): System.out.println(value);                                              break;
-                            case("NAME"):       System.out.println(command[1]); clientPlayer.setPlayerName(command[1]); break;
+                            case("NAME"):       System.out.println(command[1]);  setClientPlayerName(command[1]);       break;
                             case("AMMOX"):      System.out.println(value);                                              break;
                             case("AMMOY"):      System.out.println(value);                                              break;
-                            case("POTIONX"):    System.out.println(value);                                              break;
+                            case("POTIONX"):    System.out.println(value);       healthPotion2.setPositionX(Integer.parseInt(command[1]));                                break;
                             case("POTIONY"):    System.out.println(value);                                              break;
                             case("MAP"):        System.out.println(command[1]);                                         break;
                             default:            System.out.println(value);                                              break;

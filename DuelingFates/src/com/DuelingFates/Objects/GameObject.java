@@ -199,6 +199,13 @@ public abstract class GameObject {
         this.y=y;
     }
 
+    public void setPositionX(float x){
+        this.x=x;
+    }
+    public void setPositionY(float y){
+        this.y=y;
+    }
+
     public float getPositionX(){
         return this.x;
     }

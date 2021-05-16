@@ -190,12 +190,15 @@ public class MainProcess extends JPanel implements Runnable{
 
         final long oneFrameDuration = 1000/FPS;                                                         // = (1/60)*1000
 
-        Thread serverSender;
-        Thread serverReceiver;
+        Thread serverSender = new Thread(new Server(messageQueue,6868));
+        Thread serverReceiver = new Thread(new Client("Kliens",6869));
 
-        Thread clientSender;
-        Thread clientReceiver;
+        Thread clientSender = new Thread(new Server(messageQueue,6869));
+        Thread clientReceiver = new Thread(new Client("Kliens",6868));
+
         int i = 0;
+
+        boolean amIserver = true;
 
         while (gameIsRunning) {
             //System.out.println(stateManager.currentState == StateManager.States.GAMEPLAYSTATE);
@@ -206,23 +209,20 @@ public class MainProcess extends JPanel implements Runnable{
 
                // System.out.println(stateManager.currentState);
                 if (stateManager.currentState == StateManager.States.HOSTSTATE) {
-                    serverSender = new Thread(new Server(messageQueue,6868));
-                    serverReceiver = new Thread(new Client("Kliens",6869));
+                    amIserver=true;
                     serverSender.start();
                     serverReceiver.start();
                 }
                 if (stateManager.currentState == StateManager.States.JOINSTATE) {
-                     clientSender = new Thread(new Server(messageQueue,6869));
-                     clientReceiver = new Thread(new Client("Kliens",6868));
-                     clientSender.start();
-                     clientReceiver.start();
+                    amIserver=false;
+                    clientSender.start();
+                    clientReceiver.start();
                 }
 
             }
 
             if (stateManager.currentState == StateManager.States.GAMEPLAYSTATE) {             //csak a GamePlayState-ben van grafikus kirajzolás (60 FPS-sel)
                 Instant start = Instant.now();
-
                 updateGame();
                 updateScreen(graphics);
                 renderScreen();

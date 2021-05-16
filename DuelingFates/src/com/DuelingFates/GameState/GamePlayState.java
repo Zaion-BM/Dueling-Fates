@@ -5,9 +5,9 @@ import com.DuelingFates.HUDs.HUD;
 import com.DuelingFates.Main.MainProcess;
 import com.DuelingFates.Objects.*;
 import com.DuelingFates.Objects.Consumable.Ammo;
-import com.DuelingFates.Objects.Consumable.Consumable;
 import com.DuelingFates.Objects.Consumable.HealthPotion;
 import com.DuelingFates.TileMap.TileMap;
+import com.DuelingFates.Music.JukeBox;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -17,7 +17,6 @@ import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Random;
 
 import static com.DuelingFates.Objects.Player.*;
 
@@ -63,6 +62,7 @@ public class GamePlayState extends GameState implements KeyListener {
 
     private ArrayList<HealthPotion> healthPotions = new ArrayList<>();
     private ArrayList<Ammo> ammos = new ArrayList<>();
+
 
     public GamePlayState(StateManager stateManager){
 
@@ -170,6 +170,8 @@ public class GamePlayState extends GameState implements KeyListener {
         messageQueue.add("AMMOX:".concat(Float.toString(ammo1.getPositionX())));
         messageQueue.add("AMMOY:".concat(Float.toString(ammo1.getPositionY())));
 
+
+
     }
 
     @Override
@@ -243,7 +245,7 @@ public class GamePlayState extends GameState implements KeyListener {
             timerCount=0;
         }
         //Ha a timer elérte a beállított időt, a score state-re váltunk, adatokat mentünk
-        if(minutes == MainProcess.getMatchDurationTemp() ){
+        if(minutes == MainProcess.getMatchDurationTemp() || hostPlayer.getPlayerScore()>100){
 
             hostPlayerScore = hostPlayer.getPlayerScore();
             clientPlayerScore = clientPlayer.getPlayerScore();

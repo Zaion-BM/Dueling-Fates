@@ -197,6 +197,7 @@ public class MainProcess extends JPanel implements Runnable{
         Thread clientReceiver;
         int i = 0;
 
+
         while (gameIsRunning) {
             //System.out.println(stateManager.currentState == StateManager.States.GAMEPLAYSTATE);
 

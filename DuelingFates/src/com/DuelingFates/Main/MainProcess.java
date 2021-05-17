@@ -112,8 +112,8 @@ public class MainProcess extends JPanel implements Runnable{
     private void setMenuDefaults(){
 
         playerNameTemp ="Hoster";                                                       //Default név beállítása
-        characterTemp = "PirateDeckhand";                                                     //Default karakter beállítása
-        //characterTemp = "PossessedArmor";
+        //characterTemp = "PirateDeckhand";                                                     //Default karakter beállítása
+        characterTemp = "PossessedArmor";
         mapTemp = "SnowyMountain";                                                            //Default map
         matchDurationTemp = 2;                                                                //Default time
 
@@ -170,8 +170,8 @@ public class MainProcess extends JPanel implements Runnable{
 
                 try {
                     synchronized (this) {
-                        this.wait(oneFrameDuration);                        //Thread.sleep(oneFrameDuration); az éppen futó threadet megszakítja, millisec ideig
-                    }                                                       //de warningot ad, így ezzel a megoldással elkerülhető
+                        this.wait(oneFrameDuration);                                    //Thread.sleep(oneFrameDuration); az éppen futó threadet megszakítja, millisec ideig
+                    }                                                                   //de warningot ad, így ezzel a megoldással elkerülhető
                 }
                 catch (InterruptedException e) {
                     e.printStackTrace();

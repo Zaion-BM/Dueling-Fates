@@ -66,9 +66,9 @@ public class GamePlayState extends GameState implements KeyListener {
     private static String hostPlayerName;
     public static String clientPlayerName;
 
-    private boolean runOnce = true;
+    private int runOnce = 0;
 
-    private ArrayList<HealthPotion> healthPotions = new ArrayList<>();
+    public static ArrayList<HealthPotion> healthPotions = new ArrayList<>();
     public static ArrayList<Ammo> ammos = new ArrayList<>();
 
 
@@ -143,6 +143,8 @@ public class GamePlayState extends GameState implements KeyListener {
         animation = new PlayerAnimation(player);
 
         setHostPlayerName(player.getPlayerName());
+        //setHostPlayerName("CodedLACI");
+
         setClientPlayerName(enemyPlayer.getPlayerName());
 
 
@@ -162,21 +164,12 @@ public class GamePlayState extends GameState implements KeyListener {
         HealthPotion healthPotion1 = new HealthPotion(tileMap);
         healthPotion2 = new HealthPotion(tileMap);
 
-        //messageQueue.add("POTIONX:".concat(Float.toString(healthPotion1.getPositionX())));
-        //messageQueue.add("POTIONY:".concat(Float.toString(healthPotion1.getPositionY())));
-
         healthPotions.add(healthPotion1);
-        healthPotions.add(healthPotion2);
 
         Ammo ammo1 = new Ammo(tileMap);
         ammo2 = new Ammo(tileMap);
 
-        //messageQueue.add("AMMOX:".concat(Float.toString(ammo1.getPositionX())));
-        //messageQueue.add("AMMOY:".concat(Float.toString(ammo1.getPositionY())));
-
         ammos.add(ammo1);
-        ammos.add(ammo2);
-
 
         hud = new HUD();
         dynamicHUD = new DynamicHUD();
@@ -226,12 +219,16 @@ public class GamePlayState extends GameState implements KeyListener {
     @Override
     public void update() {
 
-        if (runOnce){
-            messageQueue.add("ENEMYNAME:".concat(player.getPlayerName()));
-            runOnce = false;
-        }
+        runOnce++;
 
-        messageQueue.add("ENEMYSCORE:".concat(Integer.toString(player.getPlayerScore())));
+        if (runOnce >= 60) {
+            messageQueue.add("ENEMYNAME:".concat(player.getPlayerName()));
+            messageQueue.add("ENEMYSCORE:".concat(Integer.toString(player.getPlayerScore())));
+            messageQueue.add("ENEMY_X:".concat(Float.toString(player.getPositionX())));
+            messageQueue.add("ENEMY_Y:".concat(Float.toString(player.getPositionY())));
+
+            runOnce = 0;
+        }
 
         //Player update
         player.update();
@@ -241,7 +238,6 @@ public class GamePlayState extends GameState implements KeyListener {
         enemyPlayer.update();
         //enemyAnimation.updateAnimation(enemyPlayer);
         enemyAnimation.updateAnimationPossessed(enemyPlayer);
-
 
         //hostProjectile.update();
         //attack enemy player
@@ -262,6 +258,14 @@ public class GamePlayState extends GameState implements KeyListener {
             healthPotions.add(spawnHealthPotion(tileMap));
             removeAmmos(ammos);
             ammos.add(spawnAmmo(tileMap));
+
+            //CSAK A MÁSODIKTÓL
+            messageQueue.add("AMMOX:".concat(Float.toString(ammos.get(0).getPositionX())));
+            messageQueue.add("AMMOY:".concat(Float.toString(ammos.get(0).getPositionY())));
+
+            messageQueue.add("POTIONX:".concat(Float.toString(healthPotions.get(0).getPositionX())));
+            messageQueue.add("POTIONY:".concat(Float.toString(healthPotions.get(0).getPositionY())));
+
             timerCount=0;
         }
         //Ha a timer elérte a beállított időt, a score state-re váltunk, adatokat mentünk
@@ -275,7 +279,6 @@ public class GamePlayState extends GameState implements KeyListener {
         }
 
         setHostPlayerAmmo(player.getPlayerAmmoQty());
-
 
     }
 
@@ -368,6 +371,7 @@ public class GamePlayState extends GameState implements KeyListener {
                 ammos.get(i).useConsumable(player);
                 System.out.println("+10 Ammo");
                 ammos.remove(i);
+                messageQueue.add("AMMOADD");
 
             }
         }
@@ -381,18 +385,10 @@ public class GamePlayState extends GameState implements KeyListener {
     }
 
     public HealthPotion spawnHealthPotion(TileMap tileMap) {
-        //TODO :kiválasztunk egy random pozíciót a mapon és ott példányosítjuk
-        //megadjuk, hogy hova lehet spawnolni, mert tudjuk a map layoutját
-        //és azok közül random választunk
-        //az időpont amilyen sebeséggel spawnol, pedig szintén lehet random, vagy minden 20 secenként
         HealthPotion h=new HealthPotion(tileMap);
         return h;
     }
     public Ammo spawnAmmo(TileMap tileMap) {
-        //TODO :kiválasztunk egy random pozíciót a mapon és ott példányosítjuk
-        //megadjuk, hogy hova lehet spawnolni, mert tudjuk a map layoutját
-        //és azok közül random választunk
-        //az időpont amilyen sebeséggel spawnol, pedig szintén lehet random, vagy minden 20 secenként
         Ammo a=new Ammo(tileMap);
         return a;
     }

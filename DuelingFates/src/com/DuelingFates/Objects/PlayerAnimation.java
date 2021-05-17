@@ -39,7 +39,7 @@ public class PlayerAnimation {
     public PlayerAnimation(Player player){
 
         //a playerCharacter függvényében más sprite-ot töltünk be
-        if(player.getPlayerCharacter().equals(Player.PIRATE)) {
+        /*if(player.getPlayerCharacter().equals(Player.PIRATE)) {
             try {
 
                 BufferedImage spriteSheet = ImageIO.read(new File("DuelingFates/Sources/char_PirateDeckhand/PlayerSprite_gun_v2.png"));
@@ -66,14 +66,43 @@ public class PlayerAnimation {
             }
             setAnimation(Player.IDLE,player);
 
-        }
+        }*/
 
         if(player.getPlayerCharacter().equals(Player.PIRATE)) {
 
             try {
 
-                //BufferedImage spriteSheet = ImageIO.read(new File("DuelingFates/Sources/char_PossessedArmor/PossessedArmorWiggleHands.png"));
                 BufferedImage spriteSheet = ImageIO.read(new File("DuelingFates/Sources/char_PirateDeckhand/PirateDeckhandWiggleHands.png"));
+
+                int count = 0;
+                sprites = new ArrayList<>();
+
+                for (int i = 0; i < NUMFRAMES_P.length; i++) {
+                    BufferedImage[] bi = new BufferedImage[NUMFRAMES_P[i]];
+                    for (int j = 0; j < NUMFRAMES_P[i]; j++) {
+                        bi[j] = spriteSheet.getSubimage(
+                                j * FRAMEWIDTHS_P[i],
+                                count,
+                                FRAMEWIDTHS_P[i],
+                                FRAMEHEIGHTS_P[i]
+                        );
+                    }
+                    sprites.add(bi);
+                    count += FRAMEHEIGHTS_P[i];
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            setAnimation(Player.IDLE,player);
+
+        }
+
+        if(player.getPlayerCharacter().equals(Player.POSSESSED)) {
+
+            try {
+
+                BufferedImage spriteSheet = ImageIO.read(new File("DuelingFates/Sources/char_PossessedArmor/PossessedArmorWiggleHands.png"));
                 int count = 0;
                 sprites = new ArrayList<>();
 

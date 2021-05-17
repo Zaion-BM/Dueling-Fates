@@ -142,6 +142,53 @@ public class GameObjectRenderer {
 
         }
 
+        if(player.getPlayerCharacter().equals(Player.POSSESSED)) {
+
+            if (!player.facingRight) {
+                graphics.drawImage(player.animation.getImage(),
+                        (int) (player.x - player.spriteWidth / 2),
+                        (int) (player.y - player.spriteHeight / 2),
+                        null);
+                if(Player.IDLE == player.currentAction) {
+                    graphics.drawImage(magnumSteady, (int) (player.x) - 36, (int) (player.y) - 3, null);
+                }
+                if(Player.SHOOTING == player.currentAction) {
+                    graphics.drawImage(magnumFiring, (int) (player.x) - 35, (int) (player.y) - 3, null);
+                }
+            }
+
+            //Mirroring animation
+            else {
+                graphics.drawImage(player.animation.getImage(),
+                        (int) (player.x - player.spriteWidth / 2 + player.spriteWidth),
+                        (int) (player.y - player.spriteHeight / 2),
+                        -player.spriteWidth,
+                        player.spriteHeight,
+                        null);
+
+                if(Player.IDLE == player.currentAction) {
+                    graphics.drawImage(magnumSteady,
+                            (int) (player.x) + 36,
+                            (int) (player.y) - 3,
+                            -magnumSteady.getWidth(),
+                            magnumSteady.getHeight(),
+                            null);
+                }
+
+                if(Player.SHOOTING == player.currentAction) {
+                    graphics.drawImage(magnumFiring,
+                            (int) (player.x) + 35,
+                            (int) (player.y) - 3,
+                            -magnumFiring.getWidth(),
+                            magnumFiring.getHeight(),
+                            null);
+                }
+
+            }
+
+        }
+
+
         //If we get shot, we are blinking red
         if(player.blinkRed){
             if(player.blinkCount % 10 < 5) return;

@@ -28,6 +28,7 @@ public class Server implements Runnable {
         try {
             serverSocket = new ServerSocket(port);
             Socket socket = serverSocket.accept();
+            //itt várunk acceptig
             messageQueue.add("MAP:".concat(MainProcess.getMapTemp()));
             messageQueue.add("TIME:".concat(String.valueOf(MainProcess.getMatchDurationTemp())));
             stateManager.setState(StateManager.States.GAMEPLAYSTATE);

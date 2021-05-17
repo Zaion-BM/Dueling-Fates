@@ -24,9 +24,17 @@ public class GameObjectRenderer {
 
     //Weapon sprites
     private BufferedImage defaultWepSprite;
-    private BufferedImage blasterWepSprite;
+    private BufferedImage defaultSteady;
+    private BufferedImage defaultFiring;
+
+
     private BufferedImage undertakerWepSprite;
+    private BufferedImage undertakerSteady;
+    private BufferedImage undertakerFiring;
+
     private BufferedImage magnumWepSprite;
+    private BufferedImage magnumSteady;
+    private BufferedImage magnumFiring;
 
 
     public GameObjectRenderer(){
@@ -42,8 +50,18 @@ public class GameObjectRenderer {
 
             //weapons
             defaultWepSprite = ImageIO.read(new File("DuelingFates/Sources/wep_DefaultWeapon.png"));
+            defaultSteady = defaultWepSprite.getSubimage(0,0,31,13);
+            defaultFiring = defaultWepSprite.getSubimage(31,0,31,13);
+
             undertakerWepSprite = ImageIO.read(new File("DuelingFates/Sources/wep_TheUndertaker.png"));
+            undertakerSteady = undertakerWepSprite.getSubimage(0,0,31,13);
+            undertakerFiring = undertakerWepSprite.getSubimage(31,0,31,13);
+
             magnumWepSprite = ImageIO.read(new File("DuelingFates/Sources/wep_VenusMagnum.png"));
+            magnumSteady = magnumWepSprite.getSubimage(0,0,31,13);
+            magnumFiring = magnumWepSprite.getSubimage(31,0,31,13);
+
+
 
         }catch (Exception e){
 
@@ -55,13 +73,14 @@ public class GameObjectRenderer {
 
     public void drawPlayer(Graphics2D graphics, Player player){
 
-        if(player.getPlayerCharacter().equals(Player.PIRATE)) {
+        /*if(player.getPlayerCharacter().equals(Player.PIRATE)) {
 
             if (player.facingRight) {
                 graphics.drawImage(player.animation.getImage(),
                         (int) (player.x - player.spriteWidth / 2),
                         (int) (player.y - player.spriteHeight / 2),
                         null);
+
             }
 
             //Mirroring animation
@@ -73,15 +92,24 @@ public class GameObjectRenderer {
                         player.spriteHeight,
                         null);
             }
-        }
 
-        if(player.getPlayerCharacter().equals(Player.POSSESSED)) {
+        }*/
+
+        drawProjectile(graphics,player.getProjectile());
+
+        if(player.getPlayerCharacter().equals(Player.PIRATE)) {
 
             if (!player.facingRight) {
                 graphics.drawImage(player.animation.getImage(),
                         (int) (player.x - player.spriteWidth / 2),
                         (int) (player.y - player.spriteHeight / 2),
                         null);
+                if(Player.IDLE == player.currentAction) {
+                    graphics.drawImage(defaultSteady, (int) (player.x) - 36, (int) (player.y) - 3, null);
+                }
+                if(Player.SHOOTING == player.currentAction) {
+                    graphics.drawImage(defaultFiring, (int) (player.x) - 34, (int) (player.y) - 3, null);
+                }
             }
 
             //Mirroring animation
@@ -92,15 +120,32 @@ public class GameObjectRenderer {
                         -player.spriteWidth,
                         player.spriteHeight,
                         null);
+
+                if(Player.IDLE == player.currentAction) {
+                    graphics.drawImage(defaultSteady,
+                            (int) (player.x) + 36,
+                            (int) (player.y) - 3,
+                            -defaultSteady.getWidth(),
+                            defaultSteady.getHeight(),
+                            null);
+                }
+
+                if(Player.SHOOTING == player.currentAction) {
+                    graphics.drawImage(defaultFiring,
+                            (int) (player.x) + 34,
+                            (int) (player.y) - 3,
+                            -defaultFiring.getWidth(),
+                            defaultFiring.getHeight(),
+                            null);
+                }
             }
+
         }
 
         //If we get shot, we are blinking red
         if(player.blinkRed){
             if(player.blinkCount % 10 < 5) return;
         }
-
-        drawProjectile(graphics,player.getProjectile());
 
     }
 

@@ -54,7 +54,6 @@ public class StateManager {
 
     }
 
-
     //állapotok alapján új példányok létrehozása
     public void loadState(States enumStates){
 
@@ -62,8 +61,8 @@ public class StateManager {
             case MAINMENUSTATE:
                 //ordinal() megadja az enum számértékét, így a tömbben címezhető, hardcoding elkerülve
                 gameStates[States.MAINMENUSTATE.ordinal()] = new MainMenuState(this);
-                //JukeBox.play("menu_music"); //menu music starts playing
-                JukeBox.stop("bg_music_volumedown"); //other music stop playing
+                //JukeBox.play("menu_music");                                                                     //menu music starts playing
+                JukeBox.stop("bg_music_volumedown");                                                            //other music stop playing
                 JukeBox.stop("score_music_long");
                 break;
             case JOINSTATE:

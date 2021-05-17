@@ -15,6 +15,9 @@ public class Weapon extends GameObject{
     private int weaponDmg;
     private int weaponFireRate;
 
+    //Animation parameters
+    public static final int STEADY   = 0;
+    public static final int FIRE     = 1;
 
     public Weapon(TileMap tileMap,int modelType){
         super(tileMap);
@@ -32,13 +35,20 @@ public class Weapon extends GameObject{
                             setWeaponFireRate(1);
         }
 
+        objectHeight = 13;
+        objectWidth = 31;
+
+
     }
 
-    public void shootWeapon(Weapon weapon){
+    public void shootWeapon(Player player){
+
+        //player.setShooting();
+        //player.setPlayerAmmoQty(player.getPlayerAmmoQty() - this.getWeaponFireRate());
 
         //create projectile, a típus alapján
-        //csökkentjük a Player töltényeinek számát
-        //ekkor meg kell jeleníteni a player mellett a fegyvert, ha nem lövünk akkor hideoljuk
+        //ekkor meg kell jeleníteni a player mellett a fegyvert,
+        // ha nem lövünk akkor hideoljuk
 
     }
 

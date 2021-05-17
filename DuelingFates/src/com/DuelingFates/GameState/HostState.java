@@ -10,6 +10,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import static com.DuelingFates.Objects.Player.messageQueue;
+
 public class HostState extends GameState implements ActionListener, MouseListener{
 
     //Gombok
@@ -129,7 +131,7 @@ public class HostState extends GameState implements ActionListener, MouseListene
         matchDurationLabel.setForeground(Color.WHITE);
         matchDurationLabel.setBounds(MainProcess.getGameWidth()/4,(int)(MainProcess.getGameHeight()*0.55),500,50);
 
-        System.out.println(MainProcess.getMapTemp());
+        System.out.println("HostState:" + MainProcess.getMapTemp());
 
         //az eltárolt érték alapján megjelenítjük a kiválasztott mapot
         switch (MainProcess.getMapTemp()){
@@ -223,7 +225,6 @@ public class HostState extends GameState implements ActionListener, MouseListene
         if(e.getSource() == buttonStart) {
             if(mapCloudyForest.isSelected()){
 
-
                 selectedMap = mapCloudyForest.getName();
 
             }
@@ -236,11 +237,14 @@ public class HostState extends GameState implements ActionListener, MouseListene
 
             }
 
+            // MainProcess statikus változók beállítása
             MainProcess.setMapTemp(selectedMap);
             MainProcess.setMatchDurationTemp(matchDuration.getValue());
+            MainProcess.setStartServer();
 
-            //stateManager.setState(StateManager.States.GAMEPLAYSTATE);
-            //stateManager.setState(StateManager.States.SCORESTATE);
+            System.out.println("HostState: " + MainProcess.getMapTemp() + " - " + MainProcess.getMatchDurationTemp() + " checked!");
+
+
         }
 
         if(e.getSource() == buttonBack) {

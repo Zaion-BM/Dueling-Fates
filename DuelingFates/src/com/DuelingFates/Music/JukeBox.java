@@ -7,8 +7,11 @@ import javax.sound.sampled.Clip;
 import java.util.HashMap;
 
 public class JukeBox {
-	
-	private static HashMap<String, Clip> clips;
+
+	//NEM SAJÁT KÓD, de felhasználtuk
+	//TODO törölni ami nem kell
+
+	private static HashMap<String, Clip> clips;						//Clip: audioformátum
 	private static int gap;
 	private static boolean mute = false;
 	
@@ -21,12 +24,12 @@ public class JukeBox {
 		if(clips.get(n) != null) return;
 		Clip clip;
 		try {			
-			AudioInputStream ais =
+			AudioInputStream ais =									//fájlok beolvasása
 				AudioSystem.getAudioInputStream(
 					JukeBox.class.getResourceAsStream(s)
 				);
-			AudioFormat baseFormat = ais.getFormat();
-			AudioFormat decodeFormat = new AudioFormat(
+			AudioFormat baseFormat = ais.getFormat();				//Audióformátum
+			AudioFormat decodeFormat = new AudioFormat(				//dekódolás
 				AudioFormat.Encoding.PCM_SIGNED,
 				baseFormat.getSampleRate(),
 				16,

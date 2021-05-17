@@ -320,7 +320,6 @@ public class Player extends GameObject implements KeyListener {
 
         if(currentAction == DEAD && animation.hasPlayedOnce()) {
             respawn();
-            //setPosition(9999, 9999);
             //removed = true;
         }
     }

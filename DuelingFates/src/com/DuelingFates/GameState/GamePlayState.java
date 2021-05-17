@@ -1,5 +1,6 @@
 package com.DuelingFates.GameState;
 
+import com.DuelingFates.HUDs.DynamicHUD;
 import com.DuelingFates.HUDs.EscapeMenu;
 import com.DuelingFates.HUDs.HUD;
 import com.DuelingFates.Main.MainProcess;
@@ -29,16 +30,17 @@ public class GamePlayState extends GameState implements KeyListener {
     @SuppressWarnings("FieldCanBeLocal")
     private final int tileSize = 64;
 
-    private Player hostPlayer;          //TODO: miért kell két külön player? gombok nyomkodásánál mi lesz?
-    private PlayerAnimation hostAnimation;
-    public static Player clientPlayer;
-    private PlayerAnimation clientAnimation;
+    public static Player player;
+    private PlayerAnimation animation;
+    public static Player enemyPlayer;
+    private PlayerAnimation enemyAnimation;
     private Weapon gun;
     private Weapon gun2;
     private int timerMax;
     private int timerCount;
 
     private HUD hud;
+    private DynamicHUD dynamicHUD;
 
     //egyellőre külön kezeljük, mert a threadelés nem syncronizált alapból
     private ArrayList<Projectile> hostBullets;
@@ -56,12 +58,15 @@ public class GamePlayState extends GameState implements KeyListener {
 
     private static int hostPlayerScore;
     private static int clientPlayerScore;
+    private static int hostPlayerAmmo;
 
     public static HealthPotion healthPotion2;
     public static Ammo ammo2;
 
     private static String hostPlayerName;
     public static String clientPlayerName;
+
+    private boolean runOnce = true;
 
     private ArrayList<HealthPotion> healthPotions = new ArrayList<>();
     public static ArrayList<Ammo> ammos = new ArrayList<>();
@@ -128,29 +133,27 @@ public class GamePlayState extends GameState implements KeyListener {
             tileMap.loadTilesToMap("DuelingFates/Sources/Maps/SnowyMountain.txt");
         }
 
-        messageQueue.add("MAP:".concat(MainProcess.getMapTemp()));
+        //Client creation
+        enemyPlayer = new Player(tileMap);
+        enemyPlayer.setPosition(400,300);
+        enemyAnimation = new PlayerAnimation(enemyPlayer);
 
         //Player init
-        hostPlayer = new Player(tileMap);
-        hostAnimation = new PlayerAnimation(hostPlayer);
-        hud = new HUD(hostPlayer);
-        hostPlayer.setPlayerName("HOST!4!44");
-        setHostPlayerName(hostPlayer.getPlayerName());
-        messageQueue.add("NAME:".concat(hostPlayer.getPlayerName()));
+        player = new Player(tileMap);
+        animation = new PlayerAnimation(player);
 
-        clientPlayer = new Player(tileMap);
-        clientPlayer.setPosition(400,300);
-        clientAnimation = new PlayerAnimation(clientPlayer);
-        setClientPlayerName(clientPlayer.getPlayerName());
+        setHostPlayerName(player.getPlayerName());
+        setClientPlayerName(enemyPlayer.getPlayerName());
 
 
+        //GAMEPLAY INIT
 
         //hostProjectile=new Projectile(tileMap,); //TODO: projectile
         //Init Weapon to player //TODO: TESZT, ha működik így akkor lehet szarakodni, hogy hogy adjuk be neki a projectile-t
         gun = new Weapon(tileMap,0);
         gun2 = new Weapon(tileMap,0);
-        hostPlayer.setPlayerWeapon(gun);
-        clientPlayer.setPlayerWeapon(gun2);
+        player.setPlayerWeapon(gun);
+        enemyPlayer.setPlayerWeapon(gun2);
 
         //TODO player location egy játékos halálakor amit majd szintén meghívunk
         //TODO start timer, ami lehet metódus, itt végtelen ciklusban várunk a kliens csatlakozására és utána indul a meccs
@@ -174,19 +177,33 @@ public class GamePlayState extends GameState implements KeyListener {
         ammos.add(ammo1);
         ammos.add(ammo2);
 
+
+        hud = new HUD();
+        dynamicHUD = new DynamicHUD();
+
     }
 
     @Override
     public void draw(Graphics2D graphics) {
 
+        //System.out.println(MainProcess.getMapTemp());
         graphics.drawImage(background,0,0, MainProcess.getGameWidth(), MainProcess.getGameHeight(),null);
         tileMap.draw(graphics);
 
-        hud.draw(graphics, hostPlayer);
+        if (MainProcess.getAmIServer()) {
+            dynamicHUD.draw(graphics, player, enemyPlayer);
+            hud.draw(graphics, player, enemyPlayer);
+
+        }
+        else{
+            dynamicHUD.draw(graphics, enemyPlayer, player);
+            hud.draw(graphics, player, enemyPlayer);
+
+        }
 
         //Player draw
-        gameObjectRenderer.drawPlayer(graphics, hostPlayer);
-        gameObjectRenderer.drawPlayer(graphics, clientPlayer);
+        gameObjectRenderer.drawPlayer(graphics, player);
+        gameObjectRenderer.drawPlayer(graphics, enemyPlayer);
 
         //TODO SHOULD REMOVE mint a projectile-nál és for ciklusos rajzolás
         for(int i=0; i<healthPotions.size(); i++) {
@@ -199,7 +216,6 @@ public class GamePlayState extends GameState implements KeyListener {
         //Projectile draw
         //gameObjectRenderer.drawProjectile(graphics,hostProjectile);
 
-
         if (escapePressed) {
             escapeMenu.draw(graphics);
             escapeBefore = true;            //engedélyezzük az eltüntetés lehetőségét
@@ -210,33 +226,34 @@ public class GamePlayState extends GameState implements KeyListener {
     @Override
     public void update() {
 
-        //TODO match start, player death esemény,
-        //TODO ezenkívűl itemek és fegyverek spawnolása
+        if (runOnce){
+            messageQueue.add("ENEMYNAME:".concat(player.getPlayerName()));
+            runOnce = false;
+        }
 
+        messageQueue.add("ENEMYSCORE:".concat(Integer.toString(player.getPlayerScore())));
 
         //Player update
-        hostPlayer.update();
-        hostAnimation.updateAnimation(hostPlayer);
-        //hostAnimation.updateAnimationPossessed(hostPlayer);
+        player.update();
+        //animation.updateAnimation(player);
+        animation.updateAnimationPossessed(player);
 
-        clientPlayer.update();
-        clientAnimation.updateAnimation(clientPlayer);
-        //clientAnimation.updateAnimationPossessed(clientPlayer);
-        //clientPlayer.setShooting();
+        enemyPlayer.update();
+        //enemyAnimation.updateAnimation(enemyPlayer);
+        enemyAnimation.updateAnimationPossessed(enemyPlayer);
+
 
         //hostProjectile.update();
         //attack enemy player
-        hostPlayer.checkAttack(clientPlayer);
-        clientPlayer.checkAttack(hostPlayer);
-
+        player.checkAttack(enemyPlayer);
+        enemyPlayer.checkAttack(player);
 
         //check if healthpotions is picked up
-        checkPickedUpHealth(hostPlayer,healthPotions);
-        checkPickedUpHealth(clientPlayer,healthPotions);
+        checkPickedUpHealth(player,healthPotions);
+        checkPickedUpHealth(enemyPlayer,healthPotions);
 
-        checkPickedUpAmmo(hostPlayer,ammos);
-        checkPickedUpAmmo(clientPlayer,ammos);
-
+        checkPickedUpAmmo(player,ammos);
+        checkPickedUpAmmo(enemyPlayer,ammos);
 
         //random spawn consumables
         timerCount++;
@@ -250,12 +267,15 @@ public class GamePlayState extends GameState implements KeyListener {
         //Ha a timer elérte a beállított időt, a score state-re váltunk, adatokat mentünk
         if(minutes == MainProcess.getMatchDurationTemp()){
 
-            hostPlayerScore = hostPlayer.getPlayerScore();
-            clientPlayerScore = clientPlayer.getPlayerScore();
+            hostPlayerScore = player.getPlayerScore();
+            clientPlayerScore = enemyPlayer.getPlayerScore();
             messageQueue.add("ENEMYSCORE:".concat(Integer.toString(clientPlayerScore)));
             stateManager.setState(StateManager.States.SCORESTATE);
 
         }
+
+        setHostPlayerAmmo(player.getPlayerAmmoQty());
+
 
     }
 
@@ -297,6 +317,15 @@ public class GamePlayState extends GameState implements KeyListener {
     /*
      *Player Setters and Getters
      */
+
+    public static int getHostPlayerAmmo(){
+        return hostPlayerAmmo;
+    }
+
+    public static void setHostPlayerAmmo(int ammo){
+        hostPlayerAmmo = ammo;
+    }
+
     public static int getHostPlayerScore(){
         return hostPlayerScore;
     }
@@ -346,9 +375,11 @@ public class GamePlayState extends GameState implements KeyListener {
     public void removeHealths(ArrayList<HealthPotion> h){
         for(int i=0; i<h.size();i++) h.remove(i);
     }
+
     public void removeAmmos(ArrayList<Ammo> a){
         for(int i=0; i<a.size();i++) a.remove(i);
     }
+
     public HealthPotion spawnHealthPotion(TileMap tileMap) {
         //TODO :kiválasztunk egy random pozíciót a mapon és ott példányosítjuk
         //megadjuk, hogy hova lehet spawnolni, mert tudjuk a map layoutját
@@ -369,12 +400,12 @@ public class GamePlayState extends GameState implements KeyListener {
     @Override
     public void updateSwingUI(JFrame duelingFates,JLayeredPane layeredPane) {
 
-        duelingFates.addKeyListener(new PlayerInputHandler(hostPlayer));
+        duelingFates.addKeyListener(new PlayerInputHandler(player));
 
         duelingFates.addKeyListener(new InputHandler(this));        //Listener a keyboard érzékeléséért
 
         layeredPane.removeAll();                                                //GamePlay-nél nincs szükség a Swing elemekre
-        duelingFates.setCursor(MainProcess.hiddenCursor);
+        //duelingFates.setCursor(MainProcess.hiddenCursor);
         duelingFates.repaint();                                                 //üres Frame-et hagyunk
         StateManager.setStateChangedFalse();
 

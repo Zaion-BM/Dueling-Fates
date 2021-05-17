@@ -38,8 +38,8 @@ public class MainProcess extends JPanel implements Runnable{
     private static Graphics2D graphics;                                             //amit kirajzolunk a gameWindow-ra
     private static BufferedImage gameWindow;                                        //amire rajzolunk a Frame-en belül GAMEPLAYSTATE-ben
     private Image cursorImage;
-    private static final int gameWidth = 1200;
-    private static final int gameHeight = 800;
+    private static final int gameWidth = 1920;
+    private static final int gameHeight = 1080;
 
     public static Cursor gameCursor;                                                //egyedi cursor
     public static Cursor hiddenCursor;                                              //GamePlay esetén elrejtjük
@@ -54,6 +54,11 @@ public class MainProcess extends JPanel implements Runnable{
     public static String mapTemp;                                                   //map kedzetben
     public static int matchDurationTemp;                                            //meccs hossza kezdetben
 
+    //TODO nem működik, mert nincs idő hogy lefusson a gameplaybe váltás előtt
+    public static boolean startServer = false;                                      //Host stateben kap értéket
+    public static boolean joinServer = false;                                       //Join stateben kap értéket
+
+    public static boolean amIServer = false;                                        //nézzük, hogy ki a szerver
 
 
     public MainProcess(){
@@ -106,13 +111,116 @@ public class MainProcess extends JPanel implements Runnable{
 
     private void setMenuDefaults(){
 
-        playerNameTemp ="Nuck Chorris";                                                       //Default név beállítása
+        playerNameTemp ="Hoster";                                                       //Default név beállítása
         characterTemp = "PirateDeckhand";                                                     //Default karakter beállítása
         //characterTemp = "PossessedArmor";
         mapTemp = "SnowyMountain";                                                            //Default map
         matchDurationTemp = 2;                                                                //Default time
 
     }
+
+    public synchronized void startThread(){                                         //synchronized: multi-threaded esetben, egyszerre 1 szál fér hozzá az objektumhoz
+
+        Thread threadMain = new Thread(this);
+        threadMain.start();
+
+    }
+
+    //Runnable miatt automatikusan meghívódik
+    public void run(){
+        gameWindow = new BufferedImage(getGameWidth(),getGameHeight(),BufferedImage.TYPE_INT_RGB);      //a kép melyre rajzolunk
+        graphics = gameWindow.createGraphics();                                                         //grafika amit kirajzolunk
+        gameIsRunning = true;
+        stateManager = new StateManager();                                                              //állapotgép példányosítása
+
+        final long oneFrameDuration = 1000/FPS;                                                         // = (1/60)*1000
+
+        Thread serverSender = new Thread(new Server(messageQueue,6868));                            //Server port definiálása
+        Thread serverReceiver = new Thread(new Client("Kliens",6869));
+
+        Thread clientSender = new Thread(new Server(messageQueue,6869));                            //Kliens port definiálása
+        Thread clientReceiver = new Thread(new Client("Kliens",6868));
+
+        while (gameIsRunning) {
+
+            if (StateManager.stateChanged) {                                                  //ha állapotot váltunk frissítjük a Swing Frame-et
+                stateManager.updateSwingUI(duelingFates, layeredPane);                        //a Frame és a JLayeredPane továbbadásával tudjuk őket frissíteni
+
+                if (stateManager.currentState == StateManager.States.JOINSTATE) {
+                    amIServer = false;
+                    clientSender.start();
+                    clientReceiver.start();
+                }
+
+            }
+
+            if (startServer) {                                                                 //Host stateben állítjuk be
+                amIServer = true;
+                serverSender.start();
+                serverReceiver.start();
+                startServer = false;
+
+            }
+
+            if (stateManager.currentState == StateManager.States.GAMEPLAYSTATE) {             //csak a GamePlayState-ben van grafikus kirajzolás (60 FPS-sel)
+                Instant start = Instant.now();
+                updateGame();
+                updateScreen(graphics);
+                renderScreen();
+
+                try {
+                    synchronized (this) {
+                        this.wait(oneFrameDuration);                        //Thread.sleep(oneFrameDuration); az éppen futó threadet megszakítja, millisec ideig
+                    }                                                       //de warningot ad, így ezzel a megoldással elkerülhető
+                }
+                catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                Instant end = Instant.now();
+                Duration timeElapsed = Duration.between(start,end);
+                GamePlayState.addMillis(timeElapsed.toMillis());
+
+                if(GamePlayState.getMillis() >= 1000 ){
+                    GamePlayState.setMillisZero();
+                    GamePlayState.addSeconds();
+                }
+                if(GamePlayState.getSeconds() == 60){
+                    GamePlayState.addMinutes();
+                    GamePlayState.setSecondsZero();
+                }
+
+            }
+        }
+
+    }
+
+    //állapotgép adott állapotának frissítése - gameplay logika
+    void updateGame(){
+
+        stateManager.update();
+
+    }
+
+    //állapotgép grafikai részének frissítése - gameplay design
+    void updateScreen(Graphics2D graphics){
+
+        stateManager.draw(graphics);
+
+    }
+
+    //kép kirenderelése a képernyőre
+    void renderScreen(){
+
+            Graphics gScreen = duelingFates.getGraphics();                                               //JPanel miatt tudjuk lekérdezni
+            gScreen.drawImage(gameWindow, 0, 0, getGameWidth(), getGameHeight(), null);      //gameWindow-ra renderelünk, a bal felső saroktól
+            gScreen.dispose();                                                                           //kép törlése a Frame-ről, hogy újból ki tudjuk rajzolni
+
+    }
+
+    /*
+     * Setters and Getters
+     */
 
     public static String getPlayerNameTemp(){
 
@@ -174,120 +282,25 @@ public class MainProcess extends JPanel implements Runnable{
 
     }
 
-    public synchronized void startThread(){                                         //synchronized: multi-threaded esetben, egyszerre 1 szál fér hozzá az objektumhoz
+    public static void setStartServer(){
 
-        Thread threadMain = new Thread(this);
-        threadMain.start();
-
-    }
-
-    //Runnable miatt automatikusan meghívódik
-    public void run(){
-        gameWindow = new BufferedImage(getGameWidth(),getGameHeight(),BufferedImage.TYPE_INT_RGB);    //a kép melyre rajzolunk
-        graphics = gameWindow.createGraphics();                                                       //grafika amit kirajzolunk
-        gameIsRunning = true;
-        stateManager = new StateManager();                                                            //állapotgép példányosítása
-
-        final long oneFrameDuration = 1000/FPS;                                                         // = (1/60)*1000
-
-        Thread serverSender = new Thread(new Server(messageQueue,6868));
-        Thread serverReceiver = new Thread(new Client("Kliens",6869));
-
-        Thread clientSender = new Thread(new Server(messageQueue,6869));
-        Thread clientReceiver = new Thread(new Client("Kliens",6868));
-
-        int i = 0;
-
-        boolean amIserver = true;
-
-        while (gameIsRunning) {
-            //System.out.println(stateManager.currentState == StateManager.States.GAMEPLAYSTATE);
-
-            if (StateManager.stateChanged) {                                                  //ha állapotot váltunk frissítjük a Swing Frame-et
-                stateManager.updateSwingUI(duelingFates, layeredPane);                      //a Frame és a JLayeredPane továbbadásával tudjuk őket frissíteni
-                //System.out.println("Swing GUI has been updated!");
-
-               // System.out.println(stateManager.currentState);
-                if (stateManager.currentState == StateManager.States.HOSTSTATE) {
-                    amIserver=true;
-                    serverSender.start();
-                    serverReceiver.start();
-                }
-                if (stateManager.currentState == StateManager.States.JOINSTATE) {
-                    amIserver=false;
-                    clientSender.start();
-                    clientReceiver.start();
-                }
-
-            }
-
-            if (stateManager.currentState == StateManager.States.GAMEPLAYSTATE) {             //csak a GamePlayState-ben van grafikus kirajzolás (60 FPS-sel)
-                Instant start = Instant.now();
-                updateGame();
-                updateScreen(graphics);
-                renderScreen();
-
-                try {
-                    synchronized (this) {
-                        this.wait(oneFrameDuration);//Thread.sleep(oneFrameDuration); az éppen futó threadet megszakítja, millisec ideig
-                        //System.out.println("I'm waiting");
-                    }                                                          //de warningot ad, így ezzel a megoldással elkerülhető
-                }
-                catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-                Instant end = Instant.now();
-                Duration timeElapsed = Duration.between(start,end);
-                GamePlayState.addMillis(timeElapsed.toMillis());
-
-                if(GamePlayState.getMillis() >= 1000 ){
-                    GamePlayState.setMillisZero();
-                    GamePlayState.addSeconds();
-                }
-                if(GamePlayState.getSeconds() == 60){
-                    GamePlayState.addMinutes();
-                    GamePlayState.setSecondsZero();
-                }
-
-            }
-        }
+        startServer = true;
+        joinServer = false;
 
     }
 
-    //állapotgép adott állapotának frissítése - gameplay logika
-    void updateGame(){
+    public static void setJoinServer(){
 
-        stateManager.update();
-
-    }
-
-    //állapotgép grafikai részének frissítése - gameplay design
-    void updateScreen(Graphics2D graphics){
-
-        stateManager.draw(graphics);
+        joinServer = true;
+        startServer = false;
 
     }
 
-    //kép kirenderelése a képernyőre
-    void renderScreen(){
+    public static boolean getAmIServer(){
 
-            Graphics gScreen = duelingFates.getGraphics();                                               //JPanel miatt tudjuk lekérdezni
-            gScreen.drawImage(gameWindow, 0, 0, getGameWidth(), getGameHeight(), null);      //gameWindow-ra renderelünk, a bal felső saroktól
-            gScreen.dispose();                                                                           //kép törlése a Frame-ről, hogy újból ki tudjuk rajzolni
+        return  amIServer;
 
     }
 
-    public void keyTyped(KeyEvent e) {
-    }
 
-    public void keyPressed(KeyEvent e) {
-        int key = e.getKeyCode();
-        if (key ==KeyEvent.VK_ESCAPE) {
-            System.out.println(key);
-        }
-    }
-
-    public void keyReleased(KeyEvent e) {
-    }
 }

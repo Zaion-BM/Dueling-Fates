@@ -1,16 +1,11 @@
 package com.DuelingFates.Networking.Client;
 import com.DuelingFates.GameState.StateManager;
-import com.DuelingFates.Objects.Player;
-import com.DuelingFates.GameState.GamePlayState.*;
+import com.DuelingFates.Main.MainProcess;
 
-import javax.swing.*;
 import java.io.*;
 import java.net.ConnectException;
 import java.net.Socket;
 import java.net.SocketException;
-import java.net.UnknownHostException;
-import java.nio.charset.StandardCharsets;
-import java.util.Queue;
 
 import static com.DuelingFates.GameState.GamePlayState.*;
 import static com.DuelingFates.Main.MainProcess.*;
@@ -18,11 +13,11 @@ import static com.DuelingFates.Main.MainProcess.*;
 
 public class Client implements Runnable {
     private Socket socket;
-    private String Name;
+    private String name;
     private int port;
 
     public Client(String Name, int port) {
-        this.Name = Name;
+        this.name = Name;
         this.port = port;
     }
 
@@ -30,7 +25,6 @@ public class Client implements Runnable {
     public static float ammoy=-100;
     public static float potionx=-100;
     public static float potiony=-100;
-
 
     @Override
     public void run() {
@@ -59,50 +53,69 @@ public class Client implements Runnable {
                         value= reader.readLine();
                         String[] command = value.split(":",2);
                         //System.out.println(value);
+                        if (stateManager.currentState == StateManager.States.JOINSTATE){
+                            switch (command[0]) {                                           //command 0 a MAP, 1 amit küldünk
+                                case ("MAP"):
+                                    System.out.println(command[1]);
+                                    MainProcess.setMapTemp(command[1]);
+                                    break;
+                                case ("TIME"):
+                                    System.out.println(command[1]);
+                                    MainProcess.setMatchDurationTemp(Integer.parseInt(command[1]));
+                                    break;
+                            }
+                        }
                         if(stateManager.currentState == StateManager.States.GAMEPLAYSTATE) {
                             switch (command[0]) {
                                 case ("LEFT"):
                                     System.out.println(value);
-                                    clientPlayer.setLeft(true);
+                                    enemyPlayer.setLeft(true);
                                     break;
                                 case ("RIGHT"):
                                     System.out.println(value);
-                                    clientPlayer.setRight(true);
+                                    enemyPlayer.setRight(true);
                                     break;
                                 case ("JUMP"):
                                     System.out.println(value);
-                                    clientPlayer.setJumping(true);
+                                    enemyPlayer.setJumping(true);
                                     break;
                                 case ("SHOOT"):
+                                case ("STOPSHOOT"):
                                     System.out.println(value);
-                                    clientPlayer.setShooting();
+                                    enemyPlayer.setShooting();
                                     break;
                                 case ("STOPLEFT"):
                                     System.out.println(value);
-                                    clientPlayer.setLeft(false);
-                                    ;
+                                    enemyPlayer.setLeft(false);
                                     break;
                                 case ("STOPRIGHT"):
                                     System.out.println(value);
-                                    clientPlayer.setRight(false);
+                                    enemyPlayer.setRight(false);
                                     break;
                                 case ("STOPJUMP"):
                                     System.out.println(value);
-                                    clientPlayer.setJumping(false);
+                                    enemyPlayer.setJumping(false);
                                     break;
-                                case ("STOPSHOOT"):
-                                    System.out.println(value);
-                                    clientPlayer.setShooting();
-                                    break;
-                                //case("DAMAGE"):     System.out.println(value);                                              break;
+                                //case("DAMAGE"):     System.out.println(value);  break;
                                 case ("ENEMYSCORE"):
                                     System.out.println(value);
-                                    clientPlayer.setPlayerScore(Integer.parseInt(command[1]));
+                                    enemyPlayer.setPlayerScore(Integer.parseInt(command[1]));
                                     break;
-                                case ("NAME"):
+                                case ("ENEMYNAME"):
                                     System.out.println(command[1]);
-                                    setClientPlayerName(command[1]);
+                                    enemyPlayer.setPlayerName(command[1]);
                                     break;
+
+                                /*case ("NAME"):
+                                    System.out.println(command[1]);
+                                    setHostPlayerName(command[1]);
+                                    break;
+                                case ("SCORE"):
+                                    System.out.println(value);
+                                   hostPlayer.setPlayerScore(Integer.parseInt(command[1]));
+                                    break;
+                                */
+
                                 /*case ("AMMOX"):
                                     System.out.println(value);
                                     ammox = Float.parseFloat(command[1]);
@@ -119,12 +132,9 @@ public class Client implements Runnable {
                                     System.out.println(value);
                                     potiony = Float.parseFloat(command[1]);
                                     break;*/
-                                case ("MAP"):
-                                    System.out.println(command[1]);
-                                    break;
                                 case("HPADD"):
                                     System.out.println("HP added.");
-                                    clientPlayer.setPlayerHealth(clientPlayer.getPlayerHealth()+30);
+                                    enemyPlayer.setPlayerHealth(enemyPlayer.getPlayerHealth()+30);
                                     break;
                                 default:
                                     System.out.println(value);

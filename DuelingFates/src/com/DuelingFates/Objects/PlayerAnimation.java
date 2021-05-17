@@ -68,12 +68,12 @@ public class PlayerAnimation {
 
         }
 
-        if(player.getPlayerCharacter().equals(Player.POSSESSED)) {
+        if(player.getPlayerCharacter().equals(Player.PIRATE)) {
 
             try {
 
-                BufferedImage spriteSheet = ImageIO.read(new File("DuelingFates/Sources/char_PossessedArmor/PossessedArmorWiggleHands.png"));
-                //BufferedImage spriteSheet = ImageIO.read(new File("DuelingFates/Sources/char_PirateDeckhand/PirateDeckhandWiggleHands.png"));
+                //BufferedImage spriteSheet = ImageIO.read(new File("DuelingFates/Sources/char_PossessedArmor/PossessedArmorWiggleHands.png"));
+                BufferedImage spriteSheet = ImageIO.read(new File("DuelingFates/Sources/char_PirateDeckhand/PirateDeckhandWiggleHands.png"));
                 int count = 0;
                 sprites = new ArrayList<>();
 
@@ -107,7 +107,7 @@ public class PlayerAnimation {
         player.spriteWidth = FRAMEWIDTHS_P[player.currentAction];
         player.spriteHeight = FRAMEHEIGHTS_P[player.currentAction];
     }
-/*
+
     //TODO POSSESSED ANIMATION 2.0 - WITHOUT WEAPON MÉG NEM MEGY TRY AT OWN RISK
     public void updateAnimationPossessed(Player player){
 
@@ -164,7 +164,7 @@ public class PlayerAnimation {
         }
         player.animation.update();                                                  //update animation of player
 
-    }*/
+    }
 
     private void setAnimation(int i, Player player) {
         player.currentAction = i;

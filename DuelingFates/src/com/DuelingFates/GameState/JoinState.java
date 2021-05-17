@@ -106,6 +106,7 @@ public class JoinState extends GameState implements ActionListener, MouseListene
 
         if(e.getSource() == buttonJoin) {
 
+            //MainProcess.setJoinServer();
             stateManager.setState(StateManager.States.GAMEPLAYSTATE);
 
         }

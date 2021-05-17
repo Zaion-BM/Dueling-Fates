@@ -74,7 +74,6 @@ public class HealthPotion extends Consumable {
         this.healthPoints = healthPoints;
     }
 
-
     @Override
     public void keyTyped(KeyEvent e) {
 

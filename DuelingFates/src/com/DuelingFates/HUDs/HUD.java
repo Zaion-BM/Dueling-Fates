@@ -12,38 +12,28 @@ import java.io.File;
 
 public class HUD {
 
-    //TODO list: elvileg ha csak a player saját adatait definiáljuk
-    // és majd a Server ezeket megjeleníti, akkor nincs szükség az enemy UI-ra
-    // ha nem, akkor csak két főre kell limitálnunk, és implementálni
     //TODO: lehet enemy és player helyett first place és second place kell, ezáltal egyszerűbb lehet
 
     //player adatok
-    private String playerNameUI;
     private String playerAmmoUI;
     private String playerScoreUI;
 
     //enemy adatok
-    private String enemyNameUI;
     private String enemyScoreUI;
 
     //egyéb adatok
     private String timerValue;
     private final String playerScoreLabel = "Your score:";
-    private final String enemyScoreLabel;
+    private String enemyScoreLabel;
 
     //ammo image
     private BufferedImage ammoImg;
 
-    public HUD(Player player){
-
-        //session során nem frissülő adatok
-        enemyScoreLabel = GamePlayState.getClientPlayerName() + "'s score";
-        enemyNameUI = GamePlayState.getClientPlayerName();
+    public HUD(){
 
         try{
 
             ammoImg = ImageIO.read(new File("DuelingFates/Sources/gui_Ammo.png"));
-
 
         }catch (Exception e){
             e.printStackTrace();
@@ -51,9 +41,11 @@ public class HUD {
 
     }
 
-    public void draw(Graphics2D graphics, Player player){
+    public void draw(Graphics2D graphics, Player player, Player enemyPlayer){
 
         //frissülő adatok lekérdezése
+        enemyScoreLabel = enemyPlayer.getPlayerName() + "'s score";
+
         int timer = (int)GamePlayState.getSeconds();
 
         if (GamePlayState.getSeconds() <= 9){
@@ -65,12 +57,10 @@ public class HUD {
             timerValue = GamePlayState.getMinutes() + ":" + timer;
         }
 
-        playerNameUI = player.getPlayerName();
-
-        playerScoreUI = String.valueOf(player.getPlayerScore());    //"250 pts";
+        playerScoreUI = String.valueOf(player.getPlayerScore());
         playerAmmoUI = String.valueOf(player.getPlayerAmmoQty());
 
-        enemyScoreUI = "getFromClient";
+        enemyScoreUI = String.valueOf(enemyPlayer.getPlayerScore());
 
         graphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
 
@@ -91,33 +81,6 @@ public class HUD {
         graphics.setFont(MainProcess.balooThambiFontBig);
         graphics.drawString(playerAmmoUI,(int)(MainProcess.getGameWidth()*0.05),(int)(MainProcess.getGameHeight()*0.97));
 
-        //Player adatok
-        graphics.setFont(MainProcess.balooThambiFontVerySmall);
-        graphics.setColor(Color.BLACK);
-        FontMetrics fm = graphics.getFontMetrics();
-        graphics.drawString(playerNameUI,(int)(player.getPositionX()- fm.stringWidth(playerNameUI) / 2), (int)(player.getPositionY())-65);
-
-        graphics.setColor(MainMenuState.darkRed);
-        graphics.fillRect((int)(player.getPositionX())-50, (int)(player.getPositionY())-57, player.getPlayerHealth(), 10);
-
-        graphics.setColor(Color.BLACK);
-        float borderSize = 2;
-        graphics.setStroke(new BasicStroke(borderSize));
-        graphics.drawRect((int)(player.getPositionX())-50, (int)(player.getPositionY())-57, 100, 10);
-
-
-        //Enemy adatok
-        /*graphics.setFont(MainProcess.balooThambiFontVerySmall);
-        graphics.setColor(Color.BLACK);
-        graphics.drawString(enemyNameUI,(int)(player.getPositionX()- fm.stringWidth(playerNameUI) / 2), (int)(player.getPositionY())-65);
-
-        graphics.setColor(MainMenuState.darkRed);
-        graphics.fillRect((int)(player.getPositionX())-50, (int)(player.getPositionY())-57, player.getPlayerHealth(), 10);
-
-        graphics.setColor(Color.BLACK);
-        graphics.setStroke(new BasicStroke(borderSize));
-        graphics.drawRect((int)(player.getPositionX())-50, (int)(player.getPositionY())-57, 100, 10);
-        */
 
     }
 

@@ -1,6 +1,5 @@
 package com.DuelingFates.HUDs;
 
-import com.DuelingFates.GameState.GamePlayState;
 import com.DuelingFates.GameState.MainMenuState;
 import com.DuelingFates.Main.MainProcess;
 import com.DuelingFates.Objects.Player;
@@ -9,18 +8,15 @@ import java.awt.*;
 
 public class DynamicHUD {
 
-    //player adatok
-    private String playerNameUI;
-    private String enemyNameUI;
-
     public DynamicHUD(){
 
     }
 
     public void draw(Graphics2D graphics, Player player, Player enemyPlayer){
 
-        playerNameUI = player.getPlayerName(); //"sziddki ezt"; //
-        enemyNameUI = enemyPlayer.getPlayerName();
+        //player adatok
+        String playerNameUI = player.getPlayerName();
+        String enemyNameUI = enemyPlayer.getPlayerName();
 
         graphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
 

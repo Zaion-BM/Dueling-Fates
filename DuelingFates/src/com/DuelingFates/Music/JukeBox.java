@@ -8,15 +8,14 @@ import java.util.HashMap;
 
 public class JukeBox {
 
-	//NEM SAJÁT KÓD, de felhasználtuk
-	//TODO törölni ami nem kell
+	//NEM SAJÁT KÓD, csak felhasználtuk
 
 	private static HashMap<String, Clip> clips;						//Clip: audioformátum
 	private static int gap;
-	private static boolean mute = false;
+	private static final boolean mute = false;
 	
 	public static void init() {
-		clips = new HashMap<String, Clip>();
+		clips = new HashMap<>();
 		gap = 0;
 	}
 	
@@ -65,25 +64,7 @@ public class JukeBox {
 		if(clips.get(s) == null) return;
 		if(clips.get(s).isRunning()) clips.get(s).stop();
 	}
-	
-	public static void resume(String s) {
-		if(mute) return;
-		if(clips.get(s).isRunning()) return;
-		clips.get(s).start();
-	}
-	
-	public static void loop(String s) {
-		loop(s, gap, gap, clips.get(s).getFrameLength() - 1);
-	}
-	
-	public static void loop(String s, int frame) {
-		loop(s, frame, gap, clips.get(s).getFrameLength() - 1);
-	}
-	
-	public static void loop(String s, int start, int end) {
-		loop(s, gap, start, end);
-	}
-	
+
 	public static void loop(String s, int frame, int start, int end) {
 		stop(s);
 		if(mute) return;
@@ -91,17 +72,11 @@ public class JukeBox {
 		clips.get(s).setFramePosition(frame);
 		clips.get(s).loop(Clip.LOOP_CONTINUOUSLY);
 	}
-	
-	public static void setPosition(String s, int frame) {
-		clips.get(s).setFramePosition(frame);
-	}
-	
+
 	public static int getFrames(String s) { return clips.get(s).getFrameLength(); }
-	public static int getPosition(String s) { return clips.get(s).getFramePosition(); }
-	
-	public static void close(String s) {
-		stop(s);
-		clips.get(s).close();
+
+	public static void loop(String s, int start, int end) {
+		loop(s, gap, start, end);
 	}
 	
 }

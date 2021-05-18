@@ -1,9 +1,7 @@
 package com.DuelingFates.Objects;
 import com.DuelingFates.Main.MainProcess;
 import com.DuelingFates.Music.JukeBox;
-import com.DuelingFates.Objects.Consumable.HealthPotion;
 import com.DuelingFates.TileMap.TileMap;
-import com.DuelingFates.Networking.Client.*;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -11,7 +9,6 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.Random;
 
 public class Player extends GameObject implements KeyListener {
 
@@ -20,13 +17,13 @@ public class Player extends GameObject implements KeyListener {
     public static String POSSESSED = "PossessedArmor";
     public static Queue<String> messageQueue = new LinkedList<>();
 
-    private String playerCharacter;
+    private final String playerCharacter;
     private String playerName;
 
     public int playerHealth;
     private int maxHealth;
     private int playerScore;
-    private Weapon playerWeapon;
+    public Weapon playerWeapon;
     public int playerAmmoQty;
     public boolean dead;
     public boolean blinkRed;
@@ -54,29 +51,29 @@ public class Player extends GameObject implements KeyListener {
     public static final int SHOOTING            = 3;
     public static final int JUMPINGANDFALLING   = 1;
     public static final int BLINKING            = 4;
-    //public static final int BLINKINGINAIR       = 5;  //DEAD 6-ra DAVE TEST
-    public static final int DEAD                = 5;
-
+    //public static final int BLINKINGINAIR       = 5;      //TODO implementálni kell még
+    public static final int DEAD                = 6;
 
     public boolean keyUpPressed = false;
+
     //projectile
     public Rectangle ar;
 
     //ZB: Implementation of constructors
-    public Player(TileMap tileMap) {
+    public Player(TileMap tileMap, int playerSpawnX, int playerSpawnY, String Character) {
 
         super(tileMap);
 
         removed=false;
         dead=false;
         playerName = MainProcess.getPlayerNameTemp();
-        playerCharacter = MainProcess.getCharacterTemp();
+        playerCharacter = Character;
 
-        //projectile                                        TODO: ezt nem biztos hogy ide kéne Dave: hát nem XD
+        //projectile
         ar = new Rectangle(0, 0, 0, 0);
         ar.width = 10;
         ar.height = 2;
-        bullets = new ArrayList<Projectile>();
+        bullets = new ArrayList<>();
         playerAmmoQty = 30;
 
         //Player sprite dimensions
@@ -84,32 +81,27 @@ public class Player extends GameObject implements KeyListener {
         spriteHeight = 44;
 
         //Physical dimensions
-        objectWidth = 30;
-        objectHeight = 40;
+        objectWidth = 32;
+        objectHeight = 44;
 
-        //DAVE TEST for POSSESSED
-        //objectWidth = 32;
-        //objectHeight = 44;
-
-        //Specify movement parameters //TODO: Paraméterek tesztelése
-        moveSpeed = (float) 2;        //0.3               //mozgás
-        maxSpeed = (float) 7;         //1.6               //max mozgási sebessség
-        stopSpeed = (float) 0.7;        //0.4               //mennyire csúszik a karakter
+        //Specify movement parameters
+        moveSpeed = (float) 2;          //0.3                 //mozgás
+        maxSpeed = (float) 7;           //1.6                 //max mozgási sebessség
+        stopSpeed = (float) 0.7;        //0.4                 //mennyire csúszik a karakter
 
         fallSpeed = (float) 1.5;        //0.15                //esés
-        maxFallSpeed = (float) 15.0;     //4.0               //max esési sebesség
+        maxFallSpeed = (float) 15.0;    //4.0                 //max esési sebesség
 
-        jumpStart = (float) -20;       //-4.8               //jump boost
+        jumpStart = (float) -20;        //-4.8                //jump boost
         doubleJumpStart=(float) -20;
-        stopJumpSpeed = (float) 0.3;    //0.3               //lassulás a tetején
+        stopJumpSpeed = (float) 0.3;    //0.3                 //lassulás a tetején
         facingRight = true;
-        //gravity=(float)1.8;  //TODO: tutorialban más volt, még nem látom át hogy lesz ez számolva
 
         //Specify player parameters
         setPlayerMaxHealth(100);
         setPlayerHealth(90);
         setPlayerScore(0);
-        respawn();
+        respawn(playerSpawnX, playerSpawnY);
 
     }
 
@@ -216,12 +208,17 @@ public class Player extends GameObject implements KeyListener {
      * Implementation of Player's movements and actions
      * */
     public void setShooting(){
-       if(playerAmmoQty>0)  shooting=true;
+
+       if(playerAmmoQty > 0 && (playerAmmoQty - playerWeapon.getWeaponFireRate() >= 0)) {
+
+           shooting = true;
+
+       }
     }
+
     public void setLeft(boolean b){ left=b; }
 
     public void setRight(boolean b){ right=b; }
-   // public void setJumping(boolean b){ jumping=b; }
 
     public void setJumping(boolean b) {
         if(blinkRed) return;
@@ -231,13 +228,12 @@ public class Player extends GameObject implements KeyListener {
         jumping = b;
     }
 
-    //TODO: damage számolása
     public void hit(int damage) {
         if(blinkRed || dead) return;
-        //JukeBox.play("playerhit");            //TODO max erre lesz idő, meg valami háttérzenének, ez 2 hangfájl
+        JukeBox.play("hit");
         stop();
         playerHealth -= damage;
-        if(playerHealth < 0) {
+        if(playerHealth <= 0) {
             playerScore-=100;
             System.out.println("Enemy is dead");
             playerHealth = 0;
@@ -252,34 +248,33 @@ public class Player extends GameObject implements KeyListener {
 
         deltaY = -3;
 
-        //knockback = true;
-        //falling = true;
         System.out.println("Hit");
         jumping = false;
     }
+
     public boolean isDead(){
         return dead;
     }
+
     public int getDamage(){
         return playerWeapon.getWeaponDmg();
     }
+
     public void setDamage(int damage){
         playerWeapon.setWeaponDmg(damage);
     }
 
-    //check attack TODO: TESZTELÉS
+    //check attack
     public void checkAttack(Player player){
-        for(int i=0; i<bullets.size();i++) {
-            if (bullets.get(i).objectIntersection(player)) {
-                if(!player.blinkRed ) playerScore+=getDamage();
+        for (Projectile bullet : bullets) {                        //(int i=0; i<bullets.size();i++)
+            if (bullet.objectIntersection(player)) {
+                if (!player.blinkRed) playerScore += getDamage();
                 player.hit(getDamage());
-                bullets.get(i).setHit();
-                //messageQueue.add("DAMAGE:".concat(Float.toString(getDamage())));
+                bullet.setHit();
                 break;
             }
         }
     }
-
 
     public void reset() {
         playerHealth = maxHealth;
@@ -292,12 +287,14 @@ public class Player extends GameObject implements KeyListener {
         left = right = blinkRed = jumping = dead= removed= false;
     }
 
-    public void respawn(){
+    public void respawn(int spawnX, int spawnY){
         reset();
+        setPosition(spawnX,spawnY);
+        //RANDOM GENERÁTOR, SAJNOS A TCP miatt nem használjuk
+        /*
         //define spawn bounds
-       // Random random = new Random();
-       // randomPosition=random.nextInt(4);
-        randomPosition=0;
+        Random random = new Random();
+        randomPosition=random.nextInt(4);
         switch(randomPosition){
             case 0:
                 setPosition(400, 300);
@@ -311,22 +308,22 @@ public class Player extends GameObject implements KeyListener {
             case 3:
                 setPosition(1750, 200);
                 break;
-        }
+        }*/
     }
-    //TODO: a meghalt játékos újraéled a pályán random helyen?
-    public void removePlayer() {
+
+    public void removePlayer(int spawnX, int spawnY) {
 
         System.out.println("Player removed");
 
         if(currentAction == DEAD && animation.hasPlayedOnce()) {
-            respawn();
-            //removed = true;
+            respawn(spawnX,spawnY);
         }
+
     }
+
     //ZB: Calculate the Player's next position
     private void getNextPosition(){
 
-        //TODO: Ha esünk egy ugrásból és balra indulunk, akkor lezuhanunk. Ha nyomva tartjuk a fel nyilat akkor lassabban esünk
         //ZB: If we are moving
         if(left){                                   //Moving left
             deltaX-=moveSpeed;
@@ -369,7 +366,7 @@ public class Player extends GameObject implements KeyListener {
             deltaY = doubleJumpStart;
             alreadyDoubleJump = true;
             doubleJump = false;
-            //JukeBox.play("playerjump");
+            JukeBox.play("jump");
         }
         if(!falling) alreadyDoubleJump = false;
 
@@ -384,7 +381,7 @@ public class Player extends GameObject implements KeyListener {
     }
 
     //ZB: Update Player's position and actions
-    public void update() {
+    public void update(int spawnX, int spawnY) {
 
         /*
          * Update player's position
@@ -395,11 +392,13 @@ public class Player extends GameObject implements KeyListener {
 
         //projectiles
         if (shooting && currentAction != SHOOTING) {
-            if (playerAmmoQty > 0) {
-                playerAmmoQty--;
+            //Ha 5 lőszeres a fegyver és 4 van akkor nem engedjük a lövést
+            if (playerAmmoQty > 0 && (playerAmmoQty - playerWeapon.getWeaponFireRate() >= 0) ) {
+                playerAmmoQty = playerAmmoQty - playerWeapon.getWeaponFireRate();
                 Projectile p = new Projectile(tileMap, facingRight);
                 p.setPosition(x, y);
                 bullets.add(p);
+                JukeBox.play("shoot1");
             }
         }
 
@@ -412,13 +411,12 @@ public class Player extends GameObject implements KeyListener {
             }
         }
 
-        //TODO: teszt  szükséges
         if (y > tileMap.getMapHeight() + objectHeight * 5) {
             playerScore -= 50;
-            respawn();
+            respawn(spawnX, spawnY);
         }
         if (dead) {
-            removePlayer();
+            removePlayer(spawnX, spawnY);
         }
 
         if (shooting) {
@@ -447,13 +445,16 @@ public class Player extends GameObject implements KeyListener {
         int key = e.getKeyCode();
 
         //ZB: Moving players or doing actions if key is pressed
-        switch(key){    //TODO: Tesztelni kell hogy client és host most külön mozog vagy egyszerre vagy most mi van?
+        switch(key){
             case(KeyEvent.VK_LEFT): this.setLeft(true);messageQueue.add("LEFT"); break;
             case(KeyEvent.VK_RIGHT): this.setRight(true);messageQueue.add("RIGHT"); break;
             case(KeyEvent.VK_UP): this.setJumping(true);messageQueue.add("JUMP"); this.keyUpPressed = true; break;
             case(KeyEvent.VK_SPACE):this.setShooting(); messageQueue.add("SHOOT");break;
-            case(KeyEvent.VK_O): JukeBox.play("omaewa"); break;
-            case(KeyEvent.VK_P): JukeBox.play("nani"); break;
+            case(KeyEvent.VK_O): JukeBox.play("omaewa"); messageQueue.add("OMA"); break;
+            case(KeyEvent.VK_P): JukeBox.play("nani"); messageQueue.add("NANI"); break;
+            case (KeyEvent.VK_1): this.playerWeapon.setModel(Weapon.WeaponModel.DEFAULT, playerWeapon.FIRERATE[0], playerWeapon.DAMAGES[0]); messageQueue.add("1");break;
+            case (KeyEvent.VK_2): this.playerWeapon.setModel(Weapon.WeaponModel.UNDERTAKER, playerWeapon.FIRERATE[1], playerWeapon.DAMAGES[1]); messageQueue.add("2");break;
+            case (KeyEvent.VK_3): this.playerWeapon.setModel(Weapon.WeaponModel.MAGNUM,playerWeapon.FIRERATE[2], playerWeapon.DAMAGES[2]); messageQueue.add("3");break;
         }
 
     }

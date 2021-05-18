@@ -50,14 +50,10 @@ public abstract class GameObject {
     protected float fallSpeed;
     protected float maxFallSpeed;
 
-    // animation
+    //animation
     protected Animation animation;
     protected int currentAction;
-    protected int previousAction;
     protected boolean facingRight;
-
-    //random
-    protected int randomPosition;
 
     //Implementation of constructors
     public GameObject(TileMap tileMap){
@@ -74,6 +70,7 @@ public abstract class GameObject {
         facingRight = true;
         setPosition(x,y);
     }
+
     /*
      * Implementation of game engine
      * */
@@ -90,10 +87,6 @@ public abstract class GameObject {
         Rectangle r1 = getRectangle();
         Rectangle r2 = object.getRectangle();
         return r1.intersects(r2);
-    }
-
-    public boolean intersects(Rectangle r) {
-        return getRectangle().intersects(r);
     }
 
     /*
@@ -164,19 +157,19 @@ public abstract class GameObject {
         //ZB: If we move horizontally
         calculateCorners(nextX,y);
         if(deltaX<0){                                                   //If we're going left
-            if(topLeftCorner||bottomLeftCorner || x<0+objectWidth){     //+we can't go offscreen
+            if(topLeftCorner||bottomLeftCorner || x < objectWidth){     //+we can't go offscreen
                 deltaX=0;                                               //stop going left
-                tempX=currentColumn*tileSize+(float)objectWidth/2;      //set object just right the tile we hit
+                tempX=currentColumn*tileSize + (float)objectWidth/2;    //set object just right the tile we hit
             }
             else{                                                       //we are good to go left
                 tempX+=deltaX;
             }
         }
 
-        if(deltaX>0){                                                   //If we're going right
-            if(topRightCorner||bottomRightCorner || x>tileMap.getMapWidth()-objectWidth){ //+we can't go offscreen
-                deltaX=0;                                               //stop going right
-                tempX=(currentColumn+1)*tileSize-(float)objectWidth/2;  //set object just left the tile we hit
+        if(deltaX>0){                                                                      //If we're going right
+            if(topRightCorner||bottomRightCorner || x>tileMap.getMapWidth()-objectWidth){   //+we can't go offscreen
+                deltaX=0;                                                                   //stop going right
+                tempX=(currentColumn+1)*tileSize-(float)objectWidth/2;                      //set object just left the tile we hit
             }
             else{                                                       //we are good to go right
                 tempX+=deltaX;
@@ -202,6 +195,7 @@ public abstract class GameObject {
     public void setPositionX(float x){
         this.x=x;
     }
+
     public void setPositionY(float y){
         this.y=y;
     }
@@ -225,9 +219,7 @@ public abstract class GameObject {
 
     //Player input kezelés miatt
     public abstract void keyTyped(KeyEvent e);
-
     public abstract void keyPressed(KeyEvent e);
-
     public abstract void keyReleased(KeyEvent e);
 
 }

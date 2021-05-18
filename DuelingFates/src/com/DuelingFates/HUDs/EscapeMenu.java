@@ -6,13 +6,6 @@ import java.awt.*;
 
 public class EscapeMenu{
 
-    @SuppressWarnings("FieldCanBeLocal")
-    private final String escapeMenu = "Do you want to quit?";
-    @SuppressWarnings("FieldCanBeLocal")
-    private final String optionYes  = "Yes! (ENTER)";
-    @SuppressWarnings("FieldCanBeLocal")
-    private final String optionNo   = "No! (ESCAPE)";
-
     public EscapeMenu(){
 
     }
@@ -53,10 +46,15 @@ public class EscapeMenu{
         graphics.setFont(MainProcess.balooThambiFont);
         graphics.setColor(Color.WHITE);
 
-        drawStringToCenter(graphics,escapeMenu,MainProcess.getGameHeight()/2-(int)(MainProcess.getGameHeight()*0.09));
+        String escapeMenu = "Do you want to quit?";
+        drawStringToCenter(graphics, escapeMenu,MainProcess.getGameHeight()/2-(int)(MainProcess.getGameHeight()*0.09));
         graphics.setColor(new Color(220,20,60));
+
+        String optionNo = "No! (ESCAPE)";
         graphics.drawString(optionNo, (int)(MainProcess.getGameWidth()*0.32),MainProcess.getGameHeight()/2+(int)(MainProcess.getGameHeight()*0.09));
         graphics.setColor(new Color(34,139,34));
+
+        String optionYes = "Yes! (ENTER)";
         graphics.drawString(optionYes,(int)(MainProcess.getGameWidth()*0.52),MainProcess.getGameHeight()/2+(int)(MainProcess.getGameHeight()*0.09));
 
 

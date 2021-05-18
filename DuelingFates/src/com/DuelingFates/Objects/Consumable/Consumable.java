@@ -10,8 +10,6 @@ public abstract class Consumable extends GameObject {
 
     public Consumable(TileMap tileMap) {
         super(tileMap);
-        //fallSpeed = (float) 1.5;        //0.15                //esés
-        //maxFallSpeed = (float) 10.0;
 
         //define spawn bounds
         Random random = new Random();
@@ -30,13 +28,11 @@ public abstract class Consumable extends GameObject {
 
 
     public abstract Consumable spawnConsumable(TileMap tileMap);
-
     public abstract void useConsumable(Player player);
     public abstract int getObjectHeight();
-
     public abstract int getObjectWidth();
 
-    public void getNextPosition(){
+    /*public void getNextPosition(){
         //ZB: If we are falling
         if(falling)
 
@@ -45,13 +41,13 @@ public abstract class Consumable extends GameObject {
                 if (deltaY > maxFallSpeed) deltaY = maxFallSpeed;
             }
 
-    }
+    }*/
 
     public void update(){
         /*
          * Update consumable's position
          * */
-        getNextPosition();
+        //getNextPosition();
         checkTileMapCollision();
         setPosition(tempX,tempY);
     }

@@ -106,6 +106,7 @@ public class ScoreState extends GameState implements MouseListener, ActionListen
         JLabel winnerName;
         if (GamePlayState.getHostPlayerScore() > GamePlayState.getClientPlayerScore()) {
 
+            //String to INT convert
             player1Score = GamePlayState.getHostPlayerName() + ": " + GamePlayState.getHostPlayerScore();
             player1Label.setText(player1Score);
 
@@ -116,6 +117,7 @@ public class ScoreState extends GameState implements MouseListener, ActionListen
 
 
         }
+
         //Ha a client az első
         else{
 

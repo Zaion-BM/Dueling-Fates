@@ -8,15 +8,11 @@ import com.DuelingFates.Networking.Client.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-
-import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.awt.image.MemoryImageSource;
 import java.io.File;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.LinkedList;
-import java.util.Queue;
 
 import static com.DuelingFates.Objects.Player.*;
 
@@ -50,11 +46,11 @@ public class MainProcess extends JPanel implements Runnable{
 
     //változók melyek a menüben kapnak értéket, de csak a gameplaynél van szükségünnk rá
     public static String playerNameTemp;                                            //játékos neve kezdetben
-    public static String characterTemp;                                             //kiválasztott karakter kezdetben
+    public static String characterTemp;                                             //kiválasztott karakter
+    public static String enemyCharacterTemp;                                        //az ellenség karaktere
     public static String mapTemp;                                                   //map kedzetben
     public static int matchDurationTemp;                                            //meccs hossza kezdetben
 
-    //TODO nem működik, mert nincs idő hogy lefusson a gameplaybe váltás előtt
     public static boolean startServer = false;                                      //Host stateben kap értéket
     public static boolean joinServer = false;                                       //Join stateben kap értéket
 
@@ -111,11 +107,11 @@ public class MainProcess extends JPanel implements Runnable{
 
     private void setMenuDefaults(){
 
-        playerNameTemp ="Hoster";                                                       //Default név beállítása
-        //characterTemp = "PirateDeckhand";                                                     //Default karakter beállítása
-        characterTemp = "PossessedArmor";
+        playerNameTemp ="HostName";                                                           //Default név beállítása
+        characterTemp = "PirateDeckhand";
+        enemyCharacterTemp = "PossessedArmor";
         mapTemp = "SnowyMountain";                                                            //Default map
-        matchDurationTemp = 2;                                                                //Default time
+        matchDurationTemp = 1;                                                                //Default time
 
     }
 
@@ -246,6 +242,18 @@ public class MainProcess extends JPanel implements Runnable{
 
     }
 
+    public static String getEnemyCharacterTemp(){
+
+        return enemyCharacterTemp;
+
+    }
+
+    public static void setEnemyCharacterTemp(String newCharacterTemp){
+
+        enemyCharacterTemp = newCharacterTemp;
+
+    }
+
     public static String getMapTemp(){
 
         return mapTemp;
@@ -286,13 +294,6 @@ public class MainProcess extends JPanel implements Runnable{
 
         startServer = true;
         joinServer = false;
-
-    }
-
-    public static void setJoinServer(){
-
-        joinServer = true;
-        startServer = false;
 
     }
 

@@ -14,7 +14,7 @@ public class Server implements Runnable {
 
     private Queue<String> messageQueue;
     private ServerSocket serverSocket = null;
-    private int port;
+    private final int port;
 
 
     public Server(Queue<String> messageQueue, int port) {
@@ -28,9 +28,12 @@ public class Server implements Runnable {
         try {
             serverSocket = new ServerSocket(port);
             Socket socket = serverSocket.accept();
+
             //itt várunk acceptig
             messageQueue.add("MAP:".concat(MainProcess.getMapTemp()));
             messageQueue.add("TIME:".concat(String.valueOf(MainProcess.getMatchDurationTemp())));
+            messageQueue.add("CHAR:".concat(MainProcess.getEnemyCharacterTemp()));
+
             stateManager.setState(StateManager.States.GAMEPLAYSTATE);
             while (true) {
                 try {

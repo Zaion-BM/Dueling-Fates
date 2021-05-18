@@ -15,11 +15,6 @@ public class TileMap {
     private int mapWidth;
     private int mapHeight;
 
-    @SuppressWarnings("FieldCanBeLocal")
-    private final int mapStartX = 0;                    //innen kezddődik a map kirajzolása
-    @SuppressWarnings("FieldCanBeLocal")
-    private final int mapStartY = 0;
-
     //Tile paraméterek
     private final int tileSize;
     private final Tile[] tiles;
@@ -120,6 +115,10 @@ public class TileMap {
                 //minden más esetben a tiles[] tömb adott pozíciójában található elemét rajzoljuk (pl. 5),
                 //mely megegyezik a mapLayout[][] "mátrix" adott elemének értékével.
 
+                //innen kezdődik a map kirajzolása
+                int mapStartX = 0;
+                int mapStartY = 0;
+
                 graphics.drawImage(tiles[mapLayout[row][col]].getTileImage(),
                         mapStartX + col*tileSize,
                         mapStartY + row*tileSize,
@@ -128,6 +127,8 @@ public class TileMap {
                 /*Ha kisebb felbontáson szeretnénk játszani akkor az alábbi kirajzolás skálázza az imaget
                 Ehhez egyedül a tile méretét kell tudni, a beolvasott tile mindig 64 pixeles
                 A kirajzoláskor vett pixelszélességgel kell a játékban is számolni, ami 53 1600*900-as febontáson
+                De a Collision nem megy utána!
+
                 graphics.drawImage(tiles[mapLayout[row][col]].getTileImage().getScaledInstance(
                                 (int)(tiles[mapLayout[row][col]].getTileImage().getWidth()*((float)tileSize/64f)),
                                 (int)(tiles[mapLayout[row][col]].getTileImage().getWidth()*((float)tileSize/64f)),

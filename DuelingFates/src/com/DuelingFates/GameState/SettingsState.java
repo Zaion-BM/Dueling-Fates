@@ -2,8 +2,6 @@ package com.DuelingFates.GameState;
 
 import com.DuelingFates.Main.MainProcess;
 import com.DuelingFates.Music.JukeBox;
-import com.DuelingFates.Objects.Player;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;

@@ -12,9 +12,11 @@ public class Projectile extends GameObject{
 
     private boolean hit;
     private boolean remove;
-    private BufferedImage[] sprites;
-    private int shootRange;
+    public BufferedImage[] spritesDefault;
+    public BufferedImage[] spritesIchor;
+    private final int shootRange;
     private int shoot;
+    public Animation animation;
 
     public enum Types {DEFAULT, ICHOR}
     public Types projectileType;
@@ -23,19 +25,11 @@ public class Projectile extends GameObject{
     public Projectile(TileMap tileMap, boolean right){
         super(tileMap);
 
-       /* switch(projectileType) {
-            case ICHOR:
-                setProjectileSpeed(13);
-                break;
-            case DEFAULT:
-                setProjectileSpeed(10);
-        }*/
-
         facingRight=right;
         setProjectileSpeed(20);
-        shootRange=40;                  //TODO: teszt , lövedk eltűnik egy megadott távolság után
-                                        // shootRange*projectileSpeed (40*20 = 800 pixel távolság) kb félpálya
-        shoot=0;                        // update -ben shoot++ és ha shootRange -szer lefut az update, akkor remove bullet
+        shootRange=40;                          // lövedék eltűnik egy megadott távolság után
+                                                // shootRange*projectileSpeed (40*20 = 800 pixel távolság) kb félpálya
+        shoot=0;                                // update -ben shoot++ és ha shootRange -szer lefut az update, akkor remove bullet
         if(right) deltaX=projectileSpeed;
         else deltaX=-projectileSpeed;
         spriteHeight=2;
@@ -43,15 +37,19 @@ public class Projectile extends GameObject{
         objectHeight=2;
         objectWidth=20;
 
-        //load sprites                  //TODO szerintem az ICHOR lőszer lehet a MAGNUM-nál mert az lesz a best weapon
+        //load sprites
         try{
-            BufferedImage spritesheet = ImageIO.read(new File("DuelingFates/Sources/proj_Default_Bullet.png"));
-            //BufferedImage spritesheet = ImageIO.read(new File("DuelingFates/Sources/proj_Ichor_Bullet.png"));
+            BufferedImage spriteSheetDefault = ImageIO.read(new File("DuelingFates/Sources/proj_Default_Bullet.png"));
+            BufferedImage spriteSheetIchor = ImageIO.read(new File("DuelingFates/Sources/proj_Ichor_Bullet.png"));
 
-            sprites= new BufferedImage[1];
-            sprites[0]=spritesheet.getSubimage(0*spriteWidth,0,spriteWidth,spriteHeight);
-            animation= new Animation();
-            animation.setFrames(sprites);
+            spritesDefault= new BufferedImage[1];
+            spritesDefault[0]=spriteSheetDefault.getSubimage(0,0,spriteWidth,spriteHeight);
+
+            spritesIchor= new BufferedImage[1];
+            spritesIchor[0]=spriteSheetIchor.getSubimage(0,0,spriteWidth,spriteHeight);
+
+            animation = new Animation();
+            animation.setFrames(spritesDefault);
             animation.setDelay(10);
 
         }catch (Exception e){

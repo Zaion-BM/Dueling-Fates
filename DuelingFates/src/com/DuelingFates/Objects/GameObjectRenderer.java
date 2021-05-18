@@ -18,21 +18,15 @@ public class GameObjectRenderer {
     private BufferedImage ammoSprite;
 
     //Projectile sprites
-    private BufferedImage defaultProjSprite;
-    private BufferedImage IchorProjSprite;
-    private BufferedImage meteorProjSprite;
+    //private BufferedImage defaultProjSprite;
+    //private BufferedImage IchorProjSprite;
 
-    //Weapon sprites
-    private BufferedImage defaultWepSprite;
     private BufferedImage defaultSteady;
     private BufferedImage defaultFiring;
 
-
-    private BufferedImage undertakerWepSprite;
     private BufferedImage undertakerSteady;
     private BufferedImage undertakerFiring;
 
-    private BufferedImage magnumWepSprite;
     private BufferedImage magnumSteady;
     private BufferedImage magnumFiring;
 
@@ -45,19 +39,19 @@ public class GameObjectRenderer {
             ammoSprite = ImageIO.read(new File("DuelingFates/Sources/item_Ammo_Pickup.png"));
 
             //projectiles
-            defaultProjSprite = ImageIO.read(new File("DuelingFates/Sources/proj_Default_Bullet.png"));
-            IchorProjSprite = ImageIO.read(new File("DuelingFates/Sources/proj_Ichor_Bullet.png"));
+            //defaultProjSprite = ImageIO.read(new File("DuelingFates/Sources/proj_Default_Bullet.png"));
+            //IchorProjSprite = ImageIO.read(new File("DuelingFates/Sources/proj_Ichor_Bullet.png"));
 
-            //weapons
-            defaultWepSprite = ImageIO.read(new File("DuelingFates/Sources/wep_DefaultWeapon.png"));
+            //Weapon sprites
+            BufferedImage defaultWepSprite = ImageIO.read(new File("DuelingFates/Sources/wep_DefaultWeapon.png"));
             defaultSteady = defaultWepSprite.getSubimage(0,0,31,13);
             defaultFiring = defaultWepSprite.getSubimage(31,0,31,13);
 
-            undertakerWepSprite = ImageIO.read(new File("DuelingFates/Sources/wep_TheUndertaker.png"));
+            BufferedImage undertakerWepSprite = ImageIO.read(new File("DuelingFates/Sources/wep_TheUndertaker.png"));
             undertakerSteady = undertakerWepSprite.getSubimage(0,0,31,13);
             undertakerFiring = undertakerWepSprite.getSubimage(31,0,31,13);
 
-            magnumWepSprite = ImageIO.read(new File("DuelingFates/Sources/wep_VenusMagnum.png"));
+            BufferedImage magnumWepSprite = ImageIO.read(new File("DuelingFates/Sources/wep_VenusMagnum.png"));
             magnumSteady = magnumWepSprite.getSubimage(0,0,31,13);
             magnumFiring = magnumWepSprite.getSubimage(31,0,31,13);
 
@@ -73,88 +67,37 @@ public class GameObjectRenderer {
 
     public void drawPlayer(Graphics2D graphics, Player player){
 
-        /*if(player.getPlayerCharacter().equals(Player.PIRATE)) {
+        drawProjectile(graphics,player.getProjectile(), player);
 
-            if (player.facingRight) {
+        if (!player.facingRight) {
                 graphics.drawImage(player.animation.getImage(),
                         (int) (player.x - player.spriteWidth / 2),
                         (int) (player.y - player.spriteHeight / 2),
                         null);
 
-            }
-
-            //Mirroring animation
-            else {
-                graphics.drawImage(player.animation.getImage(),
-                        (int) (player.x - player.spriteWidth / 2 + player.spriteWidth),
-                        (int) (player.y - player.spriteHeight / 2),
-                        -player.spriteWidth,
-                        player.spriteHeight,
-                        null);
-            }
-
-        }*/
-
-        drawProjectile(graphics,player.getProjectile());
-
-        if(player.getPlayerCharacter().equals(Player.PIRATE)) {
-
-            if (!player.facingRight) {
-                graphics.drawImage(player.animation.getImage(),
-                        (int) (player.x - player.spriteWidth / 2),
-                        (int) (player.y - player.spriteHeight / 2),
-                        null);
                 if(Player.IDLE == player.currentAction) {
-                    graphics.drawImage(defaultSteady, (int) (player.x) - 36, (int) (player.y) - 3, null);
-                }
-                if(Player.SHOOTING == player.currentAction) {
-                    graphics.drawImage(defaultFiring, (int) (player.x) - 34, (int) (player.y) - 3, null);
-                }
-            }
 
-            //Mirroring animation
-            else {
-                graphics.drawImage(player.animation.getImage(),
-                        (int) (player.x - player.spriteWidth / 2 + player.spriteWidth),
-                        (int) (player.y - player.spriteHeight / 2),
-                        -player.spriteWidth,
-                        player.spriteHeight,
-                        null);
+                    switch (player.getPlayerWeapon().modelType) {
 
-                if(Player.IDLE == player.currentAction) {
-                    graphics.drawImage(defaultSteady,
-                            (int) (player.x) + 36,
-                            (int) (player.y) - 3,
-                            -defaultSteady.getWidth(),
-                            defaultSteady.getHeight(),
-                            null);
+                        case DEFAULT: drawSteadyWeapon(graphics, defaultSteady, player); break;
+                        case MAGNUM: drawSteadyWeapon(graphics,magnumSteady, player); break;
+                        case UNDERTAKER: drawSteadyWeapon(graphics,undertakerSteady, player); break;
+
+                    }
                 }
 
                 if(Player.SHOOTING == player.currentAction) {
-                    graphics.drawImage(defaultFiring,
-                            (int) (player.x) + 34,
-                            (int) (player.y) - 3,
-                            -defaultFiring.getWidth(),
-                            defaultFiring.getHeight(),
-                            null);
-                }
-            }
 
-        }
+                    switch (player.getPlayerWeapon().modelType) {
 
-        if(player.getPlayerCharacter().equals(Player.POSSESSED)) {
+                        case DEFAULT: drawFiringWeapon(graphics, defaultFiring, player); break;
+                        case MAGNUM: drawFiringWeapon(graphics,magnumFiring, player); break;
+                        case UNDERTAKER: drawFiringWeapon(graphics,undertakerFiring, player); break;
 
-            if (!player.facingRight) {
-                graphics.drawImage(player.animation.getImage(),
-                        (int) (player.x - player.spriteWidth / 2),
-                        (int) (player.y - player.spriteHeight / 2),
-                        null);
-                if(Player.IDLE == player.currentAction) {
-                    graphics.drawImage(magnumSteady, (int) (player.x) - 36, (int) (player.y) - 3, null);
+                    }
+
                 }
-                if(Player.SHOOTING == player.currentAction) {
-                    graphics.drawImage(magnumFiring, (int) (player.x) - 35, (int) (player.y) - 3, null);
-                }
+
             }
 
             //Mirroring animation
@@ -167,26 +110,29 @@ public class GameObjectRenderer {
                         null);
 
                 if(Player.IDLE == player.currentAction) {
-                    graphics.drawImage(magnumSteady,
-                            (int) (player.x) + 36,
-                            (int) (player.y) - 3,
-                            -magnumSteady.getWidth(),
-                            magnumSteady.getHeight(),
-                            null);
+
+                    switch (player.getPlayerWeapon().modelType) {
+
+                        case DEFAULT: drawMirroredSteadyWeapon(graphics, defaultSteady, player); break;
+                        case MAGNUM: drawMirroredSteadyWeapon(graphics,magnumSteady, player); break;
+                        case UNDERTAKER: drawMirroredSteadyWeapon(graphics,undertakerSteady, player); break;
+
+                    }
                 }
 
                 if(Player.SHOOTING == player.currentAction) {
-                    graphics.drawImage(magnumFiring,
-                            (int) (player.x) + 35,
-                            (int) (player.y) - 3,
-                            -magnumFiring.getWidth(),
-                            magnumFiring.getHeight(),
-                            null);
+
+                    switch (player.getPlayerWeapon().modelType) {
+
+                        case DEFAULT: drawMirroredFiringWeapon(graphics, defaultFiring, player); break;
+                        case MAGNUM: drawMirroredFiringWeapon(graphics,magnumFiring, player); break;
+                        case UNDERTAKER: drawMirroredFiringWeapon(graphics,undertakerFiring, player); break;
+
+                    }
+
                 }
 
             }
-
-        }
 
 
         //If we get shot, we are blinking red
@@ -212,47 +158,70 @@ public class GameObjectRenderer {
 
     }
 
-    public void drawProjectile(Graphics2D graphics, ArrayList<Projectile> projectile){
+    public void drawProjectile(Graphics2D graphics, ArrayList<Projectile> projectile, Player player){
 
-        //ha nem null a projectile, akkor kirajzolja képernyőre
-        for(int i=0; i<projectile.size();i++) {
-            if (projectile.get(i).projectileType == Projectile.Types.DEFAULT){
+        for (Projectile value : projectile) {
 
-            }
+            //Ha magnumot használunk akkor más legyen a sprite
+            //TODO bugol, beraad a lőszer a palyerbe
+            /*if(player.getPlayerWeapon().modelType == Weapon.WeaponModel.MAGNUM) {
+                value.animation.setFrames(value.spritesIchor);
+            }*/
 
-            if (projectile.get(i).projectileType == Projectile.Types.ICHOR) {
-
-            }
-
-            if (projectile.get(i).facingRight) {
-                graphics.drawImage(projectile.get(i).animation.getImage(),
-                        (int) (projectile.get(i).x - projectile.get(i).spriteWidth / 2),
-                        (int) (projectile.get(i).y - projectile.get(i).spriteHeight / 2),
+            //egyébként marad a default
+            if (value.facingRight) {
+                graphics.drawImage(value.animation.getImage(),
+                        (int) (value.x - value.spriteWidth / 2),
+                        (int) (value.y - value.spriteHeight / 2),
                         null);
             }
 
             //Mirroring animation
             else {
-                graphics.drawImage(projectile.get(i).animation.getImage(),
-                        (int) (projectile.get(i).x - projectile.get(i).spriteWidth / 2 + projectile.get(i).spriteWidth),
-                        (int) (projectile.get(i).y - projectile.get(i).spriteHeight / 2),
-                        -projectile.get(i).spriteWidth,
-                        projectile.get(i).spriteHeight,
+                graphics.drawImage(value.animation.getImage(),
+                        (int) (value.x - value.spriteWidth / 2 + value.spriteWidth),
+                        (int) (value.y - value.spriteHeight / 2),
+                        -value.spriteWidth,
+                        value.spriteHeight,
                         null);
             }
 
-            //draw projectile
-            projectile.get(i).draw(graphics);
         }
 
     }
 
-    public void drawWeapon(Graphics2D graphics, Weapon weapon){
-        //kirajzolunk, a fegyver pozíciója a játékoshoz lesz kötve, de azt nem itt adjuk meg
+    public void drawSteadyWeapon(Graphics2D graphics, BufferedImage weapon, Player player){
 
-
+        graphics.drawImage(weapon, (int) (player.x) - 36, (int) (player.y) - 3, null);
 
     }
 
+    public void drawFiringWeapon(Graphics2D graphics, BufferedImage weapon, Player player){
+
+        graphics.drawImage(weapon, (int) (player.x) - 35, (int) (player.y) - 3, null);
+
+    }
+
+    private void drawMirroredSteadyWeapon(Graphics2D graphics, BufferedImage weapon, Player player){
+
+        graphics.drawImage(weapon,
+                (int) (player.x) + 36,
+                (int) (player.y) - 3,
+                -weapon.getWidth(),
+                weapon.getHeight(),
+                null);
+
+    }
+
+    private void drawMirroredFiringWeapon(Graphics2D graphics, BufferedImage weapon, Player player){
+
+        graphics.drawImage(weapon,
+                (int) (player.x) + 35,
+                (int) (player.y) - 3,
+                -weapon.getWidth(),
+                weapon.getHeight(),
+                null);
+
+    }
 
 }

@@ -1,6 +1,8 @@
 package com.DuelingFates.Networking.Client;
 import com.DuelingFates.GameState.StateManager;
 import com.DuelingFates.Main.MainProcess;
+import com.DuelingFates.Music.JukeBox;
+import com.DuelingFates.Objects.Weapon;
 
 import java.io.*;
 import java.net.ConnectException;
@@ -39,18 +41,24 @@ public class Client implements Runnable {
             }
         }
 
-            while (true) {                      //EZ NEM KELL CSAK A NULLEXCEPTION MIATT VAN
+            while (true) {                      //EZ NEM KELLENE de az outofbounds-ot így kapjuk el
                 synchronized (this) {
                     try {
                         while (true) {
                             InputStreamReader streamReader = new InputStreamReader(socket.getInputStream());
                             BufferedReader reader = new BufferedReader(streamReader);
-                            value = "DEFAULT,DEFAULT";
                             value = reader.readLine();
                             String[] command = value.split(":", 2);
-                            //System.out.println(value);
+
+                            if (stateManager.currentState == StateManager.States.HOSTSTATE){
+                                if ("CHAR".equals(command[0])) {
+                                    System.out.println(command[1]);
+                                    setEnemyCharacterTemp(command[1]);
+                                }
+                            }
+
                             if (stateManager.currentState == StateManager.States.JOINSTATE) {
-                                switch (command[0]) {                                           //command 0 a MAP, 1 amit küldünk
+                                switch (command[0]) {                                         //command 0 a MAP, 1 amit küldünk
                                     case ("MAP"):
                                         System.out.println(command[1]);
                                         MainProcess.setMapTemp(command[1]);
@@ -59,8 +67,13 @@ public class Client implements Runnable {
                                         System.out.println(command[1]);
                                         MainProcess.setMatchDurationTemp(Integer.parseInt(command[1]));
                                         break;
+                                    case ("CHAR"):
+                                        System.out.println(command[1]);
+                                        MainProcess.setEnemyCharacterTemp(command[1]);
+                                        break;
                                 }
                             }
+
                             if (stateManager.currentState == StateManager.States.GAMEPLAYSTATE) {
                                 switch (command[0]) {
                                     case ("LEFT"):
@@ -92,7 +105,32 @@ public class Client implements Runnable {
                                         System.out.println(value);
                                         enemyPlayer.setJumping(false);
                                         break;
-                                    //case("DAMAGE"):     System.out.println(value);  break;
+                                    case ("NANI"):
+                                        System.out.println(value);
+                                        JukeBox.play("nani");
+                                        break;
+                                    case ("OMA"):
+                                        System.out.println(value);
+                                        JukeBox.play("omaewa");
+                                        break;
+                                    case ("1"):
+                                        System.out.println(value);
+                                        enemyPlayer.playerWeapon.setModel(Weapon.WeaponModel.DEFAULT,
+                                                enemyPlayer.playerWeapon.FIRERATE[0],
+                                                enemyPlayer.playerWeapon.DAMAGES[0]);
+                                        break;
+                                    case ("2"):
+                                        System.out.println(value);
+                                        enemyPlayer.playerWeapon.setModel(Weapon.WeaponModel.UNDERTAKER,
+                                                enemyPlayer.playerWeapon.FIRERATE[1],
+                                                enemyPlayer.playerWeapon.DAMAGES[1]);
+                                        break;
+                                    case ("3"):
+                                        System.out.println(value);
+                                        enemyPlayer.playerWeapon.setModel(Weapon.WeaponModel.MAGNUM,
+                                                enemyPlayer.playerWeapon.FIRERATE[2],
+                                                enemyPlayer.playerWeapon.DAMAGES[2]);
+                                        break;
                                     case ("ENEMYSCORE"):
                                         System.out.println(value);
                                         enemyPlayer.setPlayerScore(Integer.parseInt(command[1]));

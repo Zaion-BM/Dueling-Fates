@@ -42,6 +42,7 @@ public class HUD {
 
         //egyéb adatok
         String timerValue;
+
         if (GamePlayState.getSeconds() <= 9){
 
             timerValue = GamePlayState.getMinutes() + ":0" + timer;
@@ -51,6 +52,10 @@ public class HUD {
             timerValue = GamePlayState.getMinutes() + ":" + timer;
         }
 
+        //Ha elértük a célt, (de mondjuk azonos az állás és nincs vége)
+        if (GamePlayState.getMinutes() >= MainProcess.getMatchDurationTemp()){
+            timerValue = MainProcess.getMatchDurationTemp() + ":00";
+        }
 
         graphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
 
@@ -66,6 +71,13 @@ public class HUD {
         graphics.drawString(enemyScoreUI,(int)(MainProcess.getGameWidth()*0.20),(int)(MainProcess.getGameHeight()*0.11));           //0.08 11
 
         graphics.setFont(MainProcess.balooThambiFont);
+
+        //Az utolsó percben vörösre vált
+        if (GamePlayState.getMinutes() + 1 >= MainProcess.getMatchDurationTemp())
+        {
+            graphics.setColor(MainMenuState.darkRed);
+
+        }
         graphics.drawString(timerValue,(int)(MainProcess.getGameWidth()*0.92),(int)(MainProcess.getGameHeight()*0.08));             //0.05 8
 
         graphics.setColor(MainMenuState.darkYellow);

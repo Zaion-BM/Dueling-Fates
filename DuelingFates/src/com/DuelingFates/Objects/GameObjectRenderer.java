@@ -67,7 +67,7 @@ public class GameObjectRenderer {
 
     public void drawPlayer(Graphics2D graphics, Player player){
 
-        drawProjectile(graphics,player.getProjectile(), player);
+        drawProjectile(graphics,player.getProjectile());
 
         if (!player.facingRight) {
                 graphics.drawImage(player.animation.getImage(),
@@ -134,12 +134,6 @@ public class GameObjectRenderer {
 
             }
 
-
-        //If we get shot, we are blinking red
-        if(player.blinkRed){
-            if(player.blinkCount % 10 < 5) return;
-        }
-
     }
 
     public void drawHealthPotion(Graphics2D graphics, Consumable consumable){
@@ -158,7 +152,7 @@ public class GameObjectRenderer {
 
     }
 
-    public void drawProjectile(Graphics2D graphics, ArrayList<Projectile> projectile, Player player){
+    public void drawProjectile(Graphics2D graphics, ArrayList<Projectile> projectile){
 
         for (Projectile value : projectile) {
 

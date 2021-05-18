@@ -208,15 +208,6 @@ public abstract class GameObject {
         return this.y;
     }
 
-    public void setVector(float deltaX, float deltaY){
-        this.deltaX=deltaX;
-        this.deltaY=deltaY;
-    }
-
-    public int getCurrentAction(){
-        return currentAction;
-    }
-
     //Player input kezelés miatt
     public abstract void keyTyped(KeyEvent e);
     public abstract void keyPressed(KeyEvent e);

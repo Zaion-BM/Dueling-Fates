@@ -292,12 +292,10 @@ public class GamePlayState extends GameState implements KeyListener {
     }
 
     public HealthPotion spawnHealthPotion(TileMap tileMap) {
-        HealthPotion h=new HealthPotion(tileMap);
-        return h;
+        return new HealthPotion(tileMap);
     }
     public Ammo spawnAmmo(TileMap tileMap) {
-        Ammo a=new Ammo(tileMap);
-        return a;
+        return new Ammo(tileMap);
     }
 
     /*

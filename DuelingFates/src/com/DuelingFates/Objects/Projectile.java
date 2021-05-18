@@ -79,10 +79,6 @@ public class Projectile extends GameObject{
         }
     }
 
-    public void draw(Graphics2D g){
-
-    }
-
     /*
     * Implementation of getters and setters
     * */

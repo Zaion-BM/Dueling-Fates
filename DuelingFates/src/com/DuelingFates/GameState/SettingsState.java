@@ -25,7 +25,7 @@ public class SettingsState extends GameState implements ActionListener, MouseLis
 
     //Rules
     private final JTextArea rulesTooltip = new JTextArea();
-    private final JLabel rulesinfo = new JLabel();
+    private final JLabel rulesInfo = new JLabel();
 
 
     //JRadioButton images beolvasása: default és selected állapot
@@ -77,20 +77,26 @@ public class SettingsState extends GameState implements ActionListener, MouseLis
         MainMenuState.setButtonStyle(buttonSave);
         MainMenuState.setButtonStyle(buttonBack);
 
-        rulesinfo.setText(("Do you know the rules?"));
-        rulesinfo.setFont(MainProcess.balooThambiFontVerySmall);
-        rulesinfo.setBounds(10,10,540,30);
-        rulesinfo.setForeground(Color.WHITE);
-        rulesinfo.addMouseListener(this);
+        rulesInfo.setText(("Do you know the rules?"));
+        rulesInfo.setFont(MainProcess.balooThambiFontVerySmall);
+        rulesInfo.setBounds(10,10,540,30);
+        rulesInfo.setForeground(Color.WHITE);
+        rulesInfo.addMouseListener(this);
 
-        rulesTooltip.setText("Do you know the rules?\nMove with the Arrow Keys and switch weapons with 1 2 3!\nShoot with Space and press O and P for taunts!");
+        rulesTooltip.setText("Do you know the rules?\nMove with the Arrow Keys and switch weapons with 1 2 3!" +
+                "\nShoot with Space and press O and P for taunts!\n" +
+                "If you die you don't lose points, but if you fall you lose 50!\n"+
+                "Ammo pickups give you 10 points and bullets, Health pickups give you 5 points and 30 HP!\n" +
+                "Each damage done to enemy gives you 1 point. Default Weapon costs 1 bullet, Undertaker: 2, Magnum: 5!\n" +
+                "Default Weapon does 10 damage, the Undertaker does 20 and the Magnum does 40!");
+
         rulesTooltip.setFont(MainProcess.balooThambiFontVerySmall);
         rulesTooltip.setEditable(false);
         rulesTooltip.setOpaque(false);
         rulesTooltip.setFocusable(false);
         rulesTooltip.setVisible(false);
         rulesTooltip.setForeground(Color.WHITE); //MainMenuState.darkYellow);
-        rulesTooltip.setBounds(10,10,540,300);
+        rulesTooltip.setBounds(10,10,1000,600);
 
         playerName.setToolTipText("Enter only 16 characters!");
         playerName.setBackground(Color.darkGray);
@@ -148,7 +154,7 @@ public class SettingsState extends GameState implements ActionListener, MouseLis
         layeredPane.add(buttonSave,JLayeredPane.POPUP_LAYER);
         layeredPane.add(buttonBack,JLayeredPane.POPUP_LAYER);
         layeredPane.add(rulesTooltip,JLayeredPane.POPUP_LAYER);
-        layeredPane.add(rulesinfo,JLayeredPane.POPUP_LAYER);
+        layeredPane.add(rulesInfo,JLayeredPane.POPUP_LAYER);
 
         duelingFates.setCursor(MainProcess.gameCursor);
         duelingFates.add(layeredPane);
@@ -218,9 +224,9 @@ public class SettingsState extends GameState implements ActionListener, MouseLis
     @Override
     public void mousePressed(MouseEvent e) {
 
-        if(e.getSource() == rulesinfo){
+        if(e.getSource() == rulesInfo){
 
-            rulesinfo.setVisible(false);
+            rulesInfo.setVisible(false);
             rulesTooltip.setVisible(true);
         }
 
@@ -243,9 +249,9 @@ public class SettingsState extends GameState implements ActionListener, MouseLis
     @Override
     public void mouseReleased(MouseEvent e) {
 
-        if(e.getSource() == rulesinfo){
+        if(e.getSource() == rulesInfo){
 
-            rulesinfo.setVisible(true);
+            rulesInfo.setVisible(true);
             rulesTooltip.setVisible(false);
         }
 

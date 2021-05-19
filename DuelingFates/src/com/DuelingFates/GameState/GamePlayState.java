@@ -192,7 +192,6 @@ public class GamePlayState extends GameState implements KeyListener {
 
     }
 
-
     @Override
     public void update() {
 

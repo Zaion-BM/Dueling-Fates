@@ -14,20 +14,10 @@ public class Ammo extends Consumable{
         super(tileMap);
 
         ammoQty = 10;
-        objectHeight = 37;
-        objectWidth = 28;
+        objectHeight = 42;      //37
+        objectWidth = 32;       //28
         ammoScore = 10;
 
-
-    }
-
-    public Ammo(TileMap tileMap,int x, int y) {
-        super(tileMap,x,y);
-
-        ammoQty = 10;
-        objectHeight = 37;
-        objectWidth = 28;
-        ammoScore = 10;
 
     }
 

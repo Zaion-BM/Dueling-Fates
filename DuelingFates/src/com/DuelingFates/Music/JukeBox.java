@@ -73,15 +73,15 @@ public class JukeBox {
 		}
 	}
 	
-	public static void stop(String s) {
+	public static void stop(String name) {
 
-		if(clips.get(s) == null) {
+		if(clips.get(name) == null) {
 			return;                   					 //Ha nincs ilyen klip
 		}
 
-		if(clips.get(s).isRunning()){
+		if(clips.get(name).isRunning()){
 
-			clips.get(s).stop();	  					 //ha éppen fut, leállítjuk
+			clips.get(name).stop();	  					 //ha éppen fut, leállítjuk
 
 		}
 	}

@@ -15,22 +15,12 @@ public class HealthPotion extends Consumable {
         super(tileMap);
 
         healthPoints = 30;
-        objectHeight = 36;
-        objectWidth = 27;
+        objectHeight = 42;      //36
+        objectWidth = 32;       //27
         healthScore = 5;
 
 
     }
-
-    public HealthPotion(TileMap tileMap, int x, int y) {
-        super(tileMap,x,y);
-
-        healthPoints = 30;
-        objectHeight = 36;
-        objectWidth = 27;
-        healthScore = 5;
-    }
-
 
     @Override
     public Consumable spawnConsumable(TileMap tileMap) {

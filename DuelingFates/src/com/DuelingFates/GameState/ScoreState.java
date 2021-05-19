@@ -110,7 +110,7 @@ public class ScoreState extends GameState implements MouseListener, ActionListen
             player1Score = GamePlayState.getHostPlayerName() + ": " + GamePlayState.getHostPlayerScore();
             player1Label.setText(player1Score);
 
-            player2Score = GamePlayState.getClientPlayerName() + ": " + GamePlayState.getClientPlayerScore();;
+            player2Score = GamePlayState.getClientPlayerName() + ": " + GamePlayState.getClientPlayerScore();
             player2Label.setText(player2Score);
 
             winnerName = new JLabel(GamePlayState.getHostPlayerName());
@@ -124,7 +124,7 @@ public class ScoreState extends GameState implements MouseListener, ActionListen
             player2Score = GamePlayState.getHostPlayerName() + ": " + GamePlayState.getHostPlayerScore();
             player2Label.setText(player2Score);
 
-            player1Score = GamePlayState.getClientPlayerName() + ": " + GamePlayState.getClientPlayerScore();;
+            player1Score = GamePlayState.getClientPlayerName() + ": " + GamePlayState.getClientPlayerScore();
             player1Label.setText(player1Score);
 
             winnerName = new JLabel(GamePlayState.getClientPlayerName());

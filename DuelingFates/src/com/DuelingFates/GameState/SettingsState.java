@@ -25,6 +25,8 @@ public class SettingsState extends GameState implements ActionListener, MouseLis
 
     //Rules
     private final JTextArea rulesTooltip = new JTextArea();
+    private final JLabel rulesinfo = new JLabel();
+
 
     //JRadioButton images beolvasása: default és selected állapot
     private final ImageIcon pirateSelectedImg = new ImageIcon("DuelingFates/Sources/char_PirateDeckhand/PirateDeckhand_jumpingAndFalling3x.png");
@@ -75,14 +77,20 @@ public class SettingsState extends GameState implements ActionListener, MouseLis
         MainMenuState.setButtonStyle(buttonSave);
         MainMenuState.setButtonStyle(buttonBack);
 
+        rulesinfo.setText(("Do you know the rules?"));
+        rulesinfo.setFont(MainProcess.balooThambiFontVerySmall);
+        rulesinfo.setBounds(10,10,540,30);
+        rulesinfo.setForeground(Color.WHITE);
+        rulesinfo.addMouseListener(this);
+
         rulesTooltip.setText("Do you know the rules?\nMove with the Arrow Keys and switch weapons with 1 2 3!\nShoot with Space and press O and P for taunts!");
         rulesTooltip.setFont(MainProcess.balooThambiFontVerySmall);
         rulesTooltip.setEditable(false);
         rulesTooltip.setOpaque(false);
         rulesTooltip.setFocusable(false);
+        rulesTooltip.setVisible(false);
         rulesTooltip.setForeground(Color.WHITE); //MainMenuState.darkYellow);
         rulesTooltip.setBounds(10,10,540,300);
-        //rulesTooltip.setBounds((int)(MainProcess.getGameWidth()*0.71),(int)(MainProcess.getGameHeight()*0.85),540,300);
 
         playerName.setToolTipText("Enter only 16 characters!");
         playerName.setBackground(Color.darkGray);
@@ -140,7 +148,7 @@ public class SettingsState extends GameState implements ActionListener, MouseLis
         layeredPane.add(buttonSave,JLayeredPane.POPUP_LAYER);
         layeredPane.add(buttonBack,JLayeredPane.POPUP_LAYER);
         layeredPane.add(rulesTooltip,JLayeredPane.POPUP_LAYER);
-
+        layeredPane.add(rulesinfo,JLayeredPane.POPUP_LAYER);
 
         duelingFates.setCursor(MainProcess.gameCursor);
         duelingFates.add(layeredPane);
@@ -205,11 +213,16 @@ public class SettingsState extends GameState implements ActionListener, MouseLis
 
     @Override
     public void mouseClicked(MouseEvent e) {
-
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
+
+        if(e.getSource() == rulesinfo){
+
+            rulesinfo.setVisible(false);
+            rulesTooltip.setVisible(true);
+        }
 
         if(e.getSource() == buttonBack){
 
@@ -230,10 +243,18 @@ public class SettingsState extends GameState implements ActionListener, MouseLis
     @Override
     public void mouseReleased(MouseEvent e) {
 
+        if(e.getSource() == rulesinfo){
+
+            rulesinfo.setVisible(true);
+            rulesTooltip.setVisible(false);
+        }
+
+
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
+
 
         JukeBox.play("menuoption");
         if(e.getSource() == buttonBack){

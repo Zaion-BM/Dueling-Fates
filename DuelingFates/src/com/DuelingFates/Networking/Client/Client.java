@@ -22,6 +22,9 @@ public class Client implements Runnable {
         this.name = Name;
         this.port = port;
     }
+    public void setPort(int port){
+        this.port = port;
+    }
 
     @Override
     public void run() {
@@ -140,51 +143,51 @@ public class Client implements Runnable {
                                         enemyPlayer.setPlayerName(command[1]);
                                         break;
 
-                                case ("AMMOX"):
-                                    System.out.println(value);
-                                    if(ammos != null){
-                                        ammos.get(0).setPositionX(Float.parseFloat(command[1]));
-                                    }
-                                    break;
-                                case ("AMMOY"):
-                                    System.out.println(value);
-                                    if(ammos != null) {
-                                        ammos.get(0).setPositionY(Float.parseFloat(command[1]));
-                                    }
-                                    break;
-                                case ("POTIONX"):
-                                    System.out.println(value);
-                                    if(healthPotions != null) {
-                                        healthPotions.get(0).setPositionX(Float.parseFloat(command[1]));
-                                    }
-                                    break;
-                                case ("POTIONY"):
-                                    System.out.println(value);
-                                    if(healthPotions != null) {
-                                        healthPotions.get(0).setPositionY(Float.parseFloat(command[1]));
-                                    }
-                                    break;
+                                    case ("AMMOX"):
+                                        System.out.println(value);
+                                        if(ammos != null){
+                                            ammos.get(0).setPositionX(Float.parseFloat(command[1]));
+                                        }
+                                        break;
+                                    case ("AMMOY"):
+                                        System.out.println(value);
+                                        if(ammos != null) {
+                                            ammos.get(0).setPositionY(Float.parseFloat(command[1]));
+                                        }
+                                        break;
+                                    case ("POTIONX"):
+                                        System.out.println(value);
+                                        if(healthPotions != null) {
+                                            healthPotions.get(0).setPositionX(Float.parseFloat(command[1]));
+                                        }
+                                        break;
+                                    case ("POTIONY"):
+                                        System.out.println(value);
+                                        if(healthPotions != null) {
+                                            healthPotions.get(0).setPositionY(Float.parseFloat(command[1]));
+                                        }
+                                        break;
 
-                                case ("ENEMY_X"):
-                                    System.out.println(value);
-                                    enemyPlayer.setPositionX(Float.parseFloat(command[1]));
-                                    break;
+                                    case ("ENEMY_X"):
+                                        System.out.println(value);
+                                        enemyPlayer.setPositionX(Float.parseFloat(command[1]));
+                                        break;
 
-                                case ("ENEMY_Y"):
-                                    System.out.println(value);
-                                    enemyPlayer.setPositionY(Float.parseFloat(command[1]));
-                                    break;
+                                    case ("ENEMY_Y"):
+                                        System.out.println(value);
+                                        enemyPlayer.setPositionY(Float.parseFloat(command[1]));
+                                        break;
 
-                                case ("HPADD"):
+                                    case ("HPADD"):
                                         System.out.println("HP added.");
                                         enemyPlayer.setPlayerHealth(enemyPlayer.getPlayerHealth() + 30);
                                         break;
 
-                                case ("AMMOADD"):
+                                    case ("AMMOADD"):
                                         System.out.println("AMMO picked up.");
                                         break;
 
-                                default:
+                                    default:
                                         System.out.println("Default".concat(value));
                                         break;
                                 }

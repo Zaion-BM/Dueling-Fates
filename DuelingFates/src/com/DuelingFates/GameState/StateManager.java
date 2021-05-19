@@ -86,7 +86,7 @@ public class StateManager {
             case GAMEPLAYSTATE:
                 gameStates[States.GAMEPLAYSTATE.ordinal()] = new GamePlayState(this);
                 //JukeBox.loop("bg_music_volumedown", 600, JukeBox.getFrames("bg_music_volumedown") - 2200);
-                //JukeBox.stop("score_music_long");
+                JukeBox.stop("score_music_long");
                 //JukeBox.stop("menu_music");
                 break;
         }

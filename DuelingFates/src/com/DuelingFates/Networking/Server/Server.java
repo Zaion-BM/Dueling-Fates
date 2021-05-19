@@ -5,6 +5,7 @@ import com.DuelingFates.Main.MainProcess;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Queue;
@@ -14,7 +15,7 @@ public class Server implements Runnable {
 
     private Queue<String> messageQueue;
     private ServerSocket serverSocket = null;
-    private final int port;
+    private int port;
 
 
     public Server(Queue<String> messageQueue, int port) {
@@ -22,11 +23,25 @@ public class Server implements Runnable {
         this.port = port;
     }
 
+    public void setPort(int port){
+        this.port = port;
+    }
+
+
     @Override
     public void run() {
         System.out.println("Server socket started");
         try {
             serverSocket = new ServerSocket(port);
+        }
+        catch(BindException e){
+            System.out.println("Host already exists. Please join to session.");
+            System.exit(2);
+        }
+        catch(IOException exp){
+            exp.printStackTrace();
+        }
+        try{
             Socket socket = serverSocket.accept();
 
             //itt várunk acceptig
@@ -50,16 +65,7 @@ public class Server implements Runnable {
                     e.printStackTrace();
                 }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                serverSocket.close();
-                System.out.println("Server socket stopped");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
-
+        catch(IOException e){e.printStackTrace();}
     }
 }

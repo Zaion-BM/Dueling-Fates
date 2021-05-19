@@ -34,8 +34,8 @@ public class MainProcess extends JPanel implements Runnable{
     private static Graphics2D graphics;                                             //amit kirajzolunk a gameWindow-ra
     private static BufferedImage gameWindow;                                        //amire rajzolunk a Frame-en belül GAMEPLAYSTATE-ben
     private Image cursorImage;
-    private static final int gameWidth = 1920;
-    private static final int gameHeight = 1080;
+    private static final int gameWidth = 1024;
+    private static final int gameHeight = 720;
 
     public static Cursor gameCursor;                                                //egyedi cursor
     public static Cursor hiddenCursor;                                              //GamePlay esetén elrejtjük
@@ -55,6 +55,8 @@ public class MainProcess extends JPanel implements Runnable{
     public static boolean joinServer = false;                                       //Join stateben kap értéket
 
     public static boolean amIServer = false;                                        //nézzük, hogy ki a szerver
+
+    public static boolean killThreads = false;
 
 
     public MainProcess(){
@@ -150,13 +152,13 @@ public class MainProcess extends JPanel implements Runnable{
 
             }
 
-            if (startServer) {                                                                 //Host stateben állítjuk be
+            if (startServer && stateManager.currentState!=StateManager.States.GAMEPLAYSTATE) {                                                                 //Host stateben állítjuk be
                 amIServer = true;
                 serverSender.start();
                 serverReceiver.start();
                 startServer = false;
-
             }
+
 
             if (stateManager.currentState == StateManager.States.GAMEPLAYSTATE) {             //csak a GamePlayState-ben van grafikus kirajzolás (60 FPS-sel)
                 Instant start = Instant.now();
@@ -302,6 +304,5 @@ public class MainProcess extends JPanel implements Runnable{
         return  amIServer;
 
     }
-
 
 }

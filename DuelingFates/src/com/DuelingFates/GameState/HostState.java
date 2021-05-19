@@ -13,7 +13,7 @@ import java.awt.event.MouseListener;
 public class HostState extends GameState implements ActionListener, MouseListener{
 
     //Gombok - a BACK gomobt kivettük, mert a szerver a hostban úgyis elindul
-    //private final JButton buttonBack = new JButton("Back");
+    private final JButton buttonBack = new JButton("Back");
     private final JButton buttonStart = new JButton("Start");
 
     //Háttér
@@ -71,7 +71,7 @@ public class HostState extends GameState implements ActionListener, MouseListene
         backgroundLabel.setBounds(0,0,background.getIconWidth(), background.getIconHeight());
 
         MainMenuState.setButtonStyle(buttonStart);
-        //MainMenuState.setButtonStyle(buttonBack);
+        MainMenuState.setButtonStyle(buttonBack);
 
         mapSelectionLabel.setFont(MainProcess.balooThambiFont);
         mapSelectionLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -154,7 +154,7 @@ public class HostState extends GameState implements ActionListener, MouseListene
         layeredPane.add(matchDuration, JLayeredPane.POPUP_LAYER);
         layeredPane.add(mapSelectionLabel, JLayeredPane.POPUP_LAYER);
         layeredPane.add(buttonStart,JLayeredPane.POPUP_LAYER);
-        //layeredPane.add(buttonBack,JLayeredPane.POPUP_LAYER);
+        layeredPane.add(buttonBack,JLayeredPane.POPUP_LAYER);
         layeredPane.add(matchDurationLabel,JLayeredPane.POPUP_LAYER);
 
         duelingFates.setCursor(MainProcess.gameCursor);
@@ -164,9 +164,9 @@ public class HostState extends GameState implements ActionListener, MouseListene
         duelingFates.pack();
         duelingFates.setVisible(true);
 
-        //buttonBack.setBounds((int)(MainProcess.getGameWidth()*0.05), (int)(MainProcess.getGameHeight()*0.89), 200,50);
-        //buttonBack.addActionListener(this);
-        //buttonBack.addMouseListener(this);
+        buttonBack.setBounds((int)(MainProcess.getGameWidth()*0.05), (int)(MainProcess.getGameHeight()*0.89), 200,50);
+        buttonBack.addActionListener(this);
+        buttonBack.addMouseListener(this);
 
         buttonStart.setBounds((int)(MainProcess.getGameWidth()*0.95)-200, (int)(MainProcess.getGameHeight()*0.89), 200,50);
         buttonStart.setForeground(Color.green);
@@ -235,6 +235,9 @@ public class HostState extends GameState implements ActionListener, MouseListene
 
             }
 
+            buttonStart.setVisible(false);
+            buttonBack.setVisible(false);
+
             //MainProcess statikus változók beállítása
             MainProcess.setMapTemp(selectedMap);
             MainProcess.setMatchDurationTemp(matchDuration.getValue());
@@ -246,10 +249,10 @@ public class HostState extends GameState implements ActionListener, MouseListene
         }
 
         //Kivettük a back gombot, mert a szerver ekkor már úgyis elindul
-        /*if(e.getSource() == buttonBack) {
+        if(e.getSource() == buttonBack) {
             stateManager.setState(StateManager.States.MAINMENUSTATE);
 
-        }*/
+        }
     }
 
     @Override
@@ -267,12 +270,12 @@ public class HostState extends GameState implements ActionListener, MouseListene
 
         }
 
-        /*if(e.getSource() == buttonBack){
+        if(e.getSource() == buttonBack){
 
             JukeBox.play("menuselect");
             buttonBack.setForeground(MainMenuState.darkYellow);
 
-        }*/
+        }
 
     }
 
@@ -291,11 +294,11 @@ public class HostState extends GameState implements ActionListener, MouseListene
 
         }
 
-        /*if(e.getSource() == buttonBack){
+        if(e.getSource() == buttonBack){
 
             buttonBack.setForeground(MainMenuState.darkRed);
 
-        }*/
+        }
 
     }
 
@@ -308,11 +311,11 @@ public class HostState extends GameState implements ActionListener, MouseListene
 
         }
 
-        /*if(e.getSource() == buttonBack){
+        if(e.getSource() == buttonBack){
 
             buttonBack.setForeground(Color.WHITE);
 
-        }*/
+        }
 
     }
 

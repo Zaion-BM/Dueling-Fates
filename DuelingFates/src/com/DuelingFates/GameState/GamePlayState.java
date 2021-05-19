@@ -77,7 +77,7 @@ public class GamePlayState extends GameState implements KeyListener {
         hostPlayerScore = 0;
         clientPlayerScore = 0;
         timerMax=500;           //500:60 = 12 SEC múlva spawnol újra
-        timerCount=0;
+        timerCount=500;
 
         tileMap = new TileMap(tileSize);
 
@@ -203,6 +203,8 @@ public class GamePlayState extends GameState implements KeyListener {
             messageQueue.add("ENEMYSCORE:".concat(Integer.toString(player.getPlayerScore())));
             messageQueue.add("ENEMY_X:".concat(Float.toString(player.getPositionX())));
             messageQueue.add("ENEMY_Y:".concat(Float.toString(player.getPositionY())));
+            //TODO TEST
+            messageQueue.add("ENEMYHP:".concat(Integer.toString(player.getPlayerHealth())));
 
             runTimer = 0;
         }
@@ -226,7 +228,6 @@ public class GamePlayState extends GameState implements KeyListener {
         checkPickedUpAmmo(enemyPlayer,ammos);
 
         //random spawn consumables
-        timerCount++;
 
         if(timerCount == timerMax){
             removeHealths(healthPotions);
@@ -243,6 +244,9 @@ public class GamePlayState extends GameState implements KeyListener {
 
             timerCount=0;
         }
+
+        timerCount++;
+
 
         //Ha a timer elérte a beállított időt, és nincs pontszámegyezés akkor a score state-re váltunk, adatokat mentünk
         if(minutes >= MainProcess.getMatchDurationTemp() && (player.getPlayerScore() != enemyPlayer.getPlayerScore()) ){
@@ -375,7 +379,7 @@ public class GamePlayState extends GameState implements KeyListener {
         duelingFates.addKeyListener(new InputHandler(this));        //Listener a keyboard érzékeléséért
 
         layeredPane.removeAll();                                                //GamePlay-nél nincs szükség a Swing elemekre
-        //duelingFates.setCursor(MainProcess.hiddenCursor);
+        duelingFates.setCursor(MainProcess.hiddenCursor);
         duelingFates.repaint();                                                 //üres Frame-et hagyunk
         StateManager.setStateChangedFalse();
 

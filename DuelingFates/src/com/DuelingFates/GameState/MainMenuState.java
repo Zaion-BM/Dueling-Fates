@@ -225,6 +225,7 @@ public class MainMenuState extends GameState implements ActionListener, MouseLis
     @Override
     public void mouseExited(MouseEvent e) {
 
+
         if(e.getSource() == buttonJoin){
 
             buttonJoin.setForeground(Color.WHITE);

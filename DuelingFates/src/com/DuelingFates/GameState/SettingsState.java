@@ -23,6 +23,9 @@ public class SettingsState extends GameState implements ActionListener, MouseLis
     private final JTextField playerName = new JTextField();
     private final JLabel playerNameLabel = new JLabel();
 
+    //Rules
+    private final JTextArea rulesTooltip = new JTextArea();
+
     //JRadioButton images beolvasása: default és selected állapot
     private final ImageIcon pirateSelectedImg = new ImageIcon("DuelingFates/Sources/char_PirateDeckhand/PirateDeckhand_jumpingAndFalling3x.png");
     private final ImageIcon pirateImg = new ImageIcon("DuelingFates/Sources/char_PirateDeckhand/PirateDeckhand_standing3x.png");
@@ -71,6 +74,15 @@ public class SettingsState extends GameState implements ActionListener, MouseLis
 
         MainMenuState.setButtonStyle(buttonSave);
         MainMenuState.setButtonStyle(buttonBack);
+
+        rulesTooltip.setText("Do you know the rules?\nMove with the Arrow Keys and switch weapons with 1 2 3!\nShoot with Space and press O and P for taunts!");
+        rulesTooltip.setFont(MainProcess.balooThambiFontVerySmall);
+        rulesTooltip.setEditable(false);
+        rulesTooltip.setOpaque(false);
+        rulesTooltip.setFocusable(false);
+        rulesTooltip.setForeground(Color.WHITE); //MainMenuState.darkYellow);
+        rulesTooltip.setBounds(10,10,540,300);
+        //rulesTooltip.setBounds((int)(MainProcess.getGameWidth()*0.71),(int)(MainProcess.getGameHeight()*0.85),540,300);
 
         playerName.setToolTipText("Enter only 16 characters!");
         playerName.setBackground(Color.darkGray);
@@ -127,6 +139,8 @@ public class SettingsState extends GameState implements ActionListener, MouseLis
         layeredPane.add(playerName, JLayeredPane.POPUP_LAYER);
         layeredPane.add(buttonSave,JLayeredPane.POPUP_LAYER);
         layeredPane.add(buttonBack,JLayeredPane.POPUP_LAYER);
+        layeredPane.add(rulesTooltip,JLayeredPane.POPUP_LAYER);
+
 
         duelingFates.setCursor(MainProcess.gameCursor);
         duelingFates.add(layeredPane);

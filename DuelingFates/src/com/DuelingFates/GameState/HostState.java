@@ -235,6 +235,7 @@ public class HostState extends GameState implements ActionListener, MouseListene
 
             }
 
+            //Hogy ne lehessen újra szervert indítani
             buttonStart.setVisible(false);
             buttonBack.setVisible(false);
 

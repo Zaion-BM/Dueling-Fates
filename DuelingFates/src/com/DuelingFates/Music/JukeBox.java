@@ -8,75 +8,97 @@ import java.util.HashMap;
 
 public class JukeBox {
 
-	//NEM SAJÁT KÓD, csak felhasználtuk
+	private static HashMap<String, Clip> clips;						//Clip: beépített audioformátum, store items in "key/value" pairs,
 
-	private static HashMap<String, Clip> clips;						//Clip: audioformátum
-	private static int gap;
-	private static final boolean mute = false;
-	
 	public static void init() {
+
 		clips = new HashMap<>();
-		gap = 0;
+
 	}
 	
-	public static void load(String s, String n) {
-		if(clips.get(n) != null) return;
-		Clip clip;
+	public static void load(String location, String name) {
+
+		if(clips.get(name) != null) return;							//Ha már létezik
+
+		Clip clip;													//Clip létrehozása
 		try {			
-			AudioInputStream ais =									//fájlok beolvasása
+			AudioInputStream audio =								//fájlok beolvasása
 				AudioSystem.getAudioInputStream(
-					JukeBox.class.getResourceAsStream(s)
+					JukeBox.class.getResourceAsStream(location)
 				);
-			AudioFormat baseFormat = ais.getFormat();				//Audióformátum
-			AudioFormat decodeFormat = new AudioFormat(				//dekódolás
+			AudioFormat baseFormat = audio.getFormat();				//Audióformátum
+			AudioFormat decodeFormat = new AudioFormat(				//dekódolás formátuma
 				AudioFormat.Encoding.PCM_SIGNED,
 				baseFormat.getSampleRate(),
 				16,
 				baseFormat.getChannels(),
-				baseFormat.getChannels() * 2,
+				baseFormat.getChannels() * 2,				//Sztereó miatt
 				baseFormat.getSampleRate(),
 				false
 			);
-			AudioInputStream dais = AudioSystem.getAudioInputStream(decodeFormat, ais);
+
+			AudioInputStream decode = AudioSystem.getAudioInputStream(decodeFormat, audio);
+
 			clip = AudioSystem.getClip();
-			clip.open(dais);
-			clips.put(n, clip);
+			clip.open(decode);
+
+			clips.put(name, clip);									//elhelyezése a listában
+
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public static void play(String s) {
-		play(s, gap);
-	}
-	
-	public static void play(String s, int i) {
-		if(mute) return;
-		Clip c = clips.get(s);
-		if(c == null) return;
-		if(c.isRunning()) c.stop();
-		c.setFramePosition(i);
-		while(!c.isRunning()) c.start();
+	public static void play(String name) {
+
+		Clip clip = clips.get(name);					//Clip megkeresése
+
+		if(clip == null){ 								//Ha nincs ilyen
+			return;
+		}
+
+		if(clip.isRunning()){							//Ha fut, megállítjuk
+
+			clip.stop();
+
+		}
+
+		clip.setFramePosition(0);						//Beállítjuk a kezdőframet
+
+		while(!clip.isRunning()){ 						//Ha nem megy, indítjuk
+
+			clip.start();
+
+		}
 	}
 	
 	public static void stop(String s) {
-		if(clips.get(s) == null) return;
-		if(clips.get(s).isRunning()) clips.get(s).stop();
+
+		if(clips.get(s) == null) {
+			return;                   					 //Ha nincs ilyen klip
+		}
+
+		if(clips.get(s).isRunning()){
+
+			clips.get(s).stop();	  					 //ha éppen fut, leállítjuk
+
+		}
 	}
 
-	public static void loop(String s, int frame, int start, int end) {
-		stop(s);
-		if(mute) return;
-		clips.get(s).setLoopPoints(start, end);
-		clips.get(s).setFramePosition(frame);
-		clips.get(s).loop(Clip.LOOP_CONTINUOUSLY);
+	public static void loop(String name, int start, int end)	 {
+
+		stop(name);											//megállítjuk
+		clips.get(name).setLoopPoints(start, end);			//beállítjuk a loop kezdetét és végét
+		clips.get(name).setFramePosition(0);				//éppen hol állunk
+		clips.get(name).loop(Clip.LOOP_CONTINUOUSLY);		//végtelenszer loopol
+
 	}
 
-	public static int getFrames(String s) { return clips.get(s).getFrameLength(); }
+	public static int getFrames(String name){ 				//Clip hosszának lekérdezése
 
-	public static void loop(String s, int start, int end) {
-		loop(s, gap, start, end);
+		return clips.get(name).getFrameLength();
+
 	}
-	
+
 }

@@ -74,7 +74,7 @@ public class Player extends GameObject implements KeyListener {
         ar.width = 10;
         ar.height = 2;
         bullets = new ArrayList<>();
-        playerAmmoQty = 30;
+        playerAmmoQty = 50;
 
         //Player sprite dimensions
         spriteWidth = 32;
@@ -234,10 +234,12 @@ public class Player extends GameObject implements KeyListener {
         stop();
         playerHealth -= damage;
         if(playerHealth <= 0) {
-            playerScore-=100;
+            //playerScore-=100;                     //Nincs büntetés, csak ha leesel
             System.out.println("Enemy is dead");
             playerHealth = 0;
             dead=true;
+            setPlayerAmmoQty(20);                   //Ha ez ellenség öl meg akkor kapsz 20 új lőszert
+            JukeBox.play("death");
         }
 
         blinkRed = true;
@@ -412,9 +414,11 @@ public class Player extends GameObject implements KeyListener {
         }
 
         if (y > tileMap.getMapHeight() + objectHeight * 5) {
-            playerScore -= 50;
+            playerScore -= 50;                              //Csak 50-et vonunk le, halál esetén 100-at
+            JukeBox.play("death");
             respawn(spawnX, spawnY);
         }
+
         if (dead) {
             removePlayer(spawnX, spawnY);
         }

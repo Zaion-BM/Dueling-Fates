@@ -116,7 +116,6 @@ public class JoinState extends GameState implements ActionListener, MouseListene
         }
     }
 
-
     @Override
     public void mouseClicked(MouseEvent e) {
 

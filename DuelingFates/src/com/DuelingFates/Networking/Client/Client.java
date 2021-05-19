@@ -142,7 +142,10 @@ public class Client implements Runnable {
                                         System.out.println(command[1]);
                                         enemyPlayer.setPlayerName(command[1]);
                                         break;
-
+                                    case ("ENEMYHP"):
+                                        System.out.println(command[1]);
+                                        enemyPlayer.setPlayerHealth(Integer.parseInt(command[1]));
+                                        break;
                                     case ("AMMOX"):
                                         System.out.println(value);
                                         if(ammos != null){

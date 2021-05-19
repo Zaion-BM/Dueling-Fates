@@ -97,10 +97,10 @@ public class ScoreState extends GameState implements MouseListener, ActionListen
         MainMenuState.setButtonStyle(buttonQuitToMenu);
         MainMenuState.setButtonStyle(buttonSaveToFile);
 
-        winnerLabel.setFont(new Font("Arial Black",Font.BOLD, 70));
+        winnerLabel.setFont(new Font("Arial Black",Font.BOLD, 90));
         winnerLabel.setHorizontalAlignment(SwingConstants.CENTER);
         winnerLabel.setForeground(Color.WHITE);
-        winnerLabel.setBounds((MainProcess.getGameWidth()/2)-370, (int)(MainProcess.getGameHeight()*0.13),700,70);
+        winnerLabel.setBounds((MainProcess.getGameWidth()/2)-450, (int)(MainProcess.getGameHeight()*0.13),900,100);
 
         //Ha a host az első
         JLabel winnerName;
@@ -164,15 +164,15 @@ public class ScoreState extends GameState implements MouseListener, ActionListen
         duelingFates.pack();
         duelingFates.setVisible(true);
 
-        buttonQuitToMenu.setBounds((int)(MainProcess.getGameWidth()*0.05), (int)(MainProcess.getGameHeight()*0.91), 370,50);
+        buttonQuitToMenu.setBounds((int)(MainProcess.getGameWidth()*0.05), (int)(MainProcess.getGameHeight()*0.89), 370,50);        //0.91
         buttonQuitToMenu.addActionListener(this);
         buttonQuitToMenu.addMouseListener(this);
 
-        buttonSaveToFile.setBounds((int)(MainProcess.getGameWidth()*0.5-165), (int)(MainProcess.getGameHeight()*0.91), 350,50);
+        buttonSaveToFile.setBounds((int)(MainProcess.getGameWidth()*0.5-165), (int)(MainProcess.getGameHeight()*0.89), 350,50);      //0.91
         buttonSaveToFile.addActionListener(this);
         buttonSaveToFile.addMouseListener(this);
 
-        buttonRematch.setBounds((int)(MainProcess.getGameWidth()*0.91)-200, (int)(MainProcess.getGameHeight()*0.91), 300,50);
+        buttonRematch.setBounds((int)(MainProcess.getGameWidth()*0.91)-200, (int)(MainProcess.getGameHeight()*0.89), 300,50);     //0.91
         buttonRematch.setForeground(Color.green);
         buttonRematch.addActionListener(this);
         buttonRematch.addMouseListener(this);

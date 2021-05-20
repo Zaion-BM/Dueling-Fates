@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 
 public class Tile {
 
-    private final BufferedImage tileImage;
+    private final BufferedImage tileImage;          //A Tile típus egyetlen képből áll
 
     public Tile(BufferedImage tileImage){
 

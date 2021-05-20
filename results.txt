@@ -1,3 +1,6 @@
 2021/05/18 16:26:47	xcddr: 600 	Hoster: -390
 2021/05/19 17:32:57	HostName: 135 	HostName: -200
 2021/05/19 17:44:20	HostName: 70 	HostName: -100
+2021/05/20 15:43:21	HostName: 10 	HostName: 0
+2021/05/20 15:45:35	HostName: 295 	Dave: 225
+2021/05/20 16:13:56	HostName: 0 	HostName: -10

@@ -25,12 +25,9 @@ public class MainProcess extends JPanel implements Runnable{
     //valószínűleg a feltétel ellenőrzése miatt, mely a swing menük miatt szükséges
     volatile public static StateManager stateManager;
 
-    @SuppressWarnings("FieldCanBeLocal")
     public final static int FPS = 60;                                                // 1/60 = 16.67 millisec
-    @SuppressWarnings("FieldCanBeLocal")
     private boolean gameIsRunning = false;
 
-    @SuppressWarnings("FieldCanBeLocal")
     private static Graphics2D graphics;                                             //amit kirajzolunk a gameWindow-ra
     private static BufferedImage gameWindow;                                        //amire rajzolunk a Frame-en belül GAMEPLAYSTATE-ben
     private Image cursorImage;
@@ -53,7 +50,6 @@ public class MainProcess extends JPanel implements Runnable{
 
     public static boolean startServer = false;                                      //Host stateben kap értéket
     public static boolean joinServer = false;                                       //Join stateben kap értéket
-
     public static boolean amIServer = false;                                        //nézzük, hogy ki a szerver
 
     public MainProcess(){
@@ -96,7 +92,7 @@ public class MainProcess extends JPanel implements Runnable{
         Image invisibleImage = Toolkit.getDefaultToolkit().createImage(new MemoryImageSource(16, 16, empty, 0, 16));
         hiddenCursor = Toolkit.getDefaultToolkit().createCustomCursor(invisibleImage, new Point(0,0), "hiddenCursor");
 
-        duelingFates.setUndecorated(false);                                                    //van keret
+        duelingFates.setUndecorated(false);                                                   //van keret
         duelingFates.setSize(new Dimension(getGameWidth(), getGameHeight()));                 //méret megadása, csak Dimension típust értelmez
         duelingFates.setLocationRelativeTo(null);                                             //null: az ablak a képernyőn közepén lesz, focust alapértelmezetten kap
 
@@ -109,7 +105,7 @@ public class MainProcess extends JPanel implements Runnable{
         playerNameTemp ="HostName";                                                           //Default név beállítása
         characterTemp = "PirateDeckhand";
         enemyCharacterTemp = "PossessedArmor";
-        //mapTemp = "SnowyMountain";                                                            //Default map
+        //mapTemp = "SnowyMountain";                                                          //Default map
         mapTemp = "Crimson";
         //mapTemp = "CloudyForest";
         matchDurationTemp = 1;                                                                //Default time
@@ -174,7 +170,7 @@ public class MainProcess extends JPanel implements Runnable{
                     e.printStackTrace();
                 }
 
-                Instant end = Instant.now();
+                Instant end = Instant.now();                                            //Időszámítás
                 Duration timeElapsed = Duration.between(start,end);
                 GamePlayState.addMillis(timeElapsed.toMillis());
 
@@ -215,92 +211,37 @@ public class MainProcess extends JPanel implements Runnable{
 
     }
 
-    /*
-     * Setters and Getters
-     */
+    // Setters and Getters
+    public static String getPlayerNameTemp(){ return playerNameTemp; }
 
-    public static String getPlayerNameTemp(){
+    public static void setPlayerNameTemp(String newPlayerNameTemp){ playerNameTemp = newPlayerNameTemp; }
 
-        return playerNameTemp;
+    public static String getCharacterTemp(){ return characterTemp; }
 
-    }
+    public static void setCharacterTemp(String newCharacterTemp){ characterTemp = newCharacterTemp; }
 
-    public static void setPlayerNameTemp(String newPlayerNameTemp){
+    public static String getEnemyCharacterTemp(){ return enemyCharacterTemp; }
 
-        playerNameTemp = newPlayerNameTemp;
+    public static void setEnemyCharacterTemp(String newCharacterTemp){ enemyCharacterTemp = newCharacterTemp; }
 
-    }
+    public static String getMapTemp(){ return mapTemp; }
 
-    public static String getCharacterTemp(){
+    public static void setMapTemp(String newMapTemp){ mapTemp = newMapTemp; }
 
-        return characterTemp;
+    public static int getMatchDurationTemp(){ return matchDurationTemp; }
 
-    }
+    public static void setMatchDurationTemp(int newMatchDurationTemp){ matchDurationTemp = newMatchDurationTemp; }
 
-    public static void setCharacterTemp(String newCharacterTemp){
+    public static int getGameWidth(){ return gameWidth; }
 
-        characterTemp = newCharacterTemp;
+    public static int getGameHeight(){ return gameHeight; }
 
-    }
-
-    public static String getEnemyCharacterTemp(){
-
-        return enemyCharacterTemp;
-
-    }
-
-    public static void setEnemyCharacterTemp(String newCharacterTemp){
-
-        enemyCharacterTemp = newCharacterTemp;
-
-    }
-
-    public static String getMapTemp(){
-
-        return mapTemp;
-
-    }
-
-    public static void setMapTemp(String newMapTemp){
-
-        mapTemp = newMapTemp;
-
-    }
-
-    public static int getMatchDurationTemp(){
-
-        return matchDurationTemp;
-
-    }
-
-    public static void setMatchDurationTemp(int newMatchDurationTemp){
-
-        matchDurationTemp = newMatchDurationTemp;
-
-    }
-
-    public static int getGameWidth(){
-
-        return gameWidth;
-
-    }
-
-    public static int getGameHeight(){
-
-        return gameHeight;
-
-    }
+    public static boolean getAmIServer(){ return  amIServer; }
 
     public static void setStartServer(){
 
         startServer = true;
         joinServer = false;
-
-    }
-
-    public static boolean getAmIServer(){
-
-        return  amIServer;
 
     }
 

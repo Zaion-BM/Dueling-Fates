@@ -38,27 +38,16 @@ public class HealthPotion extends Consumable {
 
     }
 
-    /*
-     * Implementation of getters and setters
-     * */
+    //Implementation of getters and setters
+    @Override
+    public int getObjectHeight() { return objectHeight; }
 
     @Override
-    public int getObjectHeight() {
-        return objectHeight;
-    }
+    public int getObjectWidth() { return objectWidth; }
 
-    @Override
-    public int getObjectWidth() {
-        return objectWidth;
-    }
+    public int getHealthPoints() { return healthPoints; }
 
-    public int getHealthPoints() {
-        return healthPoints;
-    }
-
-    public void setHealthPoints(int healthPoints) {
-        this.healthPoints = healthPoints;
-    }
+    public void setHealthPoints(int healthPoints) { this.healthPoints = healthPoints; }
 
     @Override
     public void keyTyped(KeyEvent e) {

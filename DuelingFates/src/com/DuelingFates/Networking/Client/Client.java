@@ -14,6 +14,7 @@ import static com.DuelingFates.Main.MainProcess.*;
 
 
 public class Client implements Runnable {
+
     private Socket socket;
     private String name;
     private int port;
@@ -44,7 +45,7 @@ public class Client implements Runnable {
             }
         }
 
-            while (true) {                      //EZ NEM KELLENE de az outofbounds-ot így kapjuk el
+            while (true) {                      //EZ NEM KELLENE de az OutOfBounds-ot így kapjuk el - nem szép, de most már így marad
                 synchronized (this) {
                     try {
                         while (true) {

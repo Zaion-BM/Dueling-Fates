@@ -8,7 +8,7 @@ import java.io.FileReader;
 
 public class TileMap {
 
-    //map paramatérek
+    //Map paramatérek
     private int[][] mapLayout;                          //map 2D-s tömb, X és Y irány
     private int mapRows;                                //oszlopok és sorok száma
     private int mapColumns;
@@ -27,7 +27,7 @@ public class TileMap {
     private Tile tileHorizontal;
     private Tile tileVertical;
 
-    public TileMap(int tileSize) {                      //1920*1080 64x64 miatt 30db soronként és 16 oszloponként     //1600*9000 53*53
+    public TileMap(int tileSize) {                      //1920*1080 64x64 miatt 30db soronként és 16 oszloponként
 
         this.tileSize = tileSize;
         this.tiles = new Tile[9];                       //mert összesen 9 tilet használunk a mapon
@@ -134,32 +134,23 @@ public class TileMap {
                                 (int)(tiles[mapLayout[row][col]].getTileImage().getWidth()*((float)tileSize/64f)),
                                 Image.SCALE_SMOOTH),
                                 mapStartX + (int)(col*tileSize*(tileSize/64f)),
-                                mapStartY + (int)(row*tileSize*(tileSize/64f)),null);*/
-
+                                mapStartY + (int)(row*tileSize*(tileSize/64f)),null);
+                */
             }
 
         }
 
     }
 
-    /*
-     * Check if in mapLayout [row][col] is a tile
-     * */
-    public int getType(int row, int col){
-        return mapLayout[row][col];
-    }
 
-    public int getMapWidth() {
-        return mapWidth;
-    }
+    //Check if in mapLayout [row][col] is a tile
+    public int getType(int row, int col){ return mapLayout[row][col]; }
 
-    public int getMapHeight() {
-        return mapHeight;
-    }
+    public int getMapWidth() { return mapWidth; }
 
-    public int getTileSize() {
-        return tileSize;
-    }
+    public int getMapHeight() { return mapHeight; }
+
+    public int getTileSize() { return tileSize; }
 
     public int getMapRows() { return mapRows; }
 

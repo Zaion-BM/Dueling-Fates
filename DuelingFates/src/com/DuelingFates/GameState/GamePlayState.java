@@ -25,7 +25,6 @@ public class GamePlayState extends GameState implements KeyListener {
 
     private BufferedImage background;
     private TileMap tileMap;
-    @SuppressWarnings("FieldCanBeLocal")
     private final int tileSize = 64;
 
     public static Player player;
@@ -202,7 +201,7 @@ public class GamePlayState extends GameState implements KeyListener {
             messageQueue.add("ENEMYSCORE:".concat(Integer.toString(player.getPlayerScore())));
             messageQueue.add("ENEMY_X:".concat(Float.toString(player.getPositionX())));
             messageQueue.add("ENEMY_Y:".concat(Float.toString(player.getPositionY())));
-            //TODO TEST
+            //TODO better way to fix lost data
             messageQueue.add("ENEMYHP:".concat(Integer.toString(player.getPlayerHealth())));
 
             runTimer = 0;
@@ -227,7 +226,6 @@ public class GamePlayState extends GameState implements KeyListener {
         checkPickedUpAmmo(enemyPlayer,ammos);
 
         //random spawn consumables
-
         if(timerCount == timerMax){
             removeHealths(healthPotions);
             healthPotions.add(spawnHealthPotion(tileMap));
@@ -287,89 +285,61 @@ public class GamePlayState extends GameState implements KeyListener {
     }
 
     public void removeHealths(ArrayList<HealthPotion> h){
+
         for(int i=0; i<h.size();i++) h.remove(i);
+
     }
 
     public void removeAmmos(ArrayList<Ammo> a){
+
         for(int i=0; i<a.size();i++) a.remove(i);
+
     }
 
     public HealthPotion spawnHealthPotion(TileMap tileMap) {
+
         return new HealthPotion(tileMap);
+
     }
     public Ammo spawnAmmo(TileMap tileMap) {
+
         return new Ammo(tileMap);
+
     }
 
-    /*
-     *Time methods
-     */
-    public static void addMillis(long time){
-        millis += time;
-    }
+    //Time methods
+    public static void addMillis(long time){ millis += time; }
 
-    public static void setMillisZero(){
-        millis = 0;
-    }
+    public static void setMillisZero(){ millis = 0; }
 
-    public static long getMillis(){
-        return millis;
-    }
+    public static long getMillis(){ return millis; }
 
-    public static long getSeconds(){
-        return seconds;
-    }
+    public static long getSeconds(){ return seconds; }
 
-    public static void addSeconds(){
-        seconds++;
-    }
+    public static void addSeconds(){ seconds++; }
 
-    public static void setSecondsZero(){
-        seconds = 0;
-    }
+    public static void setSecondsZero(){ seconds = 0; }
 
-    public static int getMinutes(){
-        return minutes;
-    }
+    public static int getMinutes(){ return minutes; }
 
-    public static void addMinutes(){
-        minutes++;
-    }
+    public static void addMinutes(){ minutes++; }
 
-    /*
-     *Player Setters and Getters
-     */
-    public static int getHostPlayerAmmo(){
-        return hostPlayerAmmo;
-    }
+    //Player Setters and Getters
+    public static int getHostPlayerAmmo(){ return hostPlayerAmmo; }
 
-    public static void setHostPlayerAmmo(int ammo){
-        hostPlayerAmmo = ammo;
-    }
+    public static void setHostPlayerAmmo(int ammo){ hostPlayerAmmo = ammo; }
 
-    public static int getHostPlayerScore(){
-        return hostPlayerScore;
-    }
+    public static int getHostPlayerScore(){ return hostPlayerScore; }
 
-    public static int getClientPlayerScore(){
-        return clientPlayerScore;
-    }
+    public static int getClientPlayerScore(){ return clientPlayerScore; }
 
-    public static String getHostPlayerName(){
-        return hostPlayerName;
-    }
+    public static String getHostPlayerName(){ return hostPlayerName; }
 
-    public static String getClientPlayerName(){
-        return clientPlayerName;
-    }
+    public static String getClientPlayerName(){ return clientPlayerName; }
 
-    public static void setHostPlayerName(String name){
-        hostPlayerName = name;
-    }
+    public static void setHostPlayerName(String name){ hostPlayerName = name; }
 
-    public static void setClientPlayerName(String name){
-        clientPlayerName = name;
-    }
+    public static void setClientPlayerName(String name){ clientPlayerName = name; }
 
     @Override
     public void updateSwingUI(JFrame duelingFates,JLayeredPane layeredPane) {
@@ -384,9 +354,7 @@ public class GamePlayState extends GameState implements KeyListener {
 
     }
 
-    public void keyTyped(KeyEvent e) {
-
-    }
+    public void keyTyped(KeyEvent e) {}
 
     public void keyPressed(KeyEvent e) {
 

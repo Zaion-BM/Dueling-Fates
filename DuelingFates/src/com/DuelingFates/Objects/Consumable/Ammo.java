@@ -18,7 +18,6 @@ public class Ammo extends Consumable{
         objectWidth = 32;       //28
         ammoScore = 10;
 
-
     }
 
     @Override
@@ -35,6 +34,7 @@ public class Ammo extends Consumable{
         player.setPlayerAmmoQty(player.getPlayerAmmoQty() + ammoQty);
         player.setPlayerScore(player.getPlayerScore() + ammoScore);
     }
+
     @Override
     public int getObjectHeight() {
         return objectHeight;
@@ -45,16 +45,11 @@ public class Ammo extends Consumable{
         return objectWidth;
     }
 
-    /*
-     * Implementation of getters and setters
-     * */
-    public int getAmmoQty() {
-        return ammoQty;
-    }
+    //Implementation of getters and setters
 
-    public void setAmmoQty(int ammoQty) {
-        this.ammoQty = ammoQty;
-    }
+    public int getAmmoQty() { return ammoQty; }
+
+    public void setAmmoQty(int ammoQty) { this.ammoQty = ammoQty; }
 
     @Override
     public void keyTyped(KeyEvent e) {

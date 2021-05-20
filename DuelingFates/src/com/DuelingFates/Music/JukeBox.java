@@ -8,7 +8,7 @@ import java.util.HashMap;
 
 public class JukeBox {
 
-	private static HashMap<String, Clip> clips;						//Clip: beépített audioformátum, store items in "key/value" pairs,
+	private static HashMap<String, Clip> clips;						//Clip: beépített audioformátum, HasMap: store items in "key/value" pairs,
 
 	public static void init() {
 

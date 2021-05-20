@@ -45,17 +45,9 @@ public class ScoreState extends GameState implements MouseListener, ActionListen
 
     }
 
-    private void setButtonSavePressedOnce(){
+    private void setButtonSavePressedOnce(){ buttonSavePressedOnce = true; }
 
-        buttonSavePressedOnce = true;
-
-    }
-
-    private boolean getButtonSavePressedOnce(){
-
-        return buttonSavePressedOnce;
-
-    }
+    private boolean getButtonSavePressedOnce(){ return buttonSavePressedOnce; }
 
     @Override
     public void initialization() {
@@ -63,9 +55,7 @@ public class ScoreState extends GameState implements MouseListener, ActionListen
     }
 
     @Override
-    public void draw(Graphics2D graphics) {
-
-    }
+    public void draw(Graphics2D graphics) {}
 
     @Override
     public void update() {
@@ -188,6 +178,7 @@ public class ScoreState extends GameState implements MouseListener, ActionListen
 
         if(e.getSource() == buttonRematch) {
 
+            //Mindkét kliensen rá kell nyomni, egyszerre (már nem jutott idő megvalósítani)
             stateManager.setState(StateManager.States.GAMEPLAYSTATE);
 
         }

@@ -4,9 +4,7 @@ import com.DuelingFates.TileMap.TileMap;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
-/*
- * This is a super class, all objects have these methods
- * */
+//This is a super class, all objects have these methods and variables
 public abstract class GameObject {
 
     //Tile parameters
@@ -71,10 +69,7 @@ public abstract class GameObject {
         setPosition(x,y);
     }
 
-    /*
-     * Implementation of game engine
-     * */
-
+    //Implementation of game engine
     //ZB: Creating new rectangle objects (used for intersection detection)
     public Rectangle getRectangle(){
 
@@ -89,10 +84,8 @@ public abstract class GameObject {
         return r1.intersects(r2);
     }
 
-    /*
-     * The 4-point(corner) method
-     * Calculating the corners of object if they hit any tile nearby
-     * */
+    //The 4-point(corner) method
+    //Calculating the corners of object if they hit any tile nearby
     public void calculateCorners(float x, float y){
 
         //ZB: 4 Tile-s in the Player's neighbourhood
@@ -192,21 +185,13 @@ public abstract class GameObject {
         this.y=y;
     }
 
-    public void setPositionX(float x){
-        this.x=x;
-    }
+    public void setPositionX(float x){ this.x=x; }
 
-    public void setPositionY(float y){
-        this.y=y;
-    }
+    public void setPositionY(float y){ this.y=y; }
 
-    public float getPositionX(){
-        return this.x;
-    }
+    public float getPositionX(){ return this.x; }
 
-    public float getPositionY(){
-        return this.y;
-    }
+    public float getPositionY(){ return this.y; }
 
     //Player input kezelés miatt
     public abstract void keyTyped(KeyEvent e);

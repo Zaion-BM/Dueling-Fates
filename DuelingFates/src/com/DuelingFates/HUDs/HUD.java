@@ -12,7 +12,6 @@ import java.io.File;
 
 public class HUD {
 
-    //ammo image
     private BufferedImage ammoImg;
 
     public HUD(){

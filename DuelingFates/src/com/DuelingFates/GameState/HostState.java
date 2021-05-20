@@ -254,6 +254,7 @@ public class HostState extends GameState implements ActionListener, MouseListene
             stateManager.setState(StateManager.States.MAINMENUSTATE);
 
         }
+
     }
 
     @Override

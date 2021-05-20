@@ -30,7 +30,7 @@ public class Player extends GameObject implements KeyListener {
     public long blinkCount;
     public boolean shooting;
     public ArrayList<Projectile> bullets;
-    public boolean removed; //TODO: lehet ezt gameobject-re kéne és akkor használható a cosumablehez
+    public boolean removed;
 
     //Movement
     protected boolean jumping;
@@ -105,41 +105,24 @@ public class Player extends GameObject implements KeyListener {
 
     }
 
+    //ZB: Implementation of getters and setters
+
     public ArrayList<Projectile> getProjectile(){
         return bullets;
     }
 
-    //ZB: Implementation of getters and setters
-    /*
-     *Get player's name
-     *@return String: Player's name
-     * */
     public String getPlayerName(){
         return playerName;
     }
 
-    /*
-     *Set player's name
-     *@param String: Add your name
-     *@return Nothing
-     * */
     public void setPlayerName(String playerName){
         this.playerName = playerName;
     }
 
-    /*
-     *Get player's health
-     *@return int: Player's health
-     * */
     public int getPlayerHealth(){
         return playerHealth;
     }
 
-    /*
-     *Set player's health
-     *@param int: Add number (health) between [0,100]
-     *@return Nothing
-     * */
     public void setPlayerHealth(int playerHealth){
         this.playerHealth = playerHealth;
         if (this.playerHealth > 100){
@@ -147,51 +130,24 @@ public class Player extends GameObject implements KeyListener {
         }
     }
 
-    /*
-     *Get player's score
-     *@return int: Player's score
-     * */
     public int getPlayerScore(){
         return playerScore;
     }
 
-    /*
-     *Set player's score
-     *@param int: Add number
-     *@return Nothing
-     * */
     public void setPlayerScore(int playerScore){ this.playerScore = playerScore; }
 
-    /*
-     *Get player's weapon
-     *@return Weapon: Player's weapon (object)
-     * */
     public Weapon getPlayerWeapon(){
         return playerWeapon;
     }
 
-    /*
-     *Add weapon to player
-     *@param Weapon: Add Weapon (object)
-     *@return Nothing
-     * */
     public void setPlayerWeapon(Weapon playerWeapon){
         this.playerWeapon = playerWeapon;
     }
 
-    /*
-     *Get player's ammunition quantity
-     *@return int:  player's ammunition quantity
-     * */
     public int getPlayerAmmoQty(){
         return playerAmmoQty;
     }
 
-    /*
-     *Set player's ammunition quantity
-     *@param int: Add number (ammunition quantity) between [0,10]
-     *@return Nothing
-     * */
     public void setPlayerAmmoQty(int playerAmmoQty){
         this.playerAmmoQty = playerAmmoQty;
     }
@@ -204,9 +160,8 @@ public class Player extends GameObject implements KeyListener {
         return this.playerCharacter;
     }
 
-    /*
-     * Implementation of Player's movements and actions
-     * */
+
+    //Implementation of Player's movements and actions
     public void setShooting(){
 
        if(playerAmmoQty > 0 && (playerAmmoQty - playerWeapon.getWeaponFireRate() >= 0)) {
@@ -219,6 +174,12 @@ public class Player extends GameObject implements KeyListener {
     public void setLeft(boolean b){ left=b; }
 
     public void setRight(boolean b){ right=b; }
+
+    public boolean isDead(){ return dead; }
+
+    public int getDamage(){ return playerWeapon.getWeaponDmg(); }
+
+    public void setDamage(int damage){ playerWeapon.setWeaponDmg(damage); }
 
     public void setJumping(boolean b) {
         if(blinkRed) return;
@@ -252,18 +213,6 @@ public class Player extends GameObject implements KeyListener {
 
         System.out.println("Hit");
         jumping = false;
-    }
-
-    public boolean isDead(){
-        return dead;
-    }
-
-    public int getDamage(){
-        return playerWeapon.getWeaponDmg();
-    }
-
-    public void setDamage(int damage){
-        playerWeapon.setWeaponDmg(damage);
     }
 
     //check attack
@@ -385,9 +334,7 @@ public class Player extends GameObject implements KeyListener {
     //ZB: Update Player's position and actions
     public void update(int spawnX, int spawnY) {
 
-        /*
-         * Update player's position
-         * */
+        //Update player's position
         getNextPosition();
         checkTileMapCollision();
         setPosition(tempX, tempY);
@@ -414,7 +361,7 @@ public class Player extends GameObject implements KeyListener {
         }
 
         if (y > tileMap.getMapHeight() + objectHeight * 5) {
-            playerScore -= 50;                              //Csak 50-et vonunk le, halál esetén 100-at
+            playerScore -= 50;                                      //Csak 50-et vonunk le, halál esetén 100-at
             JukeBox.play("death");
             respawn(spawnX, spawnY);
         }
@@ -440,9 +387,7 @@ public class Player extends GameObject implements KeyListener {
     }
 
     @Override
-    public void keyTyped(KeyEvent e) {
-
-    }
+    public void keyTyped(KeyEvent e) {}
 
     @Override
     public void keyPressed(KeyEvent e) {

@@ -157,7 +157,7 @@ public class GameObjectRenderer {
         for (Projectile value : projectile) {
 
             //Ha magnumot használunk akkor más legyen a sprite
-            //TODO bugol, beraad a lőszer a palyerbe
+            //TODO bugol, beraad a lőszer a playerbe ezzel a módszerrel
             /*if(player.getPlayerWeapon().modelType == Weapon.WeaponModel.MAGNUM) {
                 value.animation.setFrames(value.spritesIchor);
             }*/

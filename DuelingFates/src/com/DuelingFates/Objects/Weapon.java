@@ -1,7 +1,6 @@
 package com.DuelingFates.Objects;
 
 import com.DuelingFates.TileMap.TileMap;
-
 import java.awt.event.KeyEvent;
 
 public class Weapon extends GameObject{
@@ -46,46 +45,28 @@ public class Weapon extends GameObject{
         //player.setPlayerAmmoQty(player.getPlayerAmmoQty() - this.getWeaponFireRate());
     }
 
-    /*
-     * Implementation of getters and setters
-     * */
+    //Implementation of getters and setters
     public void setModel(WeaponModel modelType, int weaponFireRate, int weaponDmg){
         this.modelType = modelType;
         this.weaponFireRate = weaponFireRate;
         this.weaponDmg = weaponDmg;
     }
 
-    public WeaponModel getModelType() {
-        return modelType;
-    }
+    public WeaponModel getModelType() { return modelType; }
 
-    public void setModelType(WeaponModel modelType) {
-        this.modelType = modelType;
-    }
+    public void setModelType(WeaponModel modelType) { this.modelType = modelType; }
 
-    public Projectile getProjectile() {
-        return projectile;
-    }
+    public Projectile getProjectile() { return projectile; }
 
-    public void setProjectile(Projectile projectile) {
-        this.projectile = projectile;
-    }
+    public void setProjectile(Projectile projectile) { this.projectile = projectile; }
 
-    public int getWeaponDmg() {
-        return weaponDmg;
-    }
+    public int getWeaponDmg() { return weaponDmg; }
 
-    public void setWeaponDmg(int weaponDmg) {
-        this.weaponDmg = weaponDmg;
-    }
+    public void setWeaponDmg(int weaponDmg) { this.weaponDmg = weaponDmg; }
 
-    public int getWeaponFireRate() {
-        return weaponFireRate;
-    }
+    public int getWeaponFireRate() { return weaponFireRate; }
 
-    public void setWeaponFireRate(int weaponFireRate) {
-        this.weaponFireRate = weaponFireRate;
-    }
+    public void setWeaponFireRate(int weaponFireRate) { this.weaponFireRate = weaponFireRate; }
 
     @Override
     public void keyTyped(KeyEvent e) {

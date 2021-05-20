@@ -20,7 +20,7 @@ public class StateManager {
         //Loading musics
         try {
             JukeBox.load("/Music/menu_music.mp3", "menu_music");
-            //JukeBox.play("menu_music");
+            //JukeBox.play("menu_music");       //Ekkor csak egyszer fut le és nem indul újra ha state-et váltunk
 
             // load sound fx
             JukeBox.load("/SFX/menuoption.mp3", "menuoption");
@@ -46,17 +46,9 @@ public class StateManager {
 
     }
 
-    public static void setStateChangedTrue(){
+    public static void setStateChangedTrue(){ stateChanged = true; }
 
-        stateChanged = true;
-
-    }
-
-    public static void setStateChangedFalse() {
-
-        stateChanged = false;
-
-    }
+    public static void setStateChangedFalse() { stateChanged = false; }
 
     //állapotok alapján új példányok létrehozása
     public void loadState(States enumStates){
@@ -65,7 +57,7 @@ public class StateManager {
             case MAINMENUSTATE:
                 //ordinal() megadja az enum számértékét, így a tömbben címezhető, hardcoding elkerülve
                 gameStates[States.MAINMENUSTATE.ordinal()] = new MainMenuState(this);
-                //JukeBox.play("menu_music");                         //menu music starts playing
+                JukeBox.play("menu_music");                             //menu music starts playing
                 JukeBox.stop("bg_music_volumedown");                    //other music stop playing
                 JukeBox.stop("score_music_long");
                 break;
@@ -80,13 +72,13 @@ public class StateManager {
                 break;
             case SCORESTATE:
                 gameStates[States.SCORESTATE.ordinal()] = new ScoreState(this);
-                //JukeBox.loop("score_music_long", 600, JukeBox.getFrames("score_music_long") - 2200);
+                JukeBox.loop("score_music_long", 600, JukeBox.getFrames("score_music_long") - 2200);
                 JukeBox.stop("menu_music");
                 JukeBox.stop("bg_music_volumedown");
                 break;
             case GAMEPLAYSTATE:
                 gameStates[States.GAMEPLAYSTATE.ordinal()] = new GamePlayState(this);
-                //JukeBox.loop("bg_music_volumedown", 600, JukeBox.getFrames("bg_music_volumedown") - 2200);
+                JukeBox.loop("bg_music_volumedown", 600, JukeBox.getFrames("bg_music_volumedown") - 2200);
                 JukeBox.stop("score_music_long");
                 JukeBox.stop("menu_music");
                 break;

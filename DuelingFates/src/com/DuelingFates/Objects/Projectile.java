@@ -3,7 +3,6 @@ package com.DuelingFates.Objects;
 import com.DuelingFates.TileMap.TileMap;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -63,10 +62,6 @@ public class Projectile extends GameObject{
         deltaX=0;
     }
 
-    public boolean shouldRemove(){
-        return remove;
-    }
-
     public void update(){
         checkTileMapCollision();
         setPosition(tempX,tempY);
@@ -79,24 +74,18 @@ public class Projectile extends GameObject{
         }
     }
 
-    /*
-    * Implementation of getters and setters
-    * */
-    public Types getProjectileType() {
-        return projectileType;
+    public boolean shouldRemove(){
+        return remove;
     }
 
-    public void setProjectileType(Types projectileType) {
-        this.projectileType = projectileType;
-    }
+    //Implementation of getters and setters
+    public Types getProjectileType() { return projectileType; }
 
-    public float getProjectileSpeed() {
-        return projectileSpeed;
-    }
+    public void setProjectileType(Types projectileType) { this.projectileType = projectileType; }
 
-    public void setProjectileSpeed(float projectileSpeed) {
-        this.projectileSpeed = projectileSpeed;
-    }
+    public float getProjectileSpeed() { return projectileSpeed; }
+
+    public void setProjectileSpeed(float projectileSpeed) { this.projectileSpeed = projectileSpeed; }
 
     @Override
     public void keyTyped(KeyEvent e) {
